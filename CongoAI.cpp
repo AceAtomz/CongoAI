@@ -410,7 +410,7 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     if(BlackPieces[15].getAlive()) output += BlackPieces[15].getFile() + to_string(BlackPieces[15].getPosition()[0]);
 
     output+="\nwhite elephant: ";
-    for(int i=16;i<17;i++){
+    for(int i=16;i<18;i++){
         if(WhitePieces[i].getAlive()){
             temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
         }else continue;
@@ -418,7 +418,7 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     output+=temp+"\n";
     temp = "";
     output+="black elephant: ";
-    for(int i=16;i<17;i++){
+    for(int i=16;i<18;i++){
         if(BlackPieces[i].getAlive()){
             temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
         }else continue;
