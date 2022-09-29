@@ -218,18 +218,100 @@ char readFENString(string fen){
         getline(ss1, row, '/');
 
         if(row=="7"){
+            curRank--;
             continue;
         }
 
         for(int i=0;i<row.length();i++){
             if(isdigit(row[i])){
                 curFile+= (row[i] - '0');
-                continue;;
+                continue;
             }else{
-                if(row[i]=='l'){
-                    vector<int> pos = {curRank, curFile};
-                    Lion newPiece(pos, BLACK);
-                    BlackPieces[19] = newPiece;
+                if(row[i]=='p'){ //black pawn
+                    for(int j=0;j<7;j++){
+                            if(!BlackPieces[j].getAlive()){
+                                BlackPieces[j].setAlive(true);
+                                BlackPieces[j].setPosition({curRank, curFile});
+                                break;
+                            }
+                    }
+                }
+                if(row[i]=='P'){ //white pawn
+                    for(int j=0;j<7;j++){
+                            if(!WhitePieces[j].getAlive()){
+                                WhitePieces[j].setAlive(true);
+                                WhitePieces[j].setPosition({curRank, curFile});
+                                break;
+                            }
+                    }
+                }
+                if(row[i]=='g'){ // black giraffe
+                    BlackPieces[14].setAlive(true);
+                    BlackPieces[14].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='G'){ // white giraffe
+                    WhitePieces[14].setAlive(true);
+                    WhitePieces[14].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='m'){ //black monkey
+                    BlackPieces[15].setAlive(true);
+                    BlackPieces[15].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='M'){ //white monkey
+                    WhitePieces[15].setAlive(true);
+                    WhitePieces[15].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='e'){ //black elephant
+                    for(int j=16;j<18;j++){
+                            if(!BlackPieces[j].getAlive()){
+                                BlackPieces[j].setAlive(true);
+                                BlackPieces[j].setPosition({curRank, curFile});
+                                continue;
+                            }
+                    }
+                }
+                if(row[i]=='E'){ //white elephant
+                    for(int j=16;j<18;j++){
+                            if(!WhitePieces[j].getAlive()){
+                                WhitePieces[j].setAlive(true);
+                                WhitePieces[j].setPosition({curRank, curFile});
+                                continue;
+                            }
+                    }
+                }
+                if(row[i]=='l'){ //black lion
+                    BlackPieces[18].setAlive(true);
+                    BlackPieces[18].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='L'){ //white lion
+                    WhitePieces[18].setAlive(true);
+                    WhitePieces[18].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='c'){ //black crocodile
+                    BlackPieces[19].setAlive(true);
+                    BlackPieces[19].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='C'){ //white crocodile
+                    WhitePieces[19].setAlive(true);
+                    WhitePieces[19].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='z'){ //black zebra
+                    BlackPieces[20].setAlive(true);
+                    BlackPieces[20].setPosition({curRank, curFile});
+                    continue;
+                }
+                if(row[i]=='Z'){ //white zebra
+                    WhitePieces[20].setAlive(true);
+                    WhitePieces[20].setPosition({curRank, curFile});
+                    continue;
                 }
             }
         }
@@ -239,7 +321,15 @@ char readFENString(string fen){
 }
 
 void printFENString(char NextMove){
-    cout << BlackPieces[19].getFile() << BlackPieces[19].getPosition()[0] << endl;
+    string output = "white pawn: ";
+    string temp = "";
+    for(int i=0;i<7;i++){
+        if(WhitePieces[i].getAlive()){
+            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    cout << output;
 }
 
 
