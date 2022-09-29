@@ -4,8 +4,8 @@
 #include<string>
 using namespace std;
 
-#define BLACK 'B'
-#define WHITE 'W'
+#define BLACK 'b'
+#define WHITE 'w'
 
 class Piece{            //Base Piece class
 public:
@@ -203,6 +203,13 @@ void setupPieces(){
     WhitePieces.push_back(zw);
 }
 
+void resetBoard(){
+    for(int i=0;i<21;i++){
+        WhitePieces[i].setAlive(false);
+        BlackPieces[i].setAlive(false);
+    }
+}
+
 char readFENString(string fen){
     int curRank = 7;
     stringstream ss(fen);
@@ -239,6 +246,26 @@ char readFENString(string fen){
                 }
                 if(row[i]=='P'){ //white pawn
                     for(int j=0;j<7;j++){
+                            if(!WhitePieces[j].getAlive()){
+                                WhitePieces[j].setAlive(true);
+                                WhitePieces[j].setPosition({curRank, curFile});
+                                curFile++;
+                                break;
+                            }
+                    }
+                }
+                if(row[i]=='s'){ //black superpawn
+                    for(int j=7;j<14;j++){
+                            if(!BlackPieces[j].getAlive()){
+                                BlackPieces[j].setAlive(true);
+                                BlackPieces[j].setPosition({curRank, curFile});
+                                curFile++;
+                                break;
+                            }
+                    }
+                }
+                if(row[i]=='S'){ //white superpawn
+                    for(int j=7;j<14;j++){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
@@ -354,7 +381,25 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     output+=temp+"\n";
     temp = "";
 
-    output += "white superpawn: \nblack superpawn: \nwhite giraffe: ";
+    output += "white superpawn: ";
+    for(int i=7;i<14;i++){
+        if(WhitePieces[i].getAlive()){
+            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    temp = "";
+
+    output+="black superpawn: ";
+    for(int i=7;i<14;i++){
+        if(BlackPieces[i].getAlive()){
+            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    temp = "";
+
+    output += "white giraffe: ";
     if(WhitePieces[14].getAlive()) output += WhitePieces[14].getFile() + to_string(WhitePieces[14].getPosition()[0]);
     output+="\nblack giraffe: ";
     if(BlackPieces[14].getAlive()) output += BlackPieces[14].getFile() + to_string(BlackPieces[14].getPosition()[0]);
@@ -396,7 +441,10 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     output+="\nblack zebra: ";
     if(BlackPieces[20].getAlive()) output += BlackPieces[20].getFile() + to_string(BlackPieces[20].getPosition()[0]);
 
-    out+="\nside to play: " + NextMove;
+    output+="\nside to play: ";
+    if(NextMove==BLACK) output += "black";
+    else output += "white";
+
     return output;
 }
 
@@ -408,10 +456,12 @@ int main() {
     cin >> N;
     cin.ignore(); //NB!
     for (int i = 0; i < N; ++i) {
+        resetBoard();
         string fen;
         getline(cin, fen);
         char col = readFENString(fen);
         output+=printFENString(col);
+        output+="\n";
         if(i!=N-1) output+="\n";
     }
     cout << output;
