@@ -4,20 +4,16 @@
 #include<string>
 using namespace std;
 
+#define BLACK 'B'
+#define WHITE 'W'
+
 class Piece{            //Base Piece class
 public:
     //variables
     vector<int> position = {0,0};    //0-6 row
     char file = 'a';        //a-g column
-    char color = 'W';       //B or W
+    char color = WHITE;       //B or W
     bool alive = true;
-
-    //Constructors
-    Piece(vector<int> newPosition, char newColor){
-        position = newPosition;
-        setFile();
-        color = newColor;
-    }
 
     //Getters
     char getColor(){
@@ -44,49 +40,93 @@ public:
 
 protected:
     void setFile(){
-        if(position[1]==0) file = 'a';
-        if(position[1]==1) file = 'b';
-        if(position[1]==2) file = 'c';
-        if(position[1]==3) file = 'd';
-        if(position[1]==4) file = 'e';
-        if(position[1]==5) file = 'f';
-        if(position[1]==6) file = 'g';
+        vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+        file = files[position[1]];
     }
 };
 
 class Pawn: public Piece{            //Pawn Piece subclass
 public:
     string name = "Pawn";
+
+    //Constructors
+    Pawn(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Lion: public Piece{            //Lion Piece subclass
 public:
     string name = "Lion";
+
+    //Constructors
+    Lion(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Zebra: public Piece{            //Zebra Piece subclass
 public:
     string name = "Zebra";
+
+    //Constructors
+    Zebra(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Elephant: public Piece{            //Elephant Piece subclass
 public:
     string name = "Elephant";
+
+    //Constructors
+    Elephant(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Giraffe: public Piece{            //Giraffe Piece subclass
 public:
     string name = "Giraffe";
+
+    //Constructors
+    Giraffe(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Crocodile: public Piece{            //Crocodile Piece subclass
 public:
     string name = "Crocodile";
+
+    //Constructors
+    Crocodile(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 class Monkey: public Piece{            //Monkey Piece subclass
 public:
     string name = "Monkey";
+
+    //Constructors
+    Monkey(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
 };
 
 //-----------------------------------------------------------------------------------------------------
@@ -94,9 +134,7 @@ vector<Piece> BlackPieces;
 vector<Piece> WhitePieces;
 
 void readFENString(string fen){
-    int curRank =0;
-    int curFile=0;
-
+    int curRank = 7;
     stringstream ss(fen);
     string boardSetup;
     string color;
@@ -106,28 +144,31 @@ void readFENString(string fen){
     stringstream ss1(boardSetup);
     string row;
     while (!ss1.eof()) {
+        int curFile=0;
         getline(ss1, row, '/');
 
-        if(row=='7'){
+        if(row=="7"){
             continue;
         }
 
         for(int i=0;i<row.length();i++){
             if(isdigit(row[i])){
-                curFile+= row[i] - '0';
+                curFile+= (row[i] - '0');
                 continue;;
             }else{
-
-                //BlackPieces.push_back()
+                if(row[i]=='l'){
+                    vector<int> pos = {curRank, curFile};
+                    Lion newPiece(pos, BLACK);
+                    BlackPieces.push_back(newPiece);
+                }
             }
         }
-
-        curRank++;
+        curRank--;
     }
 }
 
 void printFENString(vector<Piece> WhitePieces, vector<Piece> BlackPieces, char NextMove){
-
+    cout << BlackPieces[0].getPosition()[1] << endl;
 }
 
 
