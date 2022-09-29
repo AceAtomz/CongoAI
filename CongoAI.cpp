@@ -10,7 +10,7 @@ using namespace std;
 class Piece{            //Base Piece class
 public:
     //variables
-    vector<int> position = {0,0};    //0-6 row
+    vector<int> position = {1,0};    //1-7 row
     char file = 'a';        //a-g column
     char color = WHITE;       //B or W
     bool alive = false;
@@ -32,16 +32,16 @@ public:
     //Setters
     void setPosition(vector<int> newPosition){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
     }
     void setAlive(bool newAlive){
         alive = newAlive;
     }
 
 protected:
-    void setFile(){
+    void setFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
-        file = files[position[1]];
+        file = files[newFile];
     }
 };
 
@@ -52,7 +52,7 @@ public:
     //Constructors
     Pawn(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -64,7 +64,7 @@ public:
     //Constructors
     SuperPawn(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -76,7 +76,7 @@ public:
     //Constructors
     Lion(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -88,7 +88,7 @@ public:
     //Constructors
     Zebra(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -100,7 +100,7 @@ public:
     //Constructors
     Elephant(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -112,7 +112,7 @@ public:
     //Constructors
     Giraffe(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -124,7 +124,7 @@ public:
     //Constructors
     Crocodile(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -136,7 +136,7 @@ public:
     //Constructors
     Monkey(vector<int> newPosition, char newColor){
         position = newPosition;
-        setFile();
+        setFile(position[1]);
         color = newColor;
     }
 };
@@ -232,6 +232,7 @@ char readFENString(string fen){
                             if(!BlackPieces[j].getAlive()){
                                 BlackPieces[j].setAlive(true);
                                 BlackPieces[j].setPosition({curRank, curFile});
+                                curFile++;
                                 break;
                             }
                     }
@@ -241,6 +242,7 @@ char readFENString(string fen){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
+                                curFile++;
                                 break;
                             }
                     }
@@ -248,21 +250,25 @@ char readFENString(string fen){
                 if(row[i]=='g'){ // black giraffe
                     BlackPieces[14].setAlive(true);
                     BlackPieces[14].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='G'){ // white giraffe
                     WhitePieces[14].setAlive(true);
                     WhitePieces[14].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='m'){ //black monkey
                     BlackPieces[15].setAlive(true);
                     BlackPieces[15].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='M'){ //white monkey
                     WhitePieces[15].setAlive(true);
                     WhitePieces[15].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='e'){ //black elephant
@@ -270,7 +276,8 @@ char readFENString(string fen){
                             if(!BlackPieces[j].getAlive()){
                                 BlackPieces[j].setAlive(true);
                                 BlackPieces[j].setPosition({curRank, curFile});
-                                continue;
+                                curFile++;
+                                break;
                             }
                     }
                 }
@@ -279,38 +286,45 @@ char readFENString(string fen){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
-                                continue;
+                                curFile++;
+                                break;
                             }
                     }
                 }
                 if(row[i]=='l'){ //black lion
                     BlackPieces[18].setAlive(true);
                     BlackPieces[18].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='L'){ //white lion
                     WhitePieces[18].setAlive(true);
                     WhitePieces[18].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='c'){ //black crocodile
                     BlackPieces[19].setAlive(true);
                     BlackPieces[19].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='C'){ //white crocodile
                     WhitePieces[19].setAlive(true);
                     WhitePieces[19].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='z'){ //black zebra
                     BlackPieces[20].setAlive(true);
                     BlackPieces[20].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
                 if(row[i]=='Z'){ //white zebra
                     WhitePieces[20].setAlive(true);
                     WhitePieces[20].setPosition({curRank, curFile});
+                    curFile++;
                     continue;
                 }
             }
@@ -320,7 +334,7 @@ char readFENString(string fen){
     return color[0];
 }
 
-void printFENString(char NextMove){
+string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
     string output = "white pawn: ";
     string temp = "";
     for(int i=0;i<7;i++){
@@ -329,12 +343,67 @@ void printFENString(char NextMove){
         }else continue;
     }
     output+=temp+"\n";
-    cout << output;
+    temp = "";
+
+    output+="black pawn: ";
+    for(int i=0;i<7;i++){
+        if(BlackPieces[i].getAlive()){
+            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    temp = "";
+
+    output += "white superpawn: \nblack superpawn: \nwhite giraffe: ";
+    if(WhitePieces[14].getAlive()) output += WhitePieces[14].getFile() + to_string(WhitePieces[14].getPosition()[0]);
+    output+="\nblack giraffe: ";
+    if(BlackPieces[14].getAlive()) output += BlackPieces[14].getFile() + to_string(BlackPieces[14].getPosition()[0]);
+
+    output+="\nwhite monkey: ";
+    if(WhitePieces[15].getAlive()) output += WhitePieces[15].getFile() + to_string(WhitePieces[15].getPosition()[0]);
+    output+="\nblack monkey: ";
+    if(BlackPieces[15].getAlive()) output += BlackPieces[15].getFile() + to_string(BlackPieces[15].getPosition()[0]);
+
+    output+="\nwhite elephant: ";
+    for(int i=16;i<17;i++){
+        if(WhitePieces[i].getAlive()){
+            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    temp = "";
+    output+="black elephant: ";
+    for(int i=16;i<17;i++){
+        if(BlackPieces[i].getAlive()){
+            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+        }else continue;
+    }
+    output+=temp+"\n";
+    temp = "";
+
+    output+="white lion: ";
+    if(WhitePieces[18].getAlive()) output += WhitePieces[18].getFile() + to_string(WhitePieces[18].getPosition()[0]);
+    output+="\nblack lion: ";
+    if(BlackPieces[18].getAlive()) output += BlackPieces[18].getFile() + to_string(BlackPieces[18].getPosition()[0]);
+
+    output+="\nwhite crocodile: ";
+    if(WhitePieces[19].getAlive()) output += WhitePieces[19].getFile() + to_string(WhitePieces[19].getPosition()[0]);
+    output+="\nblack crocodile: ";
+    if(BlackPieces[19].getAlive()) output += BlackPieces[19].getFile() + to_string(BlackPieces[19].getPosition()[0]);
+
+    output+="\nwhite zebra: ";
+    if(WhitePieces[20].getAlive()) output += WhitePieces[20].getFile() + to_string(WhitePieces[20].getPosition()[0]);
+    output+="\nblack zebra: ";
+    if(BlackPieces[20].getAlive()) output += BlackPieces[20].getFile() + to_string(BlackPieces[20].getPosition()[0]);
+
+    out+="\nside to play: " + NextMove;
+    return output;
 }
 
 
 int main() {
     setupPieces();
+    string output="";
     int N;
     cin >> N;
     cin.ignore(); //NB!
@@ -342,10 +411,10 @@ int main() {
         string fen;
         getline(cin, fen);
         char col = readFENString(fen);
-        printFENString(col);
-        cout << endl;
+        output+=printFENString(col);
+        if(i!=N-1) output+="\n";
     }
-
+    cout << output;
 
     return 0;
 }
