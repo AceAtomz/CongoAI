@@ -13,7 +13,7 @@ public:
     vector<int> position = {0,0};    //0-6 row
     char file = 'a';        //a-g column
     char color = WHITE;       //B or W
-    bool alive = true;
+    bool alive = false;
 
     //Getters
     char getColor(){
@@ -51,6 +51,18 @@ public:
 
     //Constructors
     Pawn(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
+        color = newColor;
+    }
+};
+
+class SuperPawn: public Piece{            //Pawn Piece subclass
+public:
+    string name = "Superpawn";
+
+    //Constructors
+    SuperPawn(vector<int> newPosition, char newColor){
         position = newPosition;
         setFile();
         color = newColor;
@@ -130,10 +142,68 @@ public:
 };
 
 //-----------------------------------------------------------------------------------------------------
-vector<Piece> BlackPieces;
+vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
 
-void readFENString(string fen){
+void setupPieces(){
+    //Pawns
+    for(int i=0;i<7;i++){
+        Pawn pb({6,i},BLACK);
+        Pawn pw({6,i},WHITE);
+        BlackPieces.push_back(pb);
+        WhitePieces.push_back(pw);
+    }
+
+    //SuperPawns
+    for(int i=0;i<7;i++){
+        SuperPawn spb({6,i},BLACK);
+        SuperPawn spw({6,i},WHITE);
+        BlackPieces.push_back(spb);
+        WhitePieces.push_back(spw);
+    }
+
+    //Giraffes
+    Giraffe gb({7,0}, BLACK);
+    Giraffe gw({0,0}, WHITE);
+    BlackPieces.push_back(gb);
+    WhitePieces.push_back(gw);
+
+    //Monkey
+    Monkey mb({7,1}, BLACK);
+    Monkey mw({0,1}, WHITE);
+    BlackPieces.push_back(mb);
+    WhitePieces.push_back(mw);
+
+    //Elephant
+    Elephant eb1({7,2}, BLACK);
+    Elephant eb2({7,4}, BLACK);
+    Elephant ew1({0,2}, WHITE);
+    Elephant ew2({0,4}, WHITE);
+    BlackPieces.push_back(eb1);
+    BlackPieces.push_back(eb2);
+    WhitePieces.push_back(ew1);
+    WhitePieces.push_back(ew2);
+
+    //Lion
+    Lion lb({7,3}, BLACK);
+    Lion lw({0,3}, WHITE);
+    BlackPieces.push_back(lb);
+    WhitePieces.push_back(lw);
+
+    //Crocodile
+    Crocodile cb({7,5}, BLACK);
+    Crocodile cw({0,5}, WHITE);
+    BlackPieces.push_back(lb);
+    WhitePieces.push_back(lw);
+
+    //Zebra
+    Zebra zb({7,6}, BLACK);
+    Zebra zw({0,6}, WHITE);
+    BlackPieces.push_back(zb);
+    WhitePieces.push_back(zw);
+}
+
+char readFENString(string fen){
     int curRank = 7;
     stringstream ss(fen);
     string boardSetup;
@@ -159,29 +229,30 @@ void readFENString(string fen){
                 if(row[i]=='l'){
                     vector<int> pos = {curRank, curFile};
                     Lion newPiece(pos, BLACK);
-                    BlackPieces.push_back(newPiece);
+                    BlackPieces[19] = newPiece;
                 }
             }
         }
         curRank--;
     }
+    return color[0];
 }
 
-void printFENString(vector<Piece> WhitePieces, vector<Piece> BlackPieces, char NextMove){
-    cout << BlackPieces[0].getPosition()[1] << endl;
+void printFENString(char NextMove){
+    cout << BlackPieces[19].getFile() << BlackPieces[19].getPosition()[0] << endl;
 }
-
 
 
 int main() {
+    setupPieces();
     int N;
     cin >> N;
     cin.ignore(); //NB!
     for (int i = 0; i < N; ++i) {
         string fen;
         getline(cin, fen);
-        readFENString(fen);
-        //printFENString();
+        char col = readFENString(fen);
+        printFENString(col);
         cout << endl;
     }
 
