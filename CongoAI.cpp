@@ -7,15 +7,15 @@ using namespace std;
 class Piece{            //Base Piece class
 public:
     //variables
-    int myRank = 0;         //0-6 row
-    char myFile = 'a';        //a-g column
+    vector<int> position = {0,0};    //0-6 row
+    char file = 'a';        //a-g column
     char color = 'W';       //B or W
     bool alive = true;
 
     //Constructors
-    Piece(int newRank, char newFile, char newColor){
-        myRank = newRank;
-        myFile = newFile;
+    Piece(vector<int> newPosition, char newColor){
+        position = newPosition;
+        setFile();
         color = newColor;
     }
 
@@ -24,22 +24,33 @@ public:
         return color;
     }
     char getFile(){
-        return myFile;
+        return file;
     }
-    int getRank(){
-        return myRank;
+    vector<int> getPosition(){
+        return position;
     }
     bool getAlive(){
         return alive;
     }
 
     //Setters
-    void setPosition(char newFile, int newRank){
-        myRank = newRank;
-        myFile = newFile;
+    void setPosition(vector<int> newPosition){
+        position = newPosition;
+        setFile();
     }
     void setAlive(bool newAlive){
         alive = newAlive;
+    }
+
+protected:
+    void setFile(){
+        if(position[1]==0) file = 'a';
+        if(position[1]==1) file = 'b';
+        if(position[1]==2) file = 'c';
+        if(position[1]==3) file = 'd';
+        if(position[1]==4) file = 'e';
+        if(position[1]==5) file = 'f';
+        if(position[1]==6) file = 'g';
     }
 };
 
