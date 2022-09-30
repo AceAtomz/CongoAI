@@ -520,8 +520,8 @@ int main() {
         getline(cin, fen);
         char col = readFENString(fen);
         output+=printFENString(col);
-        output+="\n";
-        if(i!=N-1) output+="\n";
+        //output+="\n";
+        if(i!=N-1) output+="\n\n";
     }
     cout << output;
 
