@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include<string>
+#include<algorithm>
 using namespace std;
 
 #define BLACK 'b'
@@ -361,15 +362,37 @@ char readFENString(string fen){
     return color[0];
 }
 
+vector<string> sortPiece(vector<string> pieces){
+    vector<pair<char, int>> temp;
+    for(int i=0; i<pieces.size();i++){
+        temp.push_back(pair<char, int>(pieces[i][0], pieces[i][1]-'0'));
+    }
+
+    sort(temp.begin(), temp.end());
+    vector<string> out;
+    for(int i=0; i<pieces.size();i++){
+        out.push_back(temp[i].first + to_string(temp[i].second));
+    }
+
+    return out;
+}
+
 string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
     string output = "white pawn: ";
     string temp = "";
+    vector<string> sorted;
     for(int i=0;i<7;i++){
         if(WhitePieces[i].getAlive()){
-            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+            temp = WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
     temp = "";
 
     output+="black pawn: ";
