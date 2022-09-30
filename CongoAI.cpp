@@ -393,33 +393,55 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
         if(i!=sorted.size()-1) output+= " ";
     }
     output+="\n";
+    sorted.clear();
     temp = "";
 
     output+="black pawn: ";
     for(int i=0;i<7;i++){
         if(BlackPieces[i].getAlive()){
-            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+            temp = BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
+    sorted.clear();
     temp = "";
 
     output += "white superpawn: ";
     for(int i=7;i<14;i++){
         if(WhitePieces[i].getAlive()){
-            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+            temp = WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
+    sorted.clear();
     temp = "";
 
     output+="black superpawn: ";
     for(int i=7;i<14;i++){
         if(BlackPieces[i].getAlive()){
-            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+            temp = BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
+    sorted.clear();
     temp = "";
 
     output += "white giraffe: ";
@@ -435,18 +457,32 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     output+="\nwhite elephant: ";
     for(int i=16;i<18;i++){
         if(WhitePieces[i].getAlive()){
-            temp += WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]) + " ";
+            temp = WhitePieces[i].getFile() + to_string(WhitePieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
+    sorted.clear();
     temp = "";
     output+="black elephant: ";
     for(int i=16;i<18;i++){
         if(BlackPieces[i].getAlive()){
-            temp += BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]) + " ";
+            temp = BlackPieces[i].getFile() + to_string(BlackPieces[i].getPosition()[0]);
+            sorted.push_back(temp);
         }else continue;
     }
-    output+=temp+"\n";
+    sorted = sortPiece(sorted);
+    for(int i=0;i<sorted.size();i++){
+        output+= sorted[i];
+        if(i!=sorted.size()-1) output+= " ";
+    }
+    output+="\n";
+    sorted.clear();
     temp = "";
 
     output+="white lion: ";
