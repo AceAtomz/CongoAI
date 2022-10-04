@@ -47,6 +47,31 @@ public:
         alive = newAlive;
     }
 
+    //Remove own pieces from avail moves list
+    void getOwnPieces(vector<pair<int, int>> out, vector<pair<int, int>> BP, vector<pair<int, int>> WP, char color){
+        if(color==BLACK){
+            for(int i=0;i<BP.size();i++){
+                for(int j=0;j<out.size();j++){
+                    if(BP[i].position[0]==out[j].second && BP[i].position[1]==out[j].first){
+                        out.erase(j);
+                    }
+                }
+            }
+        }else{
+            for(int i=0;i<WP.size();i++){
+                for(int j=0;j<out.size();j++){
+                    if(WP[i].position[0]==out[j].second && WP[i].position[1]==out[j].first){
+                        out.erase(j);
+                    }
+                }
+            }
+        }
+
+        for(int i=0; i<out.size();i++){
+            cout << convertFile(availMoves[i].first) << availMoves[i].second << endl;
+        }
+    }
+
     //piece specific stuff
     void setAvailLionMoves(){
         for(int i=0;i<allMoves.size();i++){
@@ -59,28 +84,24 @@ public:
                             //check if space is enemy color
                         }
                         availMoves.push_back(allMoves[i]);
-                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
                     }
                 }
 
                 if(position[1]-1==allMoves[i].first){ // if left column in castle
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
                         availMoves.push_back(allMoves[i]);
-                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
                     }
                 }
 
                 if(position[1]+1==allMoves[i].first){ // if right column in castle
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
                         availMoves.push_back(allMoves[i]);
-                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
                     }
                 }
 
                 if(position[0]==allMoves[i].second){ // if in same row
                     if(position[1]-1==allMoves[i].first || position[1]+1==allMoves[i].first){
                         availMoves.push_back(allMoves[i]);
-                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
                     }
                 }
             }
@@ -584,6 +605,13 @@ int main() {
         output+=printFENString(col);
         //output+="\n";
         if(i!=N-1) output+="\n\n";
+
+        vector<pair<int, int>> BP;
+        vector<pair<int, int>> WP;
+        for(int j=0;j<BlackPieces.size();j++)){
+            BP.push_back({BlackPieces[i].position[0], BlackPieces[i].position[1]});
+            WP.push_back({WhitePieces[i].position[0], WhitePieces[i].position[1]});
+        }
     }
     //cout << output;
 
