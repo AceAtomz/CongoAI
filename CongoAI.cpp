@@ -7,6 +7,12 @@ using namespace std;
 
 #define BLACK 'b'
 #define WHITE 'w'
+char nextMove;
+
+char convertFile(int newFile){
+        vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+        return files[newFile];
+}
 
 class Piece{            //Base Piece class
 public:
@@ -15,6 +21,8 @@ public:
     char file = 'a';        //a-g column
     char color = WHITE;       //B or W
     bool alive = false;
+    vector<pair<int, int>> availMoves;
+    vector<pair<int, int>> allMoves;
 
     //Getters
     char getColor(){
@@ -37,6 +45,41 @@ public:
     }
     void setAlive(bool newAlive){
         alive = newAlive;
+    }
+
+    //piece specific stuff
+    void setAvailLionMoves(){
+        for(int i=0;i<allMoves.size();i++){
+            if(color==nextMove){
+                if(position[1]==allMoves[i].first){ // if in same column
+                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
+                        availMoves.push_back(allMoves[i]);
+                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
+                    }
+                }
+
+                if(position[1]-1==allMoves[i].first){ // if left column in castle
+                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
+                        availMoves.push_back(allMoves[i]);
+                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
+                    }
+                }
+
+                if(position[1]+1==allMoves[i].first){ // if right column in castle
+                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
+                        availMoves.push_back(allMoves[i]);
+                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
+                    }
+                }
+
+                if(position[0]==allMoves[i].second){ // if in same row
+                    if(position[1]-1==allMoves[i].first || position[1]+1==allMoves[i].first){
+                        availMoves.push_back(allMoves[i]);
+                        cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
+                    }
+                }
+            }
+        }
     }
 
 protected:
@@ -79,6 +122,17 @@ public:
         position = newPosition;
         setFile(position[1]);
         color = newColor;
+        setAllMoves();
+    }
+
+    //Setters
+    void setAllMoves(){
+        for(int i=2;i<5;i++){
+            for(int j=1;j<8;j++){
+                if(j==4) continue;
+                allMoves.push_back({i,j});
+            }
+        }
     }
 };
 
@@ -218,6 +272,7 @@ char readFENString(string fen){
     string color;
     getline(ss, boardSetup, ' ');
     getline(ss, color, ' ');
+    nextMove = color[0];
 
     stringstream ss1(boardSetup);
     string row;
@@ -322,12 +377,14 @@ char readFENString(string fen){
                 if(row[i]=='l'){ //black lion
                     BlackPieces[18].setAlive(true);
                     BlackPieces[18].setPosition({curRank, curFile});
+                    BlackPieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
                 }
                 if(row[i]=='L'){ //white lion
                     WhitePieces[18].setAlive(true);
                     WhitePieces[18].setPosition({curRank, curFile});
+                    WhitePieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
                 }
@@ -359,7 +416,7 @@ char readFENString(string fen){
         }
         curRank--;
     }
-    return color[0];
+    return nextMove;
 }
 
 vector<string> sortPiece(vector<string> pieces){
@@ -523,7 +580,7 @@ int main() {
         //output+="\n";
         if(i!=N-1) output+="\n\n";
     }
-    cout << output;
+    //cout << output;
 
     return 0;
 }
