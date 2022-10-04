@@ -53,6 +53,11 @@ public:
             if(color==nextMove){
                 if(position[1]==allMoves[i].first){ // if in same column
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
+                        if(){
+                            //TODO: Make a 2D matrix of the board
+                            //check if space is 0 (empty)
+                            //check if space is enemy color
+                        }
                         availMoves.push_back(allMoves[i]);
                         cout << convertFile(allMoves[i].first) << allMoves[i].second << endl;
                     }
