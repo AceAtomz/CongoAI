@@ -147,6 +147,26 @@ public:
             availMoves = getOwnPieces(availMoves,nextMove);
         }
     }
+    void setAvailZebraMovies(){
+        if(position[0]-2>=1){
+            if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-2});
+            if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-2});
+        }
+        if(position[0]+2<=7){
+            if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+2});
+            if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+2});
+        }
+        if(position[1]-2>=0){
+            if(position[0]-1>=1) allMoves.push_back({position[1]-2,position[0]-1});
+            if(position[0]+1<=7) allMoves.push_back({position[1]-2,position[0]+1});
+        }
+        if(position[1]+2<=6){
+            if(position[0]-1>=1) allMoves.push_back({position[1]+2,position[0]-1});
+            if(position[0]+1<=7) allMoves.push_back({position[1]+2,position[0]+1});
+        }
+
+        availMoves = getOwnPieces(allMoves,nextMove);
+    }
 
 protected:
     void setFile(int newFile){
@@ -391,8 +411,10 @@ void resetBoard(){
     for(int i=0;i<21;i++){
         WhitePieces[i].setAlive(false);
         WhitePieces[i].availMoves.clear();
+        WhitePieces[i].allMoves.clear();
         BlackPieces[i].setAlive(false);
         BlackPieces[i].availMoves.clear();
+        BlackPieces[i].allMoves.clear();
     }
 
     for(int i=0;i<7;i++){
@@ -552,6 +574,7 @@ char readFENString(string fen){
                     BlackPieces[20].setAlive(true);
                     BlackPieces[20].setPosition({curRank, curFile});
                     board[curRank-1][curFile] = 'z';
+
                     curFile++;
                     continue;
                 }
@@ -569,6 +592,8 @@ char readFENString(string fen){
 
     WhitePieces[18].setAvailLionMoves();
     BlackPieces[18].setAvailLionMoves();
+    if(WhitePieces[20].alive) WhitePieces[20].setAvailZebraMovies();
+    if(BlackPieces[20].alive) BlackPieces[20].setAvailZebraMovies();
 
     return nextMove;
 }
@@ -759,10 +784,42 @@ string printLionMoves(){
     return out;
 }
 
+string printZebraMoves(){
+    string out = "";
+    vector<string> sorted;
+    if(nextMove==WHITE){
+        Piece L = WhitePieces[20];
+        if(L.availMoves.size()==0) return out;
+        for(int i=0; i<L.availMoves.size();i++){
+            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
+        }
+    }else{
+        Piece L = BlackPieces[20];
+        if(L.availMoves.size()==0) return out;
+        for(int i=0; i<BlackPieces[18].availMoves.size();i++){
+            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
+        }
+    }
+    sorted.clear();
+
+    return out;
+}
+
 int main() {
     setupPieces();
     string output1="";
-    string outputLion="";
+    string output2="";
     int N;
     cin >> N;
     cin.ignore(); //NB!
@@ -773,20 +830,22 @@ int main() {
 
         //Sub1 stuff
         char col = readFENString(fen);
+        //printBoard();
         output1+=printFENString(col);
 
         //Sub2 stuff
-        outputLion+=printLionMoves();
+        //output2+=printLionMoves();
+        output2+=printZebraMoves();
 
         if(i!=N-1){
             output1+="\n\n";
-            outputLion+="\n";
+            output2+="\n";
         }
-        //printBoard();
+
     }
     //cout << output1;
 
-    cout << outputLion;
+    cout << output2;
 
     return 0;
 }
