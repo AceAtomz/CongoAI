@@ -776,14 +776,15 @@ int main() {
         outputLion+=printLionMoves();
 
         if(i!=N-1){
-          output1+="\n\n";
-          outputLion+="\n";
+            output1+="\n\n";
+            if(WhitePieces[18].availMoves.size()!=0 && nextMove==WHITE) outputLion+="\n";
+            if(BlackPieces[18].availMoves.size()!=0 && nextMove==BLACK) outputLion+="\n";
         }
         //printBoard();
     }
     //cout << output1;
 
-    cout << outputLion << endl;
+    cout << outputLion;
 
     return 0;
 }
