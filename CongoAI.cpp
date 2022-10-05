@@ -97,6 +97,26 @@ public:
     //piece specific stuff
     void setAvailLionMoves(){
         if(color==nextMove){
+            if(color==WHITE){
+                if(position[0]>3){ //if not in white castle
+                    availMoves.clear();
+                    return;
+                }
+                if(position[1]<2 || position[1]>4){ //if not in white castle
+                    availMoves.clear();
+                    return;
+                }
+            }else{
+                if(position[0]<5){ //if not in black castle
+                    availMoves.clear();
+                    return;
+                }
+                if(position[1]<2 || position[1]>4){ //if not in black castle
+                    availMoves.clear();
+                    return;
+                }
+            }
+
             for(int i=0;i<allMoves.size();i++){
                 if(position[1]==allMoves[i].first){ // if in same column
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
