@@ -10,6 +10,7 @@ using namespace std;
 #define WHITE 'w'
 char nextMove;
 vector<vector<char>> board;
+void checkLionEat(char color);
 
 char convertFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
@@ -95,8 +96,8 @@ public:
 
     //piece specific stuff
     void setAvailLionMoves(){
-        for(int i=0;i<allMoves.size();i++){
-            if(color==nextMove){
+        if(color==nextMove){
+            for(int i=0;i<allMoves.size();i++){
                 if(position[1]==allMoves[i].first){ // if in same column
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
                         availMoves.push_back(allMoves[i]);
@@ -120,9 +121,11 @@ public:
                         availMoves.push_back(allMoves[i]);
                     }
                 }
+
             }
+            checkLionEat(color);
+            availMoves = getOwnPieces(availMoves,nextMove);
         }
-        availMoves = getOwnPieces(availMoves,nextMove);
     }
 
 protected:
@@ -242,6 +245,28 @@ public:
 //-----------------------------------------------------------------------------------------------------
 vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
+
+void checkLionEat(char color){
+    int l = BlackPieces[18].position[0] - WhitePieces[18].position[0]-1;
+    bool blocked = false;
+    if(color==WHITE){
+        for(int i=WhitePieces[18].position[0]; i<l;i++){
+            if(board[i][WhitePieces[18].position[1]]!='0'){
+                blocked=true;
+                break;
+            }
+        }
+        if(!blocked)  WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+    }else{
+        for(int i=BlackPieces[18].position[0]; i<l;i++){
+            if(board[i][BlackPieces[18].position[1]]!='0'){
+                blocked=true;
+                break;
+            }
+        }
+        if(!blocked)  BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+    }
+}
 
 void setupPieces(){
     //Pawns
@@ -644,17 +669,27 @@ void printBoard(){
 
 string printLionMoves(){
     string out = "";
+    vector<string> sorted;
     if(nextMove==WHITE){
         Piece L = WhitePieces[18];
         for(int i=0; i<L.availMoves.size();i++){
-            out += convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second);
-            if(i!=L.availMoves.size()-1) out+= " ";
+            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
         }
     }else{
         Piece L = BlackPieces[18];
         for(int i=0; i<BlackPieces[18].availMoves.size();i++){
-            out += convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second);
-            if(i!=L.availMoves.size()-1) out+= " ";
+            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
         }
     }
 
