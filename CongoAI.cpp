@@ -315,8 +315,8 @@ void checkLionEat(char color){
             return;
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
-            for(int i=BlackPieces[18].position[0]-2; i>l;i--){
-                if(board[i][BlackPieces[18].position[1]]!='0'){
+            for(int i=WhitePieces[18].position[0]; i<l+WhitePieces[18].position[0]-1;i++){
+                if(board[i][WhitePieces[18].position[1]]!='0'){
                     blocked=true;
                     break;
                 }
