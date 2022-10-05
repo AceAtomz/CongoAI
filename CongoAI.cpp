@@ -154,22 +154,24 @@ public:
                 if(position[1]+1<=6) availMoves.push_back({position[1]+1,position[0]-2});
             }
             if(position[0]+2<=7){
-                if(position[1]-1>=0) availMoves.push_back({position[0]+2, position[1]-1});
-                if(position[1]+1<=6) availMoves.push_back({position[0]+2, position[1]+1});
+                if(position[1]-1>=0) availMoves.push_back({position[1]-1,position[0]+2});
+                if(position[1]+1<=6) availMoves.push_back({position[1]+1,position[0]+2});
             }
             if(position[1]-2>=0){
                 if(position[0]-1>=1) availMoves.push_back({position[1]-2,position[0]-1});
                 if(position[0]+1<=7) availMoves.push_back({position[1]-2,position[0]+1});
             }
             if(position[1]+2<=6){
-                if(position[0]-1>=1) availMoves.push_back({position[0]-1,position[1]+2});
-                if(position[0]+1<=7) availMoves.push_back({position[0]+1,position[1]+2});
+                if(position[0]-1>=1) availMoves.push_back({position[1]+2,position[0]-1});
+                if(position[0]+1<=7) availMoves.push_back({position[1]+2,position[0]+1});
             }
 
-            for(int i=0;i<availMoves.size();i++){
-                cout << convertFile(availMoves[i].second) << availMoves[i].first << endl;
-            }
+            /*for(int i=0;i<availMoves.size();i++){
+                cout << convertFile(availMoves[i].first) << availMoves[i].second << endl;
+            }*/
+            //cout << board[availMoves[1].first][availMoves[1].second-1] << " " << board[availMoves[1].second-1][availMoves[1].first] << endl;
             availMoves = getOwnPieces(availMoves,nextMove);
+
         }
     }
 
