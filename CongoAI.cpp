@@ -390,7 +390,9 @@ void setupPieces(){
 void resetBoard(){
     for(int i=0;i<21;i++){
         WhitePieces[i].setAlive(false);
+        WhitePieces[i].availMoves.clear();
         BlackPieces[i].setAlive(false);
+        BlackPieces[i].availMoves.clear();
     }
 
     for(int i=0;i<7;i++){
@@ -752,6 +754,7 @@ string printLionMoves(){
             if(i!=sorted.size()-1) out+= " ";
         }
     }
+    sorted.clear();
 
     return out;
 }
