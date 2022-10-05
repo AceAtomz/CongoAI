@@ -277,13 +277,13 @@ void checkLionEat(char color){
     bool blocked = false; //blocked flag variable
     if(color==WHITE){
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
-            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
                 WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
                 return;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
-            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
                 WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
                 return;
             }
@@ -299,18 +299,18 @@ void checkLionEat(char color){
         }
     }else{
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
-            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
                 BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
                 return;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
-            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
                 BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
                 return;
             }
         }
-        if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2){
+        if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2 && board[3][WhitePieces[18].position[1]]=='0'){
             BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
             return;
         }
