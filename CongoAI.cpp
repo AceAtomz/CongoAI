@@ -3,11 +3,13 @@
 #include <sstream>
 #include<string>
 #include<algorithm>
+#include<iterator>
 using namespace std;
 
 #define BLACK 'b'
 #define WHITE 'w'
 char nextMove;
+vector<vector<char>> board;
 
 char convertFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
@@ -48,28 +50,44 @@ public:
     }
 
     //Remove own pieces from avail moves list
-    void getOwnPieces(vector<pair<int, int>> out, vector<pair<int, int>> BP, vector<pair<int, int>> WP, char color){
+    void getOwnPieces(vector<pair<int, int>> out, char color){
+        vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
+        vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
+        vector<pair<int, int>> notAvailMoves;
+
         if(color==BLACK){
-            for(int i=0;i<BP.size();i++){
-                for(int j=0;j<out.size();j++){
-                    if(BP[i].position[0]==out[j].second && BP[i].position[1]==out[j].first){
-                        out.erase(j);
+            for(int i=0;i<out.size();i++){
+                if(board[out[i].second-1][out[i].first]!='0'){
+                    for(int j=0;j<BP.size();j++){
+                        if(board[out[i].second-1][out[i].first]==BP[j]){
+                            auto it = out.begin();
+                            it+=i;
+                            out.erase(it);
+                            break;
+                        }
                     }
                 }
             }
         }else{
-            for(int i=0;i<WP.size();i++){
-                for(int j=0;j<out.size();j++){
-                    if(WP[i].position[0]==out[j].second && WP[i].position[1]==out[j].first){
-                        out.erase(j);
+            for(int i=0;i<out.size();i++){
+                cout << out[i].second-1 << "+" << out[i].first << " " << board[out[i].second-1][out[i].first] << out.size()<<endl;
+                if(board[out[i].second-1][out[i].first]!='0'){
+                    for(int j=0;j<WP.size();j++){
+                        if(board[out[i].second-1][out[i].first]==WP[j]){
+                            /*auto it = out.begin();
+                            it+=i;
+                            out.erase(it);*/
+                            break;
+                        }
                     }
                 }
             }
         }
 
         for(int i=0; i<out.size();i++){
-            cout << convertFile(availMoves[i].first) << availMoves[i].second << endl;
+            cout << convertFile(out[i].first) << out[i].second << " ";
         }
+        cout << endl;
     }
 
     //piece specific stuff
@@ -78,11 +96,11 @@ public:
             if(color==nextMove){
                 if(position[1]==allMoves[i].first){ // if in same column
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
-                        if(){
+                        //if(){
                             //TODO: Make a 2D matrix of the board
                             //check if space is 0 (empty)
                             //check if space is enemy color
-                        }
+                        //}
                         availMoves.push_back(allMoves[i]);
                     }
                 }
@@ -106,6 +124,7 @@ public:
                 }
             }
         }
+        getOwnPieces(availMoves,nextMove);
     }
 
 protected:
@@ -282,12 +301,21 @@ void setupPieces(){
     Zebra zw({0,6}, WHITE);
     BlackPieces.push_back(zb);
     WhitePieces.push_back(zw);
+
+    vector<char> def= {'0','0','0','0','0','0','0'};
+    board = {def, def, def, def, def, def, def};
 }
 
 void resetBoard(){
     for(int i=0;i<21;i++){
         WhitePieces[i].setAlive(false);
         BlackPieces[i].setAlive(false);
+    }
+
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            board[i][j] = '0';
+        }
     }
 }
 
@@ -310,7 +338,6 @@ char readFENString(string fen){
             curRank--;
             continue;
         }
-
         for(int i=0;i<row.length();i++){
             if(isdigit(row[i])){
                 curFile+= (row[i] - '0');
@@ -321,6 +348,7 @@ char readFENString(string fen){
                             if(!BlackPieces[j].getAlive()){
                                 BlackPieces[j].setAlive(true);
                                 BlackPieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 'p';
                                 curFile++;
                                 break;
                             }
@@ -331,6 +359,7 @@ char readFENString(string fen){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 'P';
                                 curFile++;
                                 break;
                             }
@@ -341,6 +370,7 @@ char readFENString(string fen){
                             if(!BlackPieces[j].getAlive()){
                                 BlackPieces[j].setAlive(true);
                                 BlackPieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 's';
                                 curFile++;
                                 break;
                             }
@@ -351,6 +381,7 @@ char readFENString(string fen){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 'S';
                                 curFile++;
                                 break;
                             }
@@ -359,24 +390,28 @@ char readFENString(string fen){
                 if(row[i]=='g'){ // black giraffe
                     BlackPieces[14].setAlive(true);
                     BlackPieces[14].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'g';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='G'){ // white giraffe
                     WhitePieces[14].setAlive(true);
                     WhitePieces[14].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'G';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='m'){ //black monkey
                     BlackPieces[15].setAlive(true);
                     BlackPieces[15].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'm';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='M'){ //white monkey
                     WhitePieces[15].setAlive(true);
                     WhitePieces[15].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'M';
                     curFile++;
                     continue;
                 }
@@ -385,6 +420,7 @@ char readFENString(string fen){
                             if(!BlackPieces[j].getAlive()){
                                 BlackPieces[j].setAlive(true);
                                 BlackPieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 'e';
                                 curFile++;
                                 break;
                             }
@@ -395,6 +431,7 @@ char readFENString(string fen){
                             if(!WhitePieces[j].getAlive()){
                                 WhitePieces[j].setAlive(true);
                                 WhitePieces[j].setPosition({curRank, curFile});
+                                board[curRank-1][curFile] = 'E';
                                 curFile++;
                                 break;
                             }
@@ -403,6 +440,7 @@ char readFENString(string fen){
                 if(row[i]=='l'){ //black lion
                     BlackPieces[18].setAlive(true);
                     BlackPieces[18].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'l';
                     BlackPieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
@@ -410,6 +448,7 @@ char readFENString(string fen){
                 if(row[i]=='L'){ //white lion
                     WhitePieces[18].setAlive(true);
                     WhitePieces[18].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'L';
                     WhitePieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
@@ -417,24 +456,28 @@ char readFENString(string fen){
                 if(row[i]=='c'){ //black crocodile
                     BlackPieces[19].setAlive(true);
                     BlackPieces[19].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'c';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='C'){ //white crocodile
                     WhitePieces[19].setAlive(true);
                     WhitePieces[19].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'C';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='z'){ //black zebra
                     BlackPieces[20].setAlive(true);
                     BlackPieces[20].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'z';
                     curFile++;
                     continue;
                 }
                 if(row[i]=='Z'){ //white zebra
                     WhitePieces[20].setAlive(true);
                     WhitePieces[20].setPosition({curRank, curFile});
+                    board[curRank-1][curFile] = 'Z';
                     curFile++;
                     continue;
                 }
@@ -590,6 +633,14 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     return output;
 }
 
+void printBoard(){
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            cout << board[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
 
 int main() {
     setupPieces();
@@ -605,15 +656,9 @@ int main() {
         output+=printFENString(col);
         //output+="\n";
         if(i!=N-1) output+="\n\n";
-
-        vector<pair<int, int>> BP;
-        vector<pair<int, int>> WP;
-        for(int j=0;j<BlackPieces.size();j++)){
-            BP.push_back({BlackPieces[i].position[0], BlackPieces[i].position[1]});
-            WP.push_back({WhitePieces[i].position[0], WhitePieces[i].position[1]});
-        }
     }
     //cout << output;
+    printBoard();
 
     return 0;
 }
