@@ -289,9 +289,7 @@ void checkLionEat(char color){
             }
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
-        cout << WhitePieces[18].position[0] << " " << WhitePieces[18].position[1] << "  " << BlackPieces[18].position[0] << " " << BlackPieces[18].position[1] << endl;
-        cout << l << endl;
-            for(int i=WhitePieces[18].position[0]; i<l+WhitePieces[18].position[0];i++){
+            for(int i=WhitePieces[18].position[0]; i<l+WhitePieces[18].position[0]-1;i++){
                 if(board[i][WhitePieces[18].position[1]]!='0'){
                     blocked=true;
                     break;
@@ -317,7 +315,7 @@ void checkLionEat(char color){
             return;
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
-            for(int i=BlackPieces[18].position[0]-2; i>1;i--){
+            for(int i=BlackPieces[18].position[0]-2; i>l;i--){
                 if(board[i][BlackPieces[18].position[1]]!='0'){
                     blocked=true;
                     break;
@@ -404,9 +402,9 @@ void resetBoard(){
 
 char readFENString(string fen){
     int curRank = 7;
-    stringstream ss(fen);
     string boardSetup;
     string color;
+    stringstream ss(fen);
     getline(ss, boardSetup, ' ');
     getline(ss, color, ' ');
     nextMove = color[0];
@@ -779,6 +777,7 @@ int main() {
 
         if(i!=N-1){
             output1+="\n\n";
+            //outputLion+="\n";
             if(WhitePieces[18].availMoves.size()!=0 && nextMove==WHITE) outputLion+="\n";
             if(BlackPieces[18].availMoves.size()!=0 && nextMove==BLACK) outputLion+="\n";
         }
