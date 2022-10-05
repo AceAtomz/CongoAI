@@ -780,9 +780,7 @@ int main() {
 
         if(i!=N-1){
             output1+="\n\n";
-            //outputLion+="\n";
-            if(WhitePieces[18].availMoves.size()!=0 && nextMove==WHITE) outputLion+="\n";
-            if(BlackPieces[18].availMoves.size()!=0 && nextMove==BLACK) outputLion+="\n";
+            outputLion+="\n";
         }
         //printBoard();
     }
