@@ -50,19 +50,18 @@ public:
     }
 
     //Remove own pieces from avail moves list
-    void getOwnPieces(vector<pair<int, int>> out, char color){
+    vector<pair<int, int>> getOwnPieces(vector<pair<int, int>> out, char color){
         vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
         vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
+        vector<pair<int, int>> newAvailMoves;
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
                 if(board[out[i].second-1][out[i].first]!='0'){
                     for(int j=0;j<BP.size();j++){
                         if(board[out[i].second-1][out[i].first]==BP[j]){
-                            auto it = out.begin();
-                            it+=i;
-                            out.erase(it);
+                            notAvailMoves.push_back({out[i].first, out[i].second});
                             break;
                         }
                     }
@@ -70,13 +69,10 @@ public:
             }
         }else{
             for(int i=0;i<out.size();i++){
-                cout << out[i].second-1 << "+" << out[i].first << " " << board[out[i].second-1][out[i].first] << out.size()<<endl;
                 if(board[out[i].second-1][out[i].first]!='0'){
                     for(int j=0;j<WP.size();j++){
                         if(board[out[i].second-1][out[i].first]==WP[j]){
-                            /*auto it = out.begin();
-                            it+=i;
-                            out.erase(it);*/
+                            notAvailMoves.push_back({out[i].first, out[i].second});
                             break;
                         }
                     }
@@ -85,9 +81,16 @@ public:
         }
 
         for(int i=0; i<out.size();i++){
-            cout << convertFile(out[i].first) << out[i].second << " ";
+            bool flag = false;
+            for(int j=0; j<notAvailMoves.size();j++){
+                if(out[i]==notAvailMoves[j]) flag=true;
+            }
+            if(!flag){
+                newAvailMoves.push_back(out[i]);
+            }
         }
-        cout << endl;
+
+        return newAvailMoves;
     }
 
     //piece specific stuff
@@ -96,11 +99,6 @@ public:
             if(color==nextMove){
                 if(position[1]==allMoves[i].first){ // if in same column
                     if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
-                        //if(){
-                            //TODO: Make a 2D matrix of the board
-                            //check if space is 0 (empty)
-                            //check if space is enemy color
-                        //}
                         availMoves.push_back(allMoves[i]);
                     }
                 }
@@ -124,7 +122,7 @@ public:
                 }
             }
         }
-        getOwnPieces(availMoves,nextMove);
+        availMoves = getOwnPieces(availMoves,nextMove);
     }
 
 protected:
@@ -441,7 +439,6 @@ char readFENString(string fen){
                     BlackPieces[18].setAlive(true);
                     BlackPieces[18].setPosition({curRank, curFile});
                     board[curRank-1][curFile] = 'l';
-                    BlackPieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
                 }
@@ -449,7 +446,6 @@ char readFENString(string fen){
                     WhitePieces[18].setAlive(true);
                     WhitePieces[18].setPosition({curRank, curFile});
                     board[curRank-1][curFile] = 'L';
-                    WhitePieces[18].setAvailLionMoves();
                     curFile++;
                     continue;
                 }
@@ -485,6 +481,10 @@ char readFENString(string fen){
         }
         curRank--;
     }
+
+    WhitePieces[18].setAvailLionMoves();
+    BlackPieces[18].setAvailLionMoves();
+
     return nextMove;
 }
 
@@ -642,9 +642,29 @@ void printBoard(){
     }
 }
 
+string printLionMoves(){
+    string out = "";
+    if(nextMove==WHITE){
+        Piece L = WhitePieces[18];
+        for(int i=0; i<L.availMoves.size();i++){
+            out += convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second);
+            if(i!=L.availMoves.size()-1) out+= " ";
+        }
+    }else{
+        Piece L = BlackPieces[18];
+        for(int i=0; i<BlackPieces[18].availMoves.size();i++){
+            out += convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second);
+            if(i!=L.availMoves.size()-1) out+= " ";
+        }
+    }
+
+    return out;
+}
+
 int main() {
     setupPieces();
-    string output="";
+    string output1="";
+    string outputLion="";
     int N;
     cin >> N;
     cin.ignore(); //NB!
@@ -652,13 +672,22 @@ int main() {
         resetBoard();
         string fen;
         getline(cin, fen);
+
+        //Sub1 stuff
         char col = readFENString(fen);
-        output+=printFENString(col);
-        //output+="\n";
-        if(i!=N-1) output+="\n\n";
+        output1+=printFENString(col);
+
+        //Sub2 stuff
+        outputLion+=printLionMoves();
+
+        if(i!=N-1){
+          output1+="\n\n";
+          outputLion+="\n";
+        }
     }
-    //cout << output;
-    printBoard();
+    //cout << output1;
+    //printBoard();
+    cout << outputLion << endl;
 
     return 0;
 }
