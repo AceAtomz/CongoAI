@@ -267,6 +267,12 @@ vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) el
 vector<Piece> WhitePieces;
 
 void checkLionEat(char color){
+    if(!WhitePieces[18].alive || !BlackPieces[18].alive){
+        WhitePieces[18].availMoves.clear();
+        BlackPieces[18].availMoves.clear();
+        return;
+    }
+
     int l = BlackPieces[18].position[0] - WhitePieces[18].position[0]; //length between 2 lions
     bool blocked = false; //blocked flag variable
     if(color==WHITE){
@@ -282,14 +288,15 @@ void checkLionEat(char color){
                 return;
             }
         }
-        for(int i=WhitePieces[18].position[0]; i<l;i++){
-
-            if(board[i][WhitePieces[18].position[1]]!='0'){
-                blocked=true;
-                break;
+        if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
+            for(int i=WhitePieces[18].position[0]; i<l;i++){
+                if(board[i][WhitePieces[18].position[1]]!='0'){
+                    blocked=true;
+                    break;
+                }
             }
+            if(!blocked)  WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
         }
-        if(!blocked)  WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
     }else{
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4){
@@ -307,13 +314,15 @@ void checkLionEat(char color){
             BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
             return;
         }
-        for(int i=BlackPieces[18].position[0]-2; i>1;i--){
-            if(board[i][BlackPieces[18].position[1]]!='0'){
-                blocked=true;
-                break;
+        if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
+            for(int i=BlackPieces[18].position[0]-2; i>1;i--){
+                if(board[i][BlackPieces[18].position[1]]!='0'){
+                    blocked=true;
+                    break;
+                }
             }
+            if(!blocked)  BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
         }
-        if(!blocked)  BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
     }
 }
 
@@ -357,8 +366,8 @@ void setupPieces(){
     WhitePieces.push_back(ew2);
 
     //Lion
-    Lion lb({7,3}, BLACK);
-    Lion lw({0,3}, WHITE);
+    Lion lb({0,0}, BLACK); //7,3
+    Lion lw({0,0}, WHITE); //0,3
     BlackPieces.push_back(lb);
     WhitePieces.push_back(lw);
 
