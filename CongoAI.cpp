@@ -289,7 +289,9 @@ void checkLionEat(char color){
             }
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
-            for(int i=WhitePieces[18].position[0]; i<l;i++){
+        cout << WhitePieces[18].position[0] << " " << WhitePieces[18].position[1] << "  " << BlackPieces[18].position[0] << " " << BlackPieces[18].position[1] << endl;
+        cout << l << endl;
+            for(int i=WhitePieces[18].position[0]; i<l+WhitePieces[18].position[0];i++){
                 if(board[i][WhitePieces[18].position[1]]!='0'){
                     blocked=true;
                     break;
