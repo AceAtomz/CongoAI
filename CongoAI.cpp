@@ -282,6 +282,10 @@ void checkLionEat(char color){
                 return;
             }
         }
+        if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2){
+            WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+            return;
+        }
         for(int i=WhitePieces[18].position[0]; i<l;i++){
 
             if(board[i][WhitePieces[18].position[1]]!='0'){
@@ -303,8 +307,11 @@ void checkLionEat(char color){
                 return;
             }
         }
+        if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2){
+            BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+            return;
+        }
         for(int i=BlackPieces[18].position[0]-2; i>1;i--){
-            cout << i << " " << board[i][WhitePieces[18].position[1]] << endl;
             if(board[i][BlackPieces[18].position[1]]!='0'){
                 blocked=true;
                 break;
