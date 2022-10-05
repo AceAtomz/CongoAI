@@ -283,6 +283,7 @@ void checkLionEat(char color){
             }
         }
         for(int i=WhitePieces[18].position[0]; i<l;i++){
+
             if(board[i][WhitePieces[18].position[1]]!='0'){
                 blocked=true;
                 break;
@@ -302,7 +303,8 @@ void checkLionEat(char color){
                 return;
             }
         }
-        for(int i=BlackPieces[18].position[0]; i<l;i++){
+        for(int i=BlackPieces[18].position[0]-2; i>1;i--){
+            cout << i << " " << board[i][WhitePieces[18].position[1]] << endl;
             if(board[i][BlackPieces[18].position[1]]!='0'){
                 blocked=true;
                 break;
@@ -765,9 +767,10 @@ int main() {
           output1+="\n\n";
           outputLion+="\n";
         }
+        //printBoard();
     }
     //cout << output1;
-    //printBoard();
+
     cout << outputLion << endl;
 
     return 0;
