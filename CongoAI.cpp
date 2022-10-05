@@ -247,9 +247,21 @@ vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) el
 vector<Piece> WhitePieces;
 
 void checkLionEat(char color){
-    int l = BlackPieces[18].position[0] - WhitePieces[18].position[0]-1;
-    bool blocked = false;
+    int l = BlackPieces[18].position[0] - WhitePieces[18].position[0]; //length between 2 lions
+    bool blocked = false; //blocked flag variable
     if(color==WHITE){
+        if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4){
+                WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                return;
+            }
+        }
+        if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2){
+                WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                return;
+            }
+        }
         for(int i=WhitePieces[18].position[0]; i<l;i++){
             if(board[i][WhitePieces[18].position[1]]!='0'){
                 blocked=true;
@@ -258,6 +270,18 @@ void checkLionEat(char color){
         }
         if(!blocked)  WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
     }else{
+        if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4){
+                BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                return;
+            }
+        }
+        if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
+            if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2){
+                BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                return;
+            }
+        }
         for(int i=BlackPieces[18].position[0]; i<l;i++){
             if(board[i][BlackPieces[18].position[1]]!='0'){
                 blocked=true;
@@ -672,6 +696,7 @@ string printLionMoves(){
     vector<string> sorted;
     if(nextMove==WHITE){
         Piece L = WhitePieces[18];
+        if(L.availMoves.size()==0) return out;
         for(int i=0; i<L.availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
@@ -683,6 +708,7 @@ string printLionMoves(){
         }
     }else{
         Piece L = BlackPieces[18];
+        if(L.availMoves.size()==0) return out;
         for(int i=0; i<BlackPieces[18].availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
