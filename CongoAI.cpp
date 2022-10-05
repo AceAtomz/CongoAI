@@ -55,7 +55,7 @@ public:
         vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
         vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
-        vector<pair<int, int>> newAvailMoves;
+        vector<pair<int, int>> newAvailMoves(availMoves.begin(), availMoves.end());
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
@@ -90,6 +90,11 @@ public:
                 newAvailMoves.push_back(out[i]);
             }
         }
+        cout << newAvailMoves.size() << " " << availMoves.size() << endl;
+        /*
+        for(int i=0;i<newAvailMoves.size();i++){
+            cout << newAvailMoves[i].first << newAvailMoves[i].second << endl;
+        }*/
 
         return newAvailMoves;
     }
@@ -165,11 +170,10 @@ public:
                 if(position[0]-1>=1) availMoves.push_back({position[1]+2,position[0]-1});
                 if(position[0]+1<=7) availMoves.push_back({position[1]+2,position[0]+1});
             }
-
-            /*for(int i=0;i<availMoves.size();i++){
+            /*
+            for(int i=0;i<availMoves.size();i++){
                 cout << convertFile(availMoves[i].first) << availMoves[i].second << endl;
             }*/
-            //cout << board[availMoves[1].first][availMoves[1].second-1] << " " << board[availMoves[1].second-1][availMoves[1].first] << endl;
             availMoves = getOwnPieces(availMoves,nextMove);
 
         }
