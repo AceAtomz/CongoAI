@@ -282,10 +282,6 @@ void checkLionEat(char color){
                 return;
             }
         }
-        if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2){
-            WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
-            return;
-        }
         for(int i=WhitePieces[18].position[0]; i<l;i++){
 
             if(board[i][WhitePieces[18].position[1]]!='0'){
