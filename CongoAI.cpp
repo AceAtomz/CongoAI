@@ -61,10 +61,6 @@ public:
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
-                if(out[i].first==0){
-                    notAvailMoves.push_back({out[i].first, out[i].second});
-                    continue;
-                }
                 if(board[out[i].second-1][out[i].first]!='0'){
                     for(int j=0;j<BP.size();j++){
                         if(board[out[i].second-1][out[i].first]==BP[j]){
