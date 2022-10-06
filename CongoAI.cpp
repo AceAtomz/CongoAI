@@ -55,12 +55,13 @@ public:
         vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
         vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
-        vector<pair<int, int>> newAvailMoves(allMoves.begin(),allMoves.end());
+        vector<pair<int, int>> newAvailMoves;
         notAvailMoves.clear();
         newAvailMoves.clear();
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
+                    cout << out[i].first << " " << out[i].second << endl;
                 if(board[out[i].second-1][out[i].first]!='0'){
                     for(int j=0;j<BP.size();j++){
                         if(board[out[i].second-1][out[i].first]==BP[j]){
@@ -82,6 +83,7 @@ public:
                 }
             }
         }
+
 
         for(int i=0; i<out.size();i++){
             bool flag = false;
