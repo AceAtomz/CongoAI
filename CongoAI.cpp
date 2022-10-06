@@ -55,7 +55,9 @@ public:
         vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
         vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
-        vector<pair<int, int>> newAvailMoves(availMoves.begin(), availMoves.end());
+        vector<pair<int, int>> newAvailMoves(allMoves.begin(),allMoves.end());
+        notAvailMoves.clear();
+        newAvailMoves.clear();
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
@@ -90,11 +92,6 @@ public:
                 newAvailMoves.push_back(out[i]);
             }
         }
-        cout << newAvailMoves.size() << " " << availMoves.size() << endl;
-        /*
-        for(int i=0;i<newAvailMoves.size();i++){
-            cout << newAvailMoves[i].first << newAvailMoves[i].second << endl;
-        }*/
 
         return newAvailMoves;
     }
