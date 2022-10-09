@@ -603,6 +603,7 @@ char readFENString(string fen){
 
 vector<string> sortPiece(vector<string> pieces){
     vector<pair<char, int>> temp;
+    if(pieces.size()==0) return pieces;
     for(int i=0; i<pieces.size();i++){
         temp.push_back(pair<char, int>(pieces[i][0], pieces[i][1]-'0'));
     }
@@ -612,7 +613,6 @@ vector<string> sortPiece(vector<string> pieces){
     for(int i=0; i<pieces.size();i++){
         out.push_back(temp[i].first + to_string(temp[i].second));
     }
-
     return out;
 }
 
@@ -791,28 +791,28 @@ string printZebraMoves(){
     string out = "";
     vector<string> sorted;
     sorted.clear();
+
     if(nextMove==WHITE){
-        Piece L = WhitePieces[20];
-        if(L.availMoves.size()==0) return out;
-        for(int i=0; i<L.availMoves.size();i++){
-            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-            //cout << "pre sort " << sorted[i]
+        Piece Z = WhitePieces[20];
+        if(Z.availMoves.size()==0) return out;
+        for(int i=0; i<Z.availMoves.size();i++){
+            sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
         }
 
         sorted = sortPiece(sorted);
         for(int i=0;i<sorted.size();i++){
-            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
             if(i!=sorted.size()-1) out+= " ";
         }
     }else{
-        Piece L = BlackPieces[20];
-        if(L.availMoves.size()==0) return out;
-        for(int i=0; i<BlackPieces[18].availMoves.size();i++){
-            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        Piece z = BlackPieces[20];
+        if(z.availMoves.size()==0) return out;
+        for(int i=0; i<BlackPieces[20].availMoves.size();i++){
+            sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
         }
         sorted = sortPiece(sorted);
         for(int i=0;i<sorted.size();i++){
-            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
+            out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
             if(i!=sorted.size()-1) out+= " ";
         }
     }
@@ -835,7 +835,7 @@ int main() {
 
         //Sub1 stuff
         char col = readFENString(fen);
-        printBoard();
+        //printBoard();
         output1+=printFENString(col);
 
         //Sub2 stuff
