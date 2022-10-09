@@ -151,29 +151,25 @@ public:
         }
     }
     void setAvailZebraMoves(){
+        allMoves.clear();
         if(color==nextMove){
             if(position[0]-2>=1){
-                if(position[1]-1>=0) availMoves.push_back({position[1]-1,position[0]-2});
-                if(position[1]+1<=6) availMoves.push_back({position[1]+1,position[0]-2});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-2});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-2});
             }
             if(position[0]+2<=7){
-                if(position[1]-1>=0) availMoves.push_back({position[1]-1,position[0]+2});
-                if(position[1]+1<=6) availMoves.push_back({position[1]+1,position[0]+2});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+2});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+2});
             }
             if(position[1]-2>=0){
-                if(position[0]-1>=1) availMoves.push_back({position[1]-2,position[0]-1});
-                if(position[0]+1<=7) availMoves.push_back({position[1]-2,position[0]+1});
+                if(position[0]-1>=1) allMoves.push_back({position[1]-2,position[0]-1});
+                if(position[0]+1<=7) allMoves.push_back({position[1]-2,position[0]+1});
             }
             if(position[1]+2<=6){
-                if(position[0]-1>=1) availMoves.push_back({position[1]+2,position[0]-1});
-                if(position[0]+1<=7) availMoves.push_back({position[1]+2,position[0]+1});
+                if(position[0]-1>=1) allMoves.push_back({position[1]+2,position[0]-1});
+                if(position[0]+1<=7) allMoves.push_back({position[1]+2,position[0]+1});
             }
-            /*
-            for(int i=0;i<availMoves.size();i++){
-                cout << convertFile(availMoves[i].first) << availMoves[i].second << endl;
-            }*/
-            availMoves = getOwnPieces(availMoves,nextMove);
-
+            availMoves = getOwnPieces(allMoves,nextMove);
         }
     }
 
@@ -794,11 +790,13 @@ string printLionMoves(){
 string printZebraMoves(){
     string out = "";
     vector<string> sorted;
+    sorted.clear();
     if(nextMove==WHITE){
         Piece L = WhitePieces[20];
         if(L.availMoves.size()==0) return out;
         for(int i=0; i<L.availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+            //cout << "pre sort " << sorted[i]
         }
 
         sorted = sortPiece(sorted);
@@ -837,7 +835,7 @@ int main() {
 
         //Sub1 stuff
         char col = readFENString(fen);
-        //printBoard();
+        printBoard();
         output1+=printFENString(col);
 
         //Sub2 stuff
