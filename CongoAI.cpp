@@ -168,7 +168,6 @@ public:
             availMoves = getOwnPieces(allMoves,nextMove);
         }
     }
-
     void setAvailGiraffeMoves(){
         if(color==nextMove){
             if(position[0]-1>=1){
@@ -940,10 +939,8 @@ int main() {
             output1+="\n\n";
             output2+="\n";
         }
-
     }
     //cout << output1;
-
     cout << output2;
 
     return 0;
