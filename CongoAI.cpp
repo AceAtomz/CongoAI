@@ -11,6 +11,7 @@ using namespace std;
 char nextMove;
 vector<vector<char>> board;
 void checkLionEat(char color);
+vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
 
 char convertFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
@@ -170,22 +171,6 @@ public:
 
     void setAvailGiraffeMoves(){
         if(color==nextMove){
-            if(position[0]-2>=1){
-                allMoves.push_back({position[1],position[0]-2});
-                if(position[1]-2>=0) allMoves.push_back({position[1]-2,position[0]-2});
-                if(position[1]+2<=6) allMoves.push_back({position[1]+2,position[0]-2});
-            }
-            if(position[0]+2<=7){
-                allMoves.push_back({position[1],position[0]+2});
-                if(position[1]-2>=0) allMoves.push_back({position[1]-2,position[0]+2});
-                if(position[1]+2<=6) allMoves.push_back({position[1]+2,position[0]+2});
-            }
-            if(position[1]-2>=0){
-                allMoves.push_back({position[1]-2,position[0]});
-            }
-            if(position[1]+2<=6){
-                allMoves.push_back({position[1]+2,position[0]});
-            }
             if(position[0]-1>=1){
                 allMoves.push_back({position[1],position[0]-1});
                 if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
@@ -202,7 +187,26 @@ public:
             if(position[1]+1<=6){
                 allMoves.push_back({position[1]+1,position[0]});
             }
-            availMoves = getOwnPieces(allMoves,nextMove);
+            availMoves = checkGiraffeEat(allMoves,nextMove);
+
+            if(position[0]-2>=1){
+                availMoves.push_back({position[1],position[0]-2});
+                if(position[1]-2>=0) availMoves.push_back({position[1]-2,position[0]-2});
+                if(position[1]+2<=6) availMoves.push_back({position[1]+2,position[0]-2});
+            }
+            if(position[0]+2<=7){
+                availMoves.push_back({position[1],position[0]+2});
+                if(position[1]-2>=0) availMoves.push_back({position[1]-2,position[0]+2});
+                if(position[1]+2<=6) availMoves.push_back({position[1]+2,position[0]+2});
+            }
+            if(position[1]-2>=0){
+                availMoves.push_back({position[1]-2,position[0]});
+            }
+            if(position[1]+2<=6){
+                availMoves.push_back({position[1]+2,position[0]});
+            }
+
+            availMoves = getOwnPieces(availMoves,nextMove);
         }
     }
 
@@ -384,6 +388,28 @@ void checkLionEat(char color){
     }
 }
 
+vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color){
+        vector<pair<int, int>> notAvailMoves;
+        vector<pair<int, int>> newAvailMoves;
+
+        for(int i=0;i<out.size();i++){
+            if(board[out[i].second-1][out[i].first]!='0'){
+                notAvailMoves.push_back({out[i].first, out[i].second});
+            }
+        }
+
+        for(int i=0; i<out.size();i++){
+            bool flag = false;
+            for(int j=0; j<notAvailMoves.size();j++){
+                if(out[i]==notAvailMoves[j]) flag=true;
+            }
+            if(!flag){
+                newAvailMoves.push_back(out[i]);
+            }
+        }
+        return newAvailMoves;
+    }
+
 void setupPieces(){
     //Pawns
     for(int i=0;i<7;i++){
@@ -448,8 +474,10 @@ void setupPieces(){
 void resetBoard(){
     for(int i=0;i<21;i++){
         WhitePieces[i].setAlive(false);
+        WhitePieces[i].allMoves.clear();
         WhitePieces[i].availMoves.clear();
         BlackPieces[i].setAlive(false);
+        BlackPieces[i].allMoves.clear();
         BlackPieces[i].availMoves.clear();
     }
 
