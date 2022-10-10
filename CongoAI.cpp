@@ -168,6 +168,44 @@ public:
         }
     }
 
+    void setAvailGiraffeMoves(){
+        if(color==nextMove){
+            if(position[0]-2>=1){
+                allMoves.push_back({position[1],position[0]-2});
+                if(position[1]-2>=0) allMoves.push_back({position[1]-2,position[0]-2});
+                if(position[1]+2<=6) allMoves.push_back({position[1]+2,position[0]-2});
+            }
+            if(position[0]+2<=7){
+                allMoves.push_back({position[1],position[0]+2});
+                if(position[1]-2>=0) allMoves.push_back({position[1]-2,position[0]+2});
+                if(position[1]+2<=6) allMoves.push_back({position[1]+2,position[0]+2});
+            }
+            if(position[1]-2>=0){
+                allMoves.push_back({position[1]-2,position[0]});
+            }
+            if(position[1]+2<=6){
+                allMoves.push_back({position[1]+2,position[0]});
+            }
+            if(position[0]-1>=1){
+                allMoves.push_back({position[1],position[0]-1});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
+            }
+            if(position[0]+1<=7){
+                allMoves.push_back({position[1],position[0]+1});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+1});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1});
+            }
+            if(position[1]-1>=0){
+                allMoves.push_back({position[1]-1,position[0]});
+            }
+            if(position[1]+1<=6){
+                allMoves.push_back({position[1]+1,position[0]});
+            }
+            availMoves = getOwnPieces(allMoves,nextMove);
+        }
+    }
+
 protected:
     void setFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
@@ -588,6 +626,8 @@ char readFENString(string fen){
         curRank--;
     }
 
+    if(WhitePieces[14].alive) WhitePieces[14].setAvailGiraffeMoves();
+    if(BlackPieces[14].alive) BlackPieces[14].setAvailGiraffeMoves();
     WhitePieces[18].setAvailLionMoves();
     BlackPieces[18].setAvailLionMoves();
     if(WhitePieces[20].alive) WhitePieces[20].setAvailZebraMoves();
@@ -598,7 +638,6 @@ char readFENString(string fen){
 
 vector<string> sortPiece(vector<string> pieces){
     vector<pair<char, int>> temp;
-    if(pieces.size()==0) return pieces;
     for(int i=0; i<pieces.size();i++){
         temp.push_back(pair<char, int>(pieces[i][0], pieces[i][1]-'0'));
     }
@@ -768,7 +807,7 @@ string printLionMoves(){
     }else{
         Piece L = BlackPieces[18];
         if(L.availMoves.size()==0) return out;
-        for(int i=0; i<BlackPieces[18].availMoves.size();i++){
+        for(int i=0; i<L.availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
         sorted = sortPiece(sorted);
@@ -801,7 +840,7 @@ string printZebraMoves(){
     }else{
         Piece z = BlackPieces[20];
         if(z.availMoves.size()==0) return out;
-        for(int i=0; i<BlackPieces[20].availMoves.size();i++){
+        for(int i=0; i<z.availMoves.size();i++){
             sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
         }
         sorted = sortPiece(sorted);
@@ -813,6 +852,39 @@ string printZebraMoves(){
 
     return out;
 }
+
+string printGiraffeMoves(){
+    string out = "";
+    vector<string> sorted;
+
+    if(nextMove==WHITE){
+        Piece Z = WhitePieces[14];
+        if(Z.availMoves.size()==0) return out;
+        for(int i=0; i<Z.availMoves.size();i++){
+            sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
+        }
+
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
+        }
+    }else{
+        Piece z = BlackPieces[14];
+        if(z.availMoves.size()==0) return out;
+        for(int i=0; i<z.availMoves.size();i++){
+            sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
+        }
+        sorted = sortPiece(sorted);
+        for(int i=0;i<sorted.size();i++){
+            out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
+            if(i!=sorted.size()-1) out+= " ";
+        }
+    }
+
+    return out;
+}
+
 
 int main() {
     setupPieces();
@@ -833,7 +905,8 @@ int main() {
 
         //Sub2 stuff
         //output2+=printLionMoves();
-        output2+=printZebraMoves();
+        //output2+=printZebraMoves();
+        output2+=printGiraffeMoves();
 
         if(i!=N-1){
             output1+="\n\n";
