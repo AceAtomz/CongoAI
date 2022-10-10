@@ -56,8 +56,6 @@ public:
         vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
         vector<pair<int, int>> newAvailMoves;
-        notAvailMoves.clear();
-        newAvailMoves.clear();
 
         if(color==BLACK){
             for(int i=0;i<out.size();i++){
@@ -83,7 +81,6 @@ public:
             }
         }
 
-
         for(int i=0; i<out.size();i++){
             bool flag = false;
             for(int j=0; j<notAvailMoves.size();j++){
@@ -93,7 +90,6 @@ public:
                 newAvailMoves.push_back(out[i]);
             }
         }
-
         return newAvailMoves;
     }
 
@@ -151,7 +147,6 @@ public:
         }
     }
     void setAvailZebraMoves(){
-        allMoves.clear();
         if(color==nextMove){
             if(position[0]-2>=1){
                 if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-2});
@@ -790,7 +785,6 @@ string printLionMoves(){
 string printZebraMoves(){
     string out = "";
     vector<string> sorted;
-    sorted.clear();
 
     if(nextMove==WHITE){
         Piece Z = WhitePieces[20];
@@ -816,7 +810,6 @@ string printZebraMoves(){
             if(i!=sorted.size()-1) out+= " ";
         }
     }
-    sorted.clear();
 
     return out;
 }
