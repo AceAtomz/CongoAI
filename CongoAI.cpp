@@ -13,6 +13,7 @@ vector<vector<char>> board;
 void checkLionEat(char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
 void sortPawns(char color);
+void sortSuperPawns(char color);
 
 char convertFile(int newFile){
         vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
@@ -209,7 +210,6 @@ public:
             availMoves = getOwnPieces(availMoves,nextMove);
         }
     }
-
     void setAvailPawnMoves(){
         if(color==nextMove){
             if(color==WHITE){
@@ -236,7 +236,62 @@ public:
             availMoves = getOwnPieces(allMoves,nextMove);
         }
     }
+    void setAvailSuperPawnMoves(){
+        if(color==nextMove){
+            if(color==WHITE){
+                if(position[0]+1<=7){ //1 forward
+                    allMoves.push_back({position[1],position[0]+1});
+                    if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+1}); //1 forward 1 left
+                    if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1}); //1 forward 1 right
+                }
+                if(position[1]-1>=0){
+                    allMoves.push_back({position[1]-1,position[0]}); //1 left
+                }
+                if(position[1]+1<=6){
+                    allMoves.push_back({position[1]+1,position[0]}); //1 right
+                }
+                if(position[0]-1>=1){ //1 move back on board
+                    if(board[position[0]-2][position[1]]=='0'){
+                        allMoves.push_back({position[1],position[0]-1});//1 move back empty
+                    }
+                    if(position[1]-1>=0){//1 back 1 left on board
+                        if(board[position[0]-2][position[1]-1]=='0') allMoves.push_back({position[1]-1,position[0]-1});//1 back 1 left empty
+                    }
+                    if(position[1]+1<=6){//1 back 1 right on board
+                        if(board[position[0]-2][position[1]+1]=='0') allMoves.push_back({position[1]+1,position[0]-1});//1 back 1 right empty
+                    }
+                }
 
+                if(position[0]-2>=1){ //2 back on board
+                    if(board[position[0]-3][position[1]]=='0' && board[position[0]-2][position[1]]=='0') allMoves.push_back({position[1],position[0]-2});//2 back empty
+
+                    if(position[1]-2>=0){//2 back 2 left on board
+                        if(board[position[0]-3][position[1]-2]=='0' && board[position[0]-2][position[1]-1]=='0') allMoves.push_back({position[1]-2,position[0]-2});//2 back 2 left empty
+                    }
+                    if(position[1]+2>=0){//2 back 2 right on board
+                        if(board[position[0]-3][position[1]+2]=='0' && board[position[0]-2][position[1]+1]=='0') allMoves.push_back({position[1]+2,position[0]-2});//2 back 2 right empty
+                    }
+                }
+            }else{
+                if(position[0]-1>=1){
+                    allMoves.push_back({position[1],position[0]-1});
+                    if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
+                    if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
+                }
+                if(position[1]-1>=0){
+                    allMoves.push_back({position[1]-1,position[0]});
+                }
+                if(position[1]+1<=6){
+                    allMoves.push_back({position[1]+1,position[0]});
+                }
+                if(position[0]<4){
+                    if(board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+1});
+                    if(board[position[0]+1][position[1]]=='0' && board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+2});
+                }
+            }
+            availMoves = getOwnPieces(allMoves,nextMove);
+        }
+    }
 
 protected:
     void setFile(int newFile){
@@ -681,17 +736,21 @@ char readFENString(string fen){
         }
         curRank--;
     }
-
+    sortPawns(nextMove);
+    sortSuperPawns(nextMove);
     if(WhitePieces[14].alive) WhitePieces[14].setAvailGiraffeMoves();
     if(BlackPieces[14].alive) BlackPieces[14].setAvailGiraffeMoves();
     WhitePieces[18].setAvailLionMoves();
     BlackPieces[18].setAvailLionMoves();
     if(WhitePieces[20].alive) WhitePieces[20].setAvailZebraMoves();
     if(BlackPieces[20].alive) BlackPieces[20].setAvailZebraMoves();
-    sortPawns(nextMove);
     for(int a=0;a<7;a++){
         if(WhitePieces[a].alive) WhitePieces[a].setAvailPawnMoves();
         if(BlackPieces[a].alive) BlackPieces[a].setAvailPawnMoves();
+    }
+    for(int a=7;a<14;a++){
+        if(WhitePieces[a].alive) WhitePieces[a].setAvailSuperPawnMoves();
+        if(BlackPieces[a].alive) BlackPieces[a].setAvailSuperPawnMoves();
     }
 
     return nextMove;
@@ -995,6 +1054,55 @@ void sortPawns(char color){
     }
 }
 
+void sortSuperPawns(char color){
+    vector<Piece> TempPawns;
+    vector<string> sorted;
+
+    if(color==WHITE){
+        for(int j=7;j<14;j++){ //sorts pawns by starting position
+            Piece Z = WhitePieces[j];
+            if(!Z.alive) break;
+            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
+        }
+        sorted = sortPiece(sorted);
+
+        for(int j=0;j<sorted.size();j++){
+            for(int i=7;i<14;i++){
+                if(!WhitePieces[i].alive) break;
+                string pawnPosTemp = convertFile(WhitePieces[i].position[1]) + to_string(WhitePieces[i].position[0]);
+                if(pawnPosTemp==sorted[j]){
+                    TempPawns.push_back(WhitePieces[i]);
+                }
+            }
+        }
+
+        for(int i=7;i<TempPawns.size()+7;i++){
+            WhitePieces[i] = TempPawns[i-7];
+        }
+    }else{
+        for(int j=7;j<14;j++){ //sorts pawns by starting position
+            Piece Z = BlackPieces[j];
+            if(!Z.alive) break;
+            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
+        }
+        sorted = sortPiece(sorted);
+
+        for(int j=0;j<sorted.size();j++){
+            for(int i=7;i<14;i++){
+                if(!BlackPieces[i].alive) break;
+                string pawnPosTemp = convertFile(BlackPieces[i].position[1]) + to_string(BlackPieces[i].position[0]);
+                if(pawnPosTemp==sorted[j]){
+                    TempPawns.push_back(BlackPieces[i]);
+                }
+            }
+        }
+
+        for(int i=7;i<TempPawns.size()+7;i++){
+            BlackPieces[i] = TempPawns[i-7];
+        }
+    }
+}
+
 string printPawnMoves(){
     string out = "";
     vector<string> sorted;
@@ -1035,6 +1143,45 @@ string printPawnMoves(){
     return out;
 }
 
+string printSsperPawnMoves(){
+    string out = "";
+    vector<string> sorted;
+
+    if(nextMove==WHITE){
+        for(int j=7;j<14;j++){
+            sorted.clear();
+            Piece Z = WhitePieces[j];
+            if(Z.availMoves.size()==0) break; //if pawn is dead or has no avail moves
+            else if(j!=7 && j!=13)out+= " ";
+            for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
+                sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
+            }
+            sorted = sortPiece(sorted);
+
+            for(int i=0;i<sorted.size();i++){
+                out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
+                if(i!=sorted.size()-1) out+= " ";
+            }
+        }
+    }else{
+        for(int j=7;j<14;j++){
+            sorted.clear();
+            Piece z = BlackPieces[j];
+            if(z.availMoves.size()==0) break;
+            else if(j!=7 && j!=13)out+= " ";
+            for(int i=0; i<z.availMoves.size();i++){
+                sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
+            }
+            sorted = sortPiece(sorted);
+
+            for(int i=0;i<sorted.size();i++){
+                out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
+                if(i!=sorted.size()-1) out+= " ";
+            }
+        }
+    }
+    return out;
+}
 
 int main() {
     setupPieces();
@@ -1057,7 +1204,8 @@ int main() {
         //output2+=printLionMoves();
         //output2+=printZebraMoves();
         //output2+=printGiraffeMoves();
-        output2+=printPawnMoves();
+        //output2+=printPawnMoves();
+        output2+=printSsperPawnMoves();
 
         if(i!=N-1){
             output1+="\n\n";
