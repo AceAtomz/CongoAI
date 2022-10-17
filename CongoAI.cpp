@@ -219,9 +219,9 @@ public:
                     if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1});
                 }
                 if(position[0]>4){
-                    allMoves.push_back({position[1],position[0]-1});
-                    allMoves.push_back({position[1],position[0]-2});
-                }//TODO: check move back blocked
+                    if(board[position[0]-2][position[1]=='0') allMoves.push_back({position[1],position[0]-1});
+                    if(board[position[0]-3][position[1]=='0') allMoves.push_back({position[1],position[0]-2});
+                }
             }else{
                 if(position[0]-1>=1){
                     allMoves.push_back({position[1],position[0]-1});
@@ -229,25 +229,10 @@ public:
                     if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
                 }
                 if(position[0]<4){
-                    allMoves.push_back({position[1],position[0]+1});
-                    allMoves.push_back({position[1],position[0]+2});
+                    if(board[position[0]+2][position[1]=='0') allMoves.push_back({position[1],position[0]+1});
+                    if(board[position[0]+3][position[1]=='0') allMoves.push_back({position[1],position[0]+2});
                 }
             }
-            /*
-
-
-            if(position[0]+2<=7){
-                availMoves.push_back({position[1],position[0]+2});
-                if(position[1]-2>=0) availMoves.push_back({position[1]-2,position[0]+2});
-                if(position[1]+2<=6) availMoves.push_back({position[1]+2,position[0]+2});
-            }
-            if(position[1]-2>=0){
-                availMoves.push_back({position[1]-2,position[0]});
-            }
-            if(position[1]+2<=6){
-                availMoves.push_back({position[1]+2,position[0]});
-            }*/
-
             availMoves = getOwnPieces(allMoves,nextMove);
         }
     }
@@ -990,7 +975,7 @@ void sortPawns(char color){
         for(int j=0;j<7;j++){ //sorts pawns by starting position
             Piece Z = BlackPieces[j];
             if(!Z.alive) break;
-            sorted.push_back(convertFile(BlackPieces.position[1]) + to_string(BlackPieces.position[0]));
+            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
         }
         sorted = sortPiece(sorted);
 
