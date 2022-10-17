@@ -213,32 +213,29 @@ public:
     void setAvailPawnMoves(){
         if(color==nextMove){
             if(color==WHITE){
-                /*if(position[0]-1>=1){
-                    allMoves.push_back({position[1],position[0]-1});
-                    if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
-                    if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
-                }*/
                 if(position[0]+1<=7){
                     allMoves.push_back({position[1],position[0]+1});
                     if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+1});
                     if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1});
                 }
+                if(position[0]>4){
+                    allMoves.push_back({position[1],position[0]-1});
+                    allMoves.push_back({position[1],position[0]-2});
+                }//TODO: check move back blocked
+            }else{
+                if(position[0]-1>=1){
+                    allMoves.push_back({position[1],position[0]-1});
+                    if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
+                    if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
+                }
+                if(position[0]<4){
+                    allMoves.push_back({position[1],position[0]+1});
+                    allMoves.push_back({position[1],position[0]+2});
+                }
             }
             /*
 
-            if(position[1]-1>=0){
-                allMoves.push_back({position[1]-1,position[0]});
-            }
-            if(position[1]+1<=6){
-                allMoves.push_back({position[1]+1,position[0]});
-            }
-            availMoves = checkGiraffeEat(allMoves,nextMove);
 
-            if(position[0]-2>=1){
-                availMoves.push_back({position[1],position[0]-2});
-                if(position[1]-2>=0) availMoves.push_back({position[1]-2,position[0]-2});
-                if(position[1]+2<=6) availMoves.push_back({position[1]+2,position[0]-2});
-            }
             if(position[0]+2<=7){
                 availMoves.push_back({position[1],position[0]+2});
                 if(position[1]-2>=0) availMoves.push_back({position[1]-2,position[0]+2});
