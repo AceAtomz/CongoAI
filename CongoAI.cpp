@@ -251,9 +251,8 @@ public:
                     allMoves.push_back({position[1]+1,position[0]}); //1 right
                 }
                 if(position[0]-1>=1){ //1 move back on board
-                    if(board[position[0]-2][position[1]]=='0'){
-                        allMoves.push_back({position[1],position[0]-1});//1 move back empty
-                    }
+                    if(board[position[0]-2][position[1]]=='0') allMoves.push_back({position[1],position[0]-1});//1 move back empty
+
                     if(position[1]-1>=0){//1 back 1 left on board
                         if(board[position[0]-2][position[1]-1]=='0') allMoves.push_back({position[1]-1,position[0]-1});//1 back 1 left empty
                     }
@@ -268,11 +267,12 @@ public:
                     if(position[1]-2>=0){//2 back 2 left on board
                         if(board[position[0]-3][position[1]-2]=='0' && board[position[0]-2][position[1]-1]=='0') allMoves.push_back({position[1]-2,position[0]-2});//2 back 2 left empty
                     }
-                    if(position[1]+2>=0){//2 back 2 right on board
+                    if(position[1]+2<=6){//2 back 2 right on board
                         if(board[position[0]-3][position[1]+2]=='0' && board[position[0]-2][position[1]+1]=='0') allMoves.push_back({position[1]+2,position[0]-2});//2 back 2 right empty
                     }
                 }
             }else{
+
                 if(position[0]-1>=1){
                     allMoves.push_back({position[1],position[0]-1});
                     if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
@@ -284,9 +284,26 @@ public:
                 if(position[1]+1<=6){
                     allMoves.push_back({position[1]+1,position[0]});
                 }
-                if(position[0]<4){
-                    if(board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+1});
-                    if(board[position[0]+1][position[1]]=='0' && board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+2});
+                if(position[0]+1<=7){ //1 move back on board
+                    if(board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+1});//1 move back empty
+
+                    if(position[1]-1>=0){//1 back 1 left on board
+                        if(board[position[0]][position[1]-1]=='0') allMoves.push_back({position[1]-1,position[0]+1});//1 back 1 left empty
+                    }
+                    if(position[1]+1<=6){//1 back 1 right on board
+                        if(board[position[0]][position[1]+1]=='0') allMoves.push_back({position[1]+1,position[0]+1});//1 back 1 right empty
+                    }
+                }
+
+                if(position[0]+2<=7){ //2 back on board
+                    if(board[position[0]+1][position[1]]=='0' && board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+2});//2 back empty
+
+                    if(position[1]-2>=0){//2 back 2 left on board
+                        if(board[position[0]+1][position[1]-2]=='0' && board[position[0]][position[1]-1]=='0') allMoves.push_back({position[1]-2,position[0]+2});//2 back 2 left empty
+                    }
+                    if(position[1]+2<=6){//2 back 2 right on board
+                        if(board[position[0]+1][position[1]+2]=='0' && board[position[0]][position[1]+1]=='0') allMoves.push_back({position[1]+2,position[0]+2});//2 back 2 right empty
+                    }
                 }
             }
             availMoves = getOwnPieces(allMoves,nextMove);

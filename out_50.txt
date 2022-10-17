@@ -1,49 +1,49 @@
-e2e3 e2f3
-b3b2 b3b4 b3b5 b3c2 d6c5 d6d5 e5d4 e5e4 e5f4 g2f1 g2g1 g2g3 g4f3 g4g3
-b5a6 b5b3 b5b4 b5b6 b5c6 c5b6 c5c3 c5c4 c5c6 c5d6 e4d5 e4e5 e4f5
-e6d5 e6e5 e6f5
-a6a7 d4c5 d4e5 d5c6 d5d6 d5e6 g2f3 g2g3 g5f6 g5g6
-a2a1 a2b1 a3a4 a3b2 c5b4 c5c4 c5d4 e3d2 e3e2 e3e4 e3e5
-c3c4 c3d4 e3d4 e3e4 e3f4
-a5a4 a5b4 f6e5 f6f5 f6g5
-d3c4 d3d4 d3e4 g5f6 g5g3 g5g4 g5g6
-f3e2 f3f2 f3f4 f3f5 f3g2
-f3e4 f3f4 f3g4
-
-a5a6 a5b6 b3a4 b3b4 b3c4 b5a6 b5b4 b5b6 b5c6 c3b4 c3c4 c3d4 e2d3 e2e3 e2f3 f2e3 f2f3 f2g3
-f5e4 f5f4 f5g4
-d2c3 d2e3 d3c4 d3d4 e4d5 e4e5 e4f5
-f3e2 f3f2 f3f4 f3f5 f3g2 f6e5 f6f5 f6g5
-
-d2c1 d2d1 d2d3 d2d4 d2e1 d6c5 d6d5 d6e5 g6f5 g6g5
-a5a3 a5a4 a5a6 a5b6 e6d7 e6e4 e6e5 e6e7 e6f7 f4e5 f4f5 f4g5
-
-g5f6 g6f7 g6g7
-b3a2 b3b2 b3b4 b3c2 c5b4 c5c4 c5d4
-d3c4 d3d4 d3e4 e3d4 e3e4 e3f4
-d5c4 d5d4 d5e4
-e3d4 e3f4 f5e6 f5f3 f5f4 f5f6 g6f7 g6g4 g6g5 g6g7
-a6a5 a6b5 f6e5 f6f5 f6g5
-e6d7 e6e4 e6e5 e6e7 e6f7 g4f5 g4g5
-a3a2 a3a4 a3a5 a3b2 d6d5 d6e5
-
-a3a2 a3a4 a3a5 a3b2 c5b4 c5c4 c5d4 e2d1 e2e1 e2e3 e2f1 e4d3 e4e3 e5d4 e5f4 f3f2 f3f4 f3g2g3f2 g3g2 g3g4 g3g5
-
-c2b1 c2c1 c2c3 c2c4 c2d1
-c3b4 c3d4 c5b6 c5c6 c5d6
-a3a4 a3b2 b6a5 b6b5 b6c5 d6c5 d6e5 g2f1 g2g1 g2g3 g4f3 g4g3
-g2f3 g2g3 g5f6 g5g3 g5g4 g5g6
-a2a1 a2a3 a2a4 a2b1
-b6a7 b6b4 b6b5 b6b7 b6c7 c2b3 c6b7 c6c4 c6c5 c6c7 c6d7 d3c4 d3d4 f5e6 f5f3 f5f4 f5f6 f5g6
-a3a2 b2a1 b2b3 b2b4 b2c1 d2c1 d2d1 d2e1 e5d4 e5e4 e5f4 g2f1 g2g1 g2g3 g2g4
+d3b1 d3c2 d3c4 d3d1 d3d2 d3d4 d3e3 d3e4
+a2a1 a2a3 a2a4 a2b1 a2b2
 
 
-e5d6 e5e6 e5f6
-c3b2 c3c2 c3c4 c3c5 c3d2 f5f4 f5g4 g2f1 g2g1 g2g3 g2g4
+b3a3 b3a4 b3b1 b3b2 b3b4 b3c2 b3c3 b3c4 b3d1
+
+b4a3 b4a4 b4a5 b4b2 b4b3 b4b5 b4c4 b4c5
+f2e1 f2e2 f2f1 f2f3 f2f4 f2g1 f2g2 f2g3
+e2d1 e2e1 e2e3 e2f1 e2f2 e2f3
 
 
-g6f7 g6g7
-b6a5 b6b5 b6c5 e2d1 e2e1 e2f1
-b4a5 b4b5 b4c5
+e2c4 e2d1 e2d2 e2d3 e2e1 e2e3 e2e4 e2f1 e2f2
 
-f2f3 f5e6 f5f3 f5f4 f5f6 f5g6 g3f4 g3g4
+
+
+
+
+
+
+
+
+
+
+
+
+e2c4 e2d1 e2d2 e2d3 e2e1 e2f1 e2f2 e2f3 e2g4
+c3a1 c3b2 c3b4 c3c4 c3d2 c3d3 c3d4 c3e1
+a6a5 a6a7 a6b5 a6b6
+
+
+
+b3a2 b3a4 b3b2 b3b4 b3b5 b3c3 b3c4 b3d5
+
+e2d1 e2d2 e2e1 e2e3 e2e4 e2f1 e2f2 e2f3 f6e5 f6e6 f6e7 f6f5 f6f7 f6g6
+
+
+
+
+f6d4 f6e5 f6e6 f6e7 f6f4 f6f5 f6f7 f6g6 f6g7
+a6a5 a6a7 a6b5 a6b6 a6b7
+
+e4c6 e4d3 e4d4 e4d5 e4f3 e4f4
+c4a2 c4b3 c4b4 c4b5 c4c2 c4c3 c4c5 c4d3 c4d4 c4d5
+
+
+g5e7 g5f4 g5f5 g5f6 g5g4
+d3b1 d3c2 d3c4 d3d1 d3d2 d3d4 d3e3 d3e4
+e2d1 e2d2 e2e1 e2e3 e2e4 e2f1 e2f2 e2f3 e2g4
+
