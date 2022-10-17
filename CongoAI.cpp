@@ -229,8 +229,8 @@ public:
                     if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
                 }
                 if(position[0]<4){
-                    if(board[position[0]+2][position[1]]=='0') allMoves.push_back({position[1],position[0]+1});
-                    if(board[position[0]+3][position[1]]=='0' && board[position[0]+2][position[1]]=='0') allMoves.push_back({position[1],position[0]+2});
+                    if(board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+1});
+                    if(board[position[0]+1][position[1]]=='0' && board[position[0]][position[1]]=='0') allMoves.push_back({position[1],position[0]+2});
                 }
             }
             availMoves = getOwnPieces(allMoves,nextMove);
@@ -1003,7 +1003,7 @@ string printPawnMoves(){
         for(int j=0;j<7;j++){
             sorted.clear();
             Piece Z = WhitePieces[j];
-            if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
+            if(Z.availMoves.size()==0) break; //if pawn is dead or has no avail moves
             for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
                 sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
             }
@@ -1011,15 +1011,15 @@ string printPawnMoves(){
 
             for(int i=0;i<sorted.size();i++){
                 out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
+                if(i<sorted.size()) out+= " ";
             }
-            if(j!=6) out+= " ";
+            if(j<7) out+= " ";
         }
     }else{
         for(int j=0;j<7;j++){
             sorted.clear();
             Piece z = BlackPieces[j];
-            if(z.availMoves.size()==0) continue;
+            if(z.availMoves.size()==0) break;
             for(int i=0; i<z.availMoves.size();i++){
                 sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
             }
@@ -1027,9 +1027,9 @@ string printPawnMoves(){
 
             for(int i=0;i<sorted.size();i++){
                 out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
+                if(i<sorted.size()) out+= " ";
             }
-            if(j!=6) out+= " ";
+            if(j<7) out+= " ";
         }
     }
     return out;
