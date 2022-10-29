@@ -453,7 +453,11 @@ int getPiece(char Tag, char color){
             return index;
         }else return -1;
     }else{
-
+        auto tagIT = find(allBlackPieces.begin(), allBlackPieces.end(), Tag);
+        if(tagIT!=allBlackPieces.end()){
+            int index = tagIT - allBlackPieces.begin();
+            return index;
+        }else return -1;
     }
 }
 
@@ -462,12 +466,12 @@ string makeMove(string myMove, char color){
     int rankStart = myMove[1] - '0';
     int fileEnd = convertFileToInt(myMove[2]);
     int rankEnd = myMove[3] - '0';
-    string fen2 = "";
+    string fen2 = " ";
 
     if(fileStart==-1 || fileEnd==-1) return "Invalid move";
 
     char startPiece = board[rankStart-1][fileStart];
-    char endPiece = board[rankStart-1][fileStart];
+    char endPiece = board[rankEnd-1][fileEnd];
     vector<int> endPos = {rankEnd, fileEnd};
 
     if(color==WHITE){
@@ -481,20 +485,37 @@ string makeMove(string myMove, char color){
         if(endPiece!='0'){ //if endPos is enemy piece
             int capturePiece = getPiece(endPiece, BLACK);
             if(capturePiece!=-1){
-                BlackPieces[PieceIndex].setAlive(false); //capture and set alive false
+                BlackPieces[capturePiece].setAlive(false); //capture and set alive false
             }
         }
 
-        fen2 = " " + to_string(BLACK) + " " + to_string(turnCount);
+        fen2 += BLACK;
+        fen2 += " " + to_string(turnCount);
         if(!BlackPieces[18].alive){
             fen2 += "\nWhite wins";
         }else  fen2 += "\nContinue";
-        cout << BlackPieces[18].getFile() << to_string(BlackPieces[18].position[0]) << endl;
     }else{
-        turnCount++;
-        //fen2 = " " + WHITE + " " + to_string(turnCount);
-    }
+        turnCount++; //after black moves, turnCount increments
+        int PieceIndex = getPiece(startPiece, color);
+        if(PieceIndex!=-1){
+            WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
+            board[rankStart-1][fileStart] = '0';         //update board
+            board[rankEnd-1][fileEnd] = startPiece;
+        }
 
+        if(endPiece!='0'){ //if endPos is enemy piece
+            int capturePiece = getPiece(endPiece, WHITE);
+            if(capturePiece!=-1){
+                WhitePieces[capturePiece].setAlive(false); //capture and set alive false
+            }
+        }
+
+        fen2 += WHITE;
+        fen2 += " " + to_string(turnCount);
+        if(!WhitePieces[18].alive){
+            fen2 += "\nBlack wins";
+        }else  fen2 += "\nContinue";
+    }
     return generateNewFENString() + fen2;
 }
 
