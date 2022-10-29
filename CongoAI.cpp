@@ -19,6 +19,7 @@ vector<char> allBlackPieces = {'p','p','p','p','p','p','p',
                              'g','m','e','e','l','c','z'};
 vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 char nextMove;
+int turnCount=0;
 vector<vector<char>> board;
 void checkLionEat(char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
@@ -461,6 +462,7 @@ string makeMove(string myMove, char color){
     int rankStart = myMove[1] - '0';
     int fileEnd = convertFileToInt(myMove[2]);
     int rankEnd = myMove[3] - '0';
+    string fen2 = "";
 
     if(fileStart==-1 || fileEnd==-1) return "Invalid move";
 
@@ -482,10 +484,18 @@ string makeMove(string myMove, char color){
                 BlackPieces[PieceIndex].setAlive(false); //capture and set alive false
             }
         }
-    }/*else{
 
-    }*/
-    return generateNewFENString();
+        fen2 = " " + to_string(BLACK) + " " + to_string(turnCount);
+        if(!BlackPieces[18].alive){
+            fen2 += "\nWhite wins";
+        }else  fen2 += "\nContinue";
+        cout << BlackPieces[18].getFile() << to_string(BlackPieces[18].position[0]) << endl;
+    }else{
+        turnCount++;
+        //fen2 = " " + WHITE + " " + to_string(turnCount);
+    }
+
+    return generateNewFENString() + fen2;
 }
 
 void checkLionEat(char color){
@@ -649,20 +659,39 @@ void resetBoard(){
 }
 
 string generateNewFENString(){
-    stringstream ss;
-    ss << 7777 << '/' << 'P' << 6;
-    cout << ss << endl;
-    return ss;
+    string fen="";
+    int tempLine = 0;
+
+    for(int i=0; i<7;i++){
+        for(int j=0;j<7;j++){
+            char piece = board[i][j];
+            if(piece=='0') tempLine++;
+            else{
+                if (tempLine!=0) fen += to_string(tempLine);
+                fen += piece;
+                tempLine=0;
+            }
+            if(tempLine==7){
+                fen += to_string(tempLine);
+                tempLine=0;
+            }
+        }
+        if(i!=6) fen += '/';
+    }
+    return fen;
 }
 
 char readFENString(string fen){
     int curRank = 7;
     string boardSetup;
     string color;
+    string turnTemp;
     stringstream ss(fen);
     getline(ss, boardSetup, ' ');
     getline(ss, color, ' ');
     nextMove = color[0];
+    getline(ss, turnTemp, ' ');
+    turnCount = stoi(turnTemp);
 
     stringstream ss1(boardSetup);
     string row;
