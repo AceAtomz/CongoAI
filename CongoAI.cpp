@@ -473,9 +473,10 @@ string makeMove(string myMove, char color){
     char startPiece = board[rankStart-1][fileStart];
     char endPiece = board[rankEnd-1][fileEnd];
     vector<int> endPos = {rankEnd, fileEnd};
+    int PieceIndex = getPiece(startPiece, color);
 
     if(color==WHITE){
-        int PieceIndex = getPiece(startPiece, color);
+
         if(PieceIndex!=-1){
             WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
             board[rankStart-1][fileStart] = '0';         //update board
@@ -489,6 +490,16 @@ string makeMove(string myMove, char color){
             }
         }
 
+        for(int i=0;i<7;i++){
+            if(board[3][i]!='0'){ //if piece in river is a piece
+                int RiverPiece = getPiece(board[3][i], color);
+                if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
+                    WhitePieces[RiverPiece].setAlive(false); //update Piece pos
+                    board[3][i] = '0';         //update board
+                }
+            }
+        }
+
         fen2 += BLACK;
         fen2 += " " + to_string(turnCount);
         if(!BlackPieces[18].alive){
@@ -496,7 +507,6 @@ string makeMove(string myMove, char color){
         }else  fen2 += "\nContinue";
     }else{
         turnCount++; //after black moves, turnCount increments
-        int PieceIndex = getPiece(startPiece, color);
         if(PieceIndex!=-1){
             WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
             board[rankStart-1][fileStart] = '0';         //update board
@@ -507,6 +517,16 @@ string makeMove(string myMove, char color){
             int capturePiece = getPiece(endPiece, WHITE);
             if(capturePiece!=-1){
                 WhitePieces[capturePiece].setAlive(false); //capture and set alive false
+            }
+        }
+
+        for(int i=0;i<7;i++){
+            if(board[3][i]!='0'){ //if piece in river is a piece
+                int RiverPiece = getPiece(board[3][i], color);
+                if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
+                    BlackPieces[RiverPiece].setAlive(false); //update Piece pos
+                    board[3][i] = '0';         //update board
+                }
             }
         }
 
@@ -683,7 +703,7 @@ string generateNewFENString(){
     string fen="";
     int tempLine = 0;
 
-    for(int i=0; i<7;i++){
+    for(int i=6; i>=0;i--){
         for(int j=0;j<7;j++){
             char piece = board[i][j];
             if(piece=='0') tempLine++;
@@ -692,12 +712,12 @@ string generateNewFENString(){
                 fen += piece;
                 tempLine=0;
             }
-            if(tempLine==7){
-                fen += to_string(tempLine);
+            if(tempLine==7 || j==6){
+                if (tempLine!=0) fen += to_string(tempLine);
                 tempLine=0;
             }
         }
-        if(i!=6) fen += '/';
+        if(i!=0) fen += '/';
     }
     return fen;
 }
