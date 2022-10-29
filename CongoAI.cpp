@@ -445,18 +445,34 @@ public:
 vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
 
-int getPiece(char Tag, char color){
+int getPiece(char Tag, char color, vector<int> pos){
     if(color==WHITE){
         auto tagIT = find(allWhitePieces.begin(), allWhitePieces.end(), Tag);
         if(tagIT!=allWhitePieces.end()){
             int index = tagIT - allWhitePieces.begin();
-            return index;
+            if(index<7){
+                for(int i=0;i<7;i++){
+                    if(WhitePieces[i].position==pos) return i;
+                }
+            }else if(index<14){
+                for(int i=7;i<14;i++){
+                    if(WhitePieces[i].position==pos) return i;
+                }
+            }else return index;
         }else return -1;
     }else{
         auto tagIT = find(allBlackPieces.begin(), allBlackPieces.end(), Tag);
         if(tagIT!=allBlackPieces.end()){
             int index = tagIT - allBlackPieces.begin();
-            return index;
+            if(index<7){
+                for(int i=0;i<7;i++){
+                    if(BlackPieces[i].position==pos) return i;
+                }
+            }else if(index<14){
+                for(int i=7;i<14;i++){
+                    if(BlackPieces[i].position==pos) return i;
+                }
+            }else return index;
         }else return -1;
     }
 }
@@ -472,8 +488,9 @@ string makeMove(string myMove, char color){
 
     char startPiece = board[rankStart-1][fileStart];
     char endPiece = board[rankEnd-1][fileEnd];
+    vector<int> startPos = {rankStart, fileStart};
     vector<int> endPos = {rankEnd, fileEnd};
-    int PieceIndex = getPiece(startPiece, color);
+    int PieceIndex = getPiece(startPiece, color, startPos);
 
     if(color==WHITE){
 
@@ -484,7 +501,7 @@ string makeMove(string myMove, char color){
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(endPiece, BLACK);
+            int capturePiece = getPiece(endPiece, BLACK, endPos);
             if(capturePiece!=-1){
                 BlackPieces[capturePiece].setAlive(false); //capture and set alive false
             }
@@ -492,10 +509,15 @@ string makeMove(string myMove, char color){
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
-                int RiverPiece = getPiece(board[3][i], color);
+                int RiverPiece = getPiece(board[3][i], color, endPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
-                    WhitePieces[RiverPiece].setAlive(false); //update Piece pos
-                    board[3][i] = '0';         //update board
+                    if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
+                        WhitePieces[RiverPiece].setAlive(false);
+                        board[3][i] = '0';
+                    }else if(rankStart==rankEnd){ //if moved piece started and ended in river, drown
+                        WhitePieces[RiverPiece].setAlive(false);
+                        board[3][i] = '0';
+                    }
                 }
             }
         }
@@ -514,7 +536,7 @@ string makeMove(string myMove, char color){
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(endPiece, WHITE);
+            int capturePiece = getPiece(endPiece, WHITE, endPos);
             if(capturePiece!=-1){
                 WhitePieces[capturePiece].setAlive(false); //capture and set alive false
             }
@@ -522,10 +544,15 @@ string makeMove(string myMove, char color){
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
-                int RiverPiece = getPiece(board[3][i], color);
+                int RiverPiece = getPiece(board[3][i], color, endPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
-                    BlackPieces[RiverPiece].setAlive(false); //update Piece pos
-                    board[3][i] = '0';         //update board
+                    if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
+                        BlackPieces[RiverPiece].setAlive(false);
+                        board[3][i] = '0';
+                    }else if(rankStart==rankEnd){ //if moved piece started and ended in river, drown
+                        BlackPieces[RiverPiece].setAlive(false);
+                        board[3][i] = '0';
+                    }
                 }
             }
         }
@@ -1353,8 +1380,9 @@ int main() {
 
         //Sub1 stuff
         char col = readFENString(fen);
-        //printBoard();
         output1+=printFENString(col);
+        //printBoard();
+        //cout << endl;
 
         //Sub2 stuff
         //output2+=printLionMoves();
@@ -1363,6 +1391,7 @@ int main() {
         //output2+=printPawnMoves();
         //output2+=printSsperPawnMoves();
         output2+=makeMove(myMove, col);
+        //printBoard();
 
         if(i!=N-1){
             output1+="\n\n";
