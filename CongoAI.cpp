@@ -8,16 +8,35 @@ using namespace std;
 
 #define BLACK 'b'
 #define WHITE 'w'
+vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
+//Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
+vector<char> allWhitePieces = {'P','P','P','P','P','P','P',
+                             'S','S','S','S','S','S','S',
+                             'G','M','E','E','L','C','Z'};
+vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
+vector<char> allBlackPieces = {'p','p','p','p','p','p','p',
+                             's','s','s','s','s','s','s',
+                             'g','m','e','e','l','c','z'};
+vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 char nextMove;
 vector<vector<char>> board;
 void checkLionEat(char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
 void sortPawns(char color);
 void sortSuperPawns(char color);
+void printBoard();
+string generateNewFENString();
 
 char convertFile(int newFile){
-        vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
         return files[newFile];
+}
+
+int convertFileToInt(char file){
+    auto fileIT = find(files.begin(), files.end(), file);
+    if(fileIT!=files.end()){
+        int index = fileIT - files.begin();
+        return index;
+    }else return -1;
 }
 
 class Piece{            //Base Piece class
@@ -55,8 +74,6 @@ public:
 
     //Remove own pieces from avail moves list
     vector<pair<int, int>> getOwnPieces(vector<pair<int, int>> out, char color){
-        vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
-        vector<char> BP = {'p', 's', 'g', 'm', 'e', 'l', 'c', 'z'};
         vector<pair<int, int>> notAvailMoves;
         vector<pair<int, int>> newAvailMoves;
 
@@ -312,7 +329,6 @@ public:
 
 protected:
     void setFile(int newFile){
-        vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
         file = files[newFile];
     }
 };
@@ -427,6 +443,50 @@ public:
 //-----------------------------------------------------------------------------------------------------
 vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
+
+int getPiece(char Tag, char color){
+    if(color==WHITE){
+        auto tagIT = find(allWhitePieces.begin(), allWhitePieces.end(), Tag);
+        if(tagIT!=allWhitePieces.end()){
+            int index = tagIT - allWhitePieces.begin();
+            return index;
+        }else return -1;
+    }else{
+
+    }
+}
+
+string makeMove(string myMove, char color){
+    int fileStart = convertFileToInt(myMove[0]);
+    int rankStart = myMove[1] - '0';
+    int fileEnd = convertFileToInt(myMove[2]);
+    int rankEnd = myMove[3] - '0';
+
+    if(fileStart==-1 || fileEnd==-1) return "Invalid move";
+
+    char startPiece = board[rankStart-1][fileStart];
+    char endPiece = board[rankStart-1][fileStart];
+    vector<int> endPos = {rankEnd, fileEnd};
+
+    if(color==WHITE){
+        int PieceIndex = getPiece(startPiece, color);
+        if(PieceIndex!=-1){
+            WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
+            board[rankStart-1][fileStart] = '0';         //update board
+            board[rankEnd-1][fileEnd] = startPiece;
+        }
+
+        if(endPiece!='0'){ //if endPos is enemy piece
+            int capturePiece = getPiece(endPiece, BLACK);
+            if(capturePiece!=-1){
+                BlackPieces[PieceIndex].setAlive(false); //capture and set alive false
+            }
+        }
+    }/*else{
+
+    }*/
+    return generateNewFENString();
+}
 
 void checkLionEat(char color){
     if(!WhitePieces[18].alive || !BlackPieces[18].alive){
@@ -586,6 +646,13 @@ void resetBoard(){
             board[i][j] = '0';
         }
     }
+}
+
+string generateNewFENString(){
+    stringstream ss;
+    ss << 7777 << '/' << 'P' << 6;
+    cout << ss << endl;
+    return ss;
 }
 
 char readFENString(string fen){
@@ -1210,7 +1277,9 @@ int main() {
     for (int i = 0; i < N; ++i) {
         resetBoard();
         string fen;
+        string myMove;
         getline(cin, fen);
+        getline(cin, myMove);
 
         //Sub1 stuff
         char col = readFENString(fen);
@@ -1222,7 +1291,8 @@ int main() {
         //output2+=printZebraMoves();
         //output2+=printGiraffeMoves();
         //output2+=printPawnMoves();
-        output2+=printSsperPawnMoves();
+        //output2+=printSsperPawnMoves();
+        output2+=makeMove(myMove, col);
 
         if(i!=N-1){
             output1+="\n\n";
