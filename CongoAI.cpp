@@ -530,7 +530,7 @@ string makeMove(string myMove, char color){
     }else{
         turnCount++; //after black moves, turnCount increments
         if(PieceIndex!=-1){
-            WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
+            BlackPieces[PieceIndex].setPosition(endPos); //update Piece pos
             board[rankStart-1][fileStart] = '0';         //update board
             board[rankEnd-1][fileEnd] = startPiece;
         }
