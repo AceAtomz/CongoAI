@@ -452,10 +452,12 @@ int getPiece(char Tag, char color, vector<int> pos){
             int index = tagIT - allWhitePieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
+                    if(!WhitePieces[i].alive) continue;
                     if(WhitePieces[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
+                    if(!WhitePieces[i].alive) continue;
                     if(WhitePieces[i].position==pos) return i;
                 }
             }else return index;
@@ -466,12 +468,12 @@ int getPiece(char Tag, char color, vector<int> pos){
             int index = tagIT - allBlackPieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
-                    if(!BlackPieces[i].alive) break;
+                    if(!BlackPieces[i].alive) continue;
                     if(BlackPieces[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
-                    if(!BlackPieces[i].alive) break;
+                    if(!BlackPieces[i].alive) continue;
                     if(BlackPieces[i].position==pos) return i;
                 }
             }else return index;
@@ -482,6 +484,7 @@ int getPiece(char Tag, char color, vector<int> pos){
 void evolvePawns(char color){
     if(color==WHITE){
         for(int i=0;i<7;i++){
+            if(!WhitePieces[i].alive) continue;
             if(WhitePieces[i].position[0]==7){
                 board[6][WhitePieces[i].position[1]] = 'S';
                 WhitePieces[i].setAlive(false);
@@ -496,6 +499,7 @@ void evolvePawns(char color){
         }
     }else{
         for(int i=0;i<7;i++){
+            if(!BlackPieces[i].alive) continue;
             if(BlackPieces[i].position[0]==1){
                 board[0][BlackPieces[i].position[1]] = 's';
                 BlackPieces[i].setAlive(false);
@@ -543,7 +547,8 @@ string makeMove(string myMove, char color){
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
-                int RiverPiece = getPiece(board[3][i], color, endPos);
+                vector<int> pawnPos = {4, i};
+                int RiverPiece = getPiece(board[3][i], color, pawnPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
                         WhitePieces[RiverPiece].setAlive(false);
@@ -578,7 +583,8 @@ string makeMove(string myMove, char color){
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
-                int RiverPiece = getPiece(board[3][i], color, endPos);
+                vector<int> pawnPos = {4, i};
+                int RiverPiece = getPiece(board[3][i], color, pawnPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
                         BlackPieces[RiverPiece].setAlive(false);
@@ -760,6 +766,7 @@ void resetBoard(){
             board[i][j] = '0';
         }
     }
+    turnCount=0;
 }
 
 string generateNewFENString(){
