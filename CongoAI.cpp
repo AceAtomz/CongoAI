@@ -466,14 +466,48 @@ int getPiece(char Tag, char color, vector<int> pos){
             int index = tagIT - allBlackPieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
+                    if(!BlackPieces[i].alive) break;
                     if(BlackPieces[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
+                    if(!BlackPieces[i].alive) break;
                     if(BlackPieces[i].position==pos) return i;
                 }
             }else return index;
         }else return -1;
+    }
+}
+
+void evolvePawns(char color){
+    if(color==WHITE){
+        for(int i=0;i<7;i++){
+            if(WhitePieces[i].position[0]==7){
+                board[6][WhitePieces[i].position[1]] = 'S';
+                WhitePieces[i].setAlive(false);
+                for(int j=7;j<14;j++){
+                    if(!WhitePieces[j].alive){
+                        WhitePieces[j].setAlive(true);
+                        WhitePieces[j].setPosition(WhitePieces[i].getPosition());
+                        break;
+                    }
+                }
+            }
+        }
+    }else{
+        for(int i=0;i<7;i++){
+            if(BlackPieces[i].position[0]==1){
+                board[0][BlackPieces[i].position[1]] = 's';
+                BlackPieces[i].setAlive(false);
+                for(int j=7;j<14;j++){
+                    if(!BlackPieces[j].alive){
+                        BlackPieces[j].setAlive(true);
+                        BlackPieces[j].setPosition(BlackPieces[i].getPosition());
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -563,6 +597,8 @@ string makeMove(string myMove, char color){
             fen2 += "\nBlack wins";
         }else  fen2 += "\nContinue";
     }
+
+    evolvePawns(color);
     return generateNewFENString() + fen2;
 }
 
