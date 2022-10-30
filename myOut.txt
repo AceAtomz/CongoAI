@@ -1,0 +1,1000 @@
+7/P3pP1/1p2l2/1S5/GP5/3pP2/1g2L2 w 30
+Continue
+7/2p4/4l2/7/s4p1/7/3L3 b 43
+Continue
+5z1/4P2/4lS1/7/P4s1/4L1P/5G1 b 46
+Continue
+7/4p2/4l2/7/3L3/5S1/7 b 4
+Continue
+7/1S2P2/3l3/7/3PSz1/1P1P2P/4LgZ b 47
+Continue
+7/3l3/2S1S2/4s2/7/4L2/7 w 13
+Continue
+S6/2Sl3/4P2/7/4S1g/S2L3/7 b 35
+Continue
+7/4s2/1PlP2p/7/4L2/4p2/7 b 15
+Continue
+7/Pz5/1P2l1p/2S4/pSZ1LSP/Ppp4/g6 w 23
+Continue
+3l3/7/7/7/3L3/7/6s w 15
+Continue
+2l4/4P2/1z2p2/3P3/5Ps/1pp1L2/7 b 42
+Continue
+7/3l3/7/7/P3L2/7/7 w 47
+Continue
+7/P6/2ls1s1/7/4p2/ps2pS1/2s4 w 2
+Black wins
+3l3/7/6p/7/7/7/4L2 b 38
+Continue
+Z4z1/3l3/S2P2S/1S5/SG5/3L3/7 w 19
+Continue
+7/3l3/7/7/5s1/7/4L2 w 47
+Continue
+7/2P4/4l2/7/6g/3L3/7 w 43
+Continue
+7/7/2P1l2/7/5p1/3L3/7 w 30
+Continue
+7/1pP1lp1/2s2gP/5S1/1p2spS/P2PLs1/7 w 37
+Continue
+7/7/1PP1l2/7/2L4/5p1/7 b 33
+Continue
+4l2/S2ps1P/1p1s2S/S6/S3L1P/g2pZ2/7 w 2
+Continue
+7/4l2/4p2/1p5/7/7/4L2 b 22
+Continue
+7/2p1lS1/4s1p/7/2P1SP1/S1gL2P/3G3 w 49
+Continue
+7/7/3L3/7/7/7/7 b 25
+White wins
+4l2/7/3p3/7/2L4/2Zs3/7 w 47
+Continue
+7/2p4/P2l1p1/7/4s2/2L4/7 b 4
+Continue
+6g/1P2Gpp/P2lPS1/7/2p1p1p/3L1p1/7 b 36
+Continue
+7/4p2/4l2/7/7/3p3/4L2 b 40
+Continue
+7/6p/2l2s1/7/2p1L2/7/7 b 30
+Continue
+7/4l2/7/1p5/7/4L2/7 b 45
+Continue
+7/S2l1P1/7/6p/1p1P3/p3L2/7 b 2
+Continue
+7/3l3/4P2/4S2/7/3L3/7 b 28
+Continue
+7/GsS1l1s/3sp1p/4Z1s/2P2p1/P5z/3L3 b 50
+Continue
+7/2l4/1p2s2/7/7/3L3/7 w 15
+Continue
+7/7/P2lz2/3S3/2LZ1PS/3S3/7 w 11
+Continue
+7/2P4/2Sl2s/7/2L4/5P1/7 w 40
+Continue
+7/7/P2slPp/7/1p2pPp/3gp1P/2L3G b 49
+Continue
+7/5P1/1p2l2/2sP3/3L3/S6/7 b 21
+Continue
+3lS2/S2S3/6P/7/2z4/1pp3s/3L3 b 28
+Continue
+7/1p2l2/1p1p3/7/7/7/4L2 w 7
+Continue
+7/2Pp1Z1/ps2l2/4p2/P2sP2/7/4L2 b 3
+Continue
+2l4/P6/p3P2/5s1/4L2/1S5/7 w 5
+Continue
+7/1p3s1/1s1lg2/7/3s3/1sG2z1/3L3 w 8
+Continue
+7/4l2/1sP1ps1/7/4L2/7/7 w 46
+Continue
+4g2/2p4/p1l1p1Z/1P5/P2L1S1/5s1/7 w 21
+Continue
+7/2l4/7/7/7/4L2/7 w 23
+Continue
+2Z4/2l4/1s1gS2/5p1/3G2p/4p2/4L2 b 28
+Continue
+7/4l1p/4S1P/7/s1L4/7/7 b 7
+Continue
+7/1p1l3/3PP2/2p4/P4pZ/4L1S/1G5 b 13
+Continue
+2l4/1s1p3/2P4/7/S6/2p4/3L3 b 17
+Continue
+6z/1PS1l2/3P3/7/4P2/S3Z2/4g2 w 48
+Black wins
+7/7/4lP1/7/2L4/ps1p2S/7 b 16
+Continue
+1z5/p1l1p2/3S1S1/7/3sLSP/6S/3s3 w 39
+Continue
+7/2l1S2/6p/3P3/1s1P3/5p1/3L3 w 25
+Continue
+3l3/7/p6/6p/1gL4/7/1Z2G2 b 35
+Continue
+7/7/2Pl3/7/3L3/7/7 b 19
+Continue
+2G4/sp1P3/4lP1/4g2/2spL2/4ss1/7 b 6
+Continue
+7/4l2/3P2p/7/2LP3/7/7 b 4
+Continue
+4l2/5p1/3s3/7/1g1s3/zpL4/7 b 18
+Continue
+4l2/7/7/5P1/6S/3L3/7 w 13
+Continue
+7/3l1P1/P4pS/5s1/1SLG3/p3p1P/7 w 30
+Continue
+7/P6/2l4/P6/2L1p2/7/7 b 11
+Continue
+4zg1/2l1G2/s3p2/5p1/7/3s3/3L3 b 50
+Continue
+3l3/7/2Sp3/4S2/7/3L2p/7 b 45
+Continue
+7/4Z2/2lsP2/7/pPPg3/1P4S/2L4 b 20
+Continue
+7/3l3/7/5s1/2p4/s1SL3/7 b 24
+Continue
+2l4/1pg4/7/7/7/2L4/G6 b 39
+Continue
+3l3/7/7/5p1/7/7/2L4 b 3
+Continue
+7/psSl3/3p3/2s4/4ps1/3sL2/7 b 18
+Continue
+7/4l2/P6/p1P4/7/3LS2/7 w 27
+Continue
+7/2lP1P1/1SgZzsP/7/3P3/1P2ps1/4L2 b 34
+Continue
+4l2/7/2p4/3p3/4L2/7/7 b 32
+Continue
+7/3SPG1/2l4/S6/2sP1P1/2z1S2/1ZL4 w 11
+Continue
+7/3l3/7/4P1p/2pL3/1p5/7 b 47
+Continue
+2SG3/4p2/1s2lZp/p6/2Pp1P1/1zs1P1P/4L2 b 33
+Continue
+7/3Pl2/7/7/7/3L3/7 w 15
+Continue
+1s2l2/7/1Gg4/7/7/2L4/z6 w 4
+Continue
+7/1S1Plp1/7/7/2L4/4P2/2s4 w 17
+Continue
+1g3G1/1Sl4/1Ps4/3z3/2L3P/5P1/7 b 49
+Continue
+4l2/S6/7/p6/1ssL3/7/7 b 29
+Continue
+7/7/2l4/3P3/1Szs3/2L4/1s5 w 43
+Continue
+7/6s/4l2/7/4LS1/7/7 w 15
+Continue
+7/1sS1lPP/2P1S2/6P/2P1L2/4p2/2s4 w 11
+Continue
+3l3/4P2/7/7/4L1P/7/7 b 13
+Continue
+7/1zl2p1/1G5/7/3L2p/7/7 w 51
+Continue
+7/3l1P1/2p4/7/7/3SL2/7 w 48
+Continue
+7/7/2l4/3s1P1/s4P1/1gL1z2/7 b 37
+Continue
+7/4l2/7/6p/4L1p/7/7 b 35
+Continue
+7/Ppl4/S3Pz1/7/3G1p1/2p1L2/7 w 32
+Continue
+2l4/7/4S2/5P1/1p5/7/4L2 b 5
+Continue
+2l4/s2Z2P/2P1S1P/1P5/7/pPs1L1s/7 w 45
+Continue
+7/2l4/6S/7/1PL4/1pP4/7 w 14
+Continue
+3l3/7/3sp2/7/7/1gZLP2/7 b 32
+Continue
+7/p4s1/3l3/4S2/5P1/2L4/7 w 51
+Continue
+2z4/3l3/6P/7/1pS1GPP/3L3/7 b 20
+Continue
+2l4/7/7/4p2/7/3L3/7 b 50
+Continue
+7/3sl1S/p4P1/3P3/pZPPP2/7/4L2 w 7
+Continue
+2l4/7/2S4/6P/Sss4/4L2/7 w 25
+Continue
+7/2l1sg1/ZGP2p1/4s2/s3L2/s4p1/5S1 b 40
+Continue
+7/7/2l1SP1/7/4L2/4P1s/7 b 38
+Continue
+7/2l4/1sspp2/3s3/5s1/7/1Z2L2 b 27
+Continue
+7/P1l4/3S3/7/S1L4/7/7 w 17
+Continue
+7/4l2/7/6G/p6/4P2/4L1g b 45
+Continue
+7/7/3l3/7/2S4/7/4L2 b 47
+Continue
+1S5/1P3s1/2s1l1P/7/3L3/PPP4/7 b 11
+Continue
+2l4/7/7/6p/2L4/7/7 w 49
+Continue
+7/2p1g2/Pplp2P/s6/1pp1Z1P/3L1Ps/G6 b 5
+Continue
+7/P6/3l3/7/2S1L2/7/7 b 33
+Continue
+3l3/7/PG4p/3P3/1p2L2/4P1p/4s2 w 27
+Continue
+7/2l4/2pp3/7/2Lp3/7/7 w 33
+Continue
+3g3/PP1Sl2/7/7/7/2L4/7 b 29
+Continue
+7/3P3/4l2/7/2P4/7/2L4 w 45
+Continue
+7/1SS1lGP/1S3p1/Pp5/s2s1g1/4P1p/4L2 w 20
+Continue
+7/4l2/1P3P1/P6/3p3/1sL4/7 w 41
+Continue
+2l4/P2P1sP/2p4/p6/6p/1pgL1PS/5z1 b 26
+Continue
+7/3P3/3l3/4p2/2L2P1/6P/7 b 41
+Continue
+7/2p3g/S2Pl2/1G3p1/6P/4L2/7 w 4
+Continue
+7/3l3/5P1/7/7/P6/4L2 b 16
+Continue
+2Z4/2pl1sp/p4p1/7/7/3p3/7 w 5
+Black wins
+7/4P2/2l1p2/7/3s3/1S1LS2/7 w 30
+Continue
+4G2/4P1P/S2PlZ1/4P2/s1zsLP1/7/7 w 21
+Continue
+2l4/7/7/7/4L2/7/7 w 6
+Continue
+6g/PPlPP2/1P5/2p4/7/2ZS1P1/2L2Gz b 14
+Continue
+7/7/2l1SP1/7/1P1L3/7/7 b 41
+Continue
+4G2/7/3l2s/s6/2P2P1/2p2s1/2L4 b 50
+Continue
+3l3/3s1p1/7/5p1/7/7/2L4 b 46
+Continue
+6G/2lp3/p2s2p/7/p5p/4z2/3L3 w 40
+Continue
+7/4l2/7/7/2L4/P4S1/7 b 31
+Continue
+2Sg3/4P2/3l2Z/7/Ss4P/7/4L2 b 47
+Continue
+4l2/7/6p/7/7/2L3p/7 w 41
+Continue
+7/P1l1s2/5p1/4s1P/4s1S/1PP2PP/3L3 w 36
+Continue
+3l3/7/7/P6/P6/2L4/7 w 44
+Continue
+7/3p3/3sl2/6p/2PSpS1/3pLgp/Z6 b 39
+Continue
+7/7/P2l3/7/2p4/3L2S/7 w 5
+Continue
+7/2p1l2/S4pp/6p/3pG2/1Sz2P1/4L2 b 1
+Continue
+2Sl3/7/1p5/7/3L3/1s1S3/7 b 8
+Continue
+3l3/3PSPs/z1Ps3/2G3p/p3LP1/7/7 w 12
+Continue
+3l3/7/S1P4/7/2P4/2L4/7 w 42
+Continue
+7/1sPPzP1/1P1lp2/s6/1p1P2P/2L3p/7 b 47
+Continue
+4l2/7/7/2s4/s2L3/S1p4/7 b 11
+Continue
+4l2/5s1/2z2PS/3P3/3L3/6p/2Z4 w 29
+Continue
+7/4l2/7/7/7/3L2s/7 w 51
+Continue
+2l4/7/1P1p3/2pG3/Pz1L1p1/2S4/7 w 13
+Continue
+7/7/2l4/3p3/2L3P/7/7 b 23
+Continue
+6Z/3l2S/SP5/2S4/3L1P1/2S4/7 w 26
+Continue
+4l2/3P3/1pp4/7/6S/4L2/7 w 37
+Continue
+7/2l1P2/P5P/7/4pS1/2L4/1z4Z w 30
+Continue
+7/5S1/3l3/6p/1p5/3L2S/7 b 11
+Continue
+7/1pSplPg/7/7/2sp1sz/2p1S2/2L4 w 7
+Continue
+7/4l2/2P4/5P1/7/7/2L4 b 31
+Continue
+7/Z2lS1s/2zp3/s6/s2S3/1pLP2s/7 b 48
+Continue
+7/7/4l2/7/7/7/3L3 w 31
+Continue
+7/1Sl2s1/7/7/3p3/5G1/3L3 w 40
+Continue
+7/7/3l3/7/5pp/1pL4/7 w 31
+Continue
+7/3g3/4l2/7/3L3/4P2/7 w 14
+Continue
+7/7/4l2/7/7/4L2/7 b 21
+Continue
+2S4/P2lS2/5P1/7/7/P5P/4L2 b 50
+Continue
+7/7/2l4/1s1P3/3SL2/1P2s1s/7 w 47
+Continue
+4l2/4zpP/1sppP2/2Z4/p5s/6p/4L2 w 1
+Continue
+7/4l2/7/7/7/2L4/7 b 43
+Continue
+7/2pl2Z/2G1P2/S6/S2P3/2L3s/5z1 w 33
+Continue
+7/2p4/1P2l2/7/S1L4/2ps2P/7 w 13
+Continue
+2l4/7/3Z3/2Pz3/3L3/s1s4/7 b 1
+Continue
+7/7/1spl3/P6/3L3/2S3s/7 b 38
+Continue
+7/7/p3lP1/6p/1sSS2g/pP2LPp/7 b 11
+Continue
+2l4/6P/2pp3/7/4L1P/7/7 w 14
+Continue
+7/1P1s3/2plP2/3Z3/1P3s1/g2Lp1P/7 w 26
+Continue
+7/2lppP1/3p3/7/7/4L2/7 w 25
+Continue
+7/2P4/P2l3/1P5/2LZ2g/7/7 w 28
+Continue
+2l4/1p3p1/3s3/2S4/2PPL2/7/7 w 51
+Continue
+7/2S1l2/3GpZp/2P4/6p/1p1L3/1z5 w 47
+Continue
+2S4/3lp2/7/p6/7/2L4/7 b 41
+Continue
+3Z3/4S2/2S4/6p/p1S3p/2L4/7 b 16
+White wins
+4l2/7/7/3s3/S5S/7/4L2 b 2
+Continue
+4g2/1s2ls1/3p3/6G/2Z3P/2sL3/2z4 w 35
+Continue
+4l2/7/7/7/7/3PL2/7 b 45
+Continue
+4l2/GP3P1/3g3/4p2/2P1S2/s1PLS2/7 b 12
+Continue
+7/3l1p1/7/7/7/1p5/3L3 b 8
+Continue
+3g3/2lP1SP/G6/6Z/4L2/S2P3/2z4 w 27
+Continue
+7/2l4/P6/7/1p2L2/2P4/7 w 8
+Continue
+7/3l3/1S4p/4z2/2L3p/G2P3/6g b 26
+Continue
+7/1p5/4l1s/7/4p2/2L4/7 w 28
+Continue
+7/7/3l1p1/7/2L4/1zZP3/2g4 w 20
+Continue
+3l3/4p2/1P5/7/3L3/5p1/2s4 w 6
+Continue
+7/3l3/6P/7/6S/7/2gL3 w 51
+Continue
+4l2/7/7/3p3/2L4/7/7 b 8
+Continue
+4l2/7/P6/P1p4/4P2/3ZLS1/7 w 9
+Continue
+7/5s1/1sl4/4P2/7/P2L1S1/7 w 35
+Continue
+G6/2l1g1p/pp4p/6P/s1LPp2/4s2/1Z5 w 25
+Continue
+7/2l4/2p4/2s4/7/3LP2/7 b 43
+Continue
+2l4/3S1S1/G5P/7/1SL4/5P1/4Z2 b 38
+Continue
+2l4/4p1P/7/7/P3L2/7/6s w 7
+Continue
+7/3ls2/p3p2/7/s3L2/2pG3/7 w 29
+Continue
+7/7/2l4/7/7/7/3L3 w 40
+Continue
+7/PZ1g2P/2P1lG1/7/1pL1sP1/4PS1/7 w 32
+Continue
+3s3/7/4l2/7/4L2/7/7 w 25
+Continue
+2l4/2P3P/pP1g3/2P4/Z3L1p/3P2G/7 w 39
+Continue
+2l4/5p1/7/2p4/5S1/6P/2L4 b 25
+Continue
+7/6p/3l3/7/G6/1P2L2/7 w 43
+Continue
+7/4l2/3p3/2p4/7/7/4L2 w 26
+Continue
+7/P6/1P1sl1P/2S4/Gp2LPP/1p5/4g2 w 35
+Continue
+3l3/3P2P/7/7/7/7/2L4 b 6
+Continue
+4z2/3l3/7/7/p2L3/P4Pg/7 b 46
+Continue
+7/P6/P1l2P1/7/7/7/2L4 b 5
+Continue
+7/PP1l3/2sp1P1/1s5/P3g2/P2s3/3L1S1 b 17
+Continue
+4s2/7/2l4/7/7/7/4L2 w 48
+Continue
+7/2Gl3/7/5P1/4L2/2s3S/7 b 41
+Continue
+7/3S3/2l4/7/7/1S1L3/7 w 31
+Continue
+7/Sppl2S/2p2P1/3P1s1/p1S1L2/6P/7 w 6
+Continue
+4l2/6P/p5S/5P1/7/7/4L2 w 4
+Continue
+7/1p1l1p1/7/6s/4sp1/2L1s1g/5z1 b 29
+Continue
+2l4/7/7/7/7/5p1/3L3 w 42
+Continue
+7/7/PZS1l2/2P4/5P1/2P3P/g2L3 w 49
+Continue
+3l3/4PP1/7/7/7/3L3/7 w 22
+Continue
+3l3/2p4/P6/3S3/1p5/2pL3/3z3 b 19
+Continue
+7/P6/3l3/3P3/s6/2P1L2/7 w 29
+Continue
+7/3l3/7/1g5/1s3p1/3Z1p1/2L4 w 28
+Continue
+4l2/7/7/7/4s2/2L4/7 b 4
+Continue
+2l4/3Z2P/4Spz/7/S3L2/2GpP2/7 w 30
+Continue
+2l4/7/1s5/7/4L2/7/7 w 26
+Continue
+7/s2gpP1/3lP2/1p5/2L2Zp/4S1p/7 b 34
+Continue
+2l4/7/s6/7/2L4/S2s3/7 w 47
+Continue
+7/2gPp1p/P2l1Gp/1S2s2/2PsL1p/4P1p/7 b 15
+Continue
+7/2l1p2/1Ss4/7/1p2L2/1S2S2/7 w 43
+Continue
+7/1Pp1p2/1P1l1P1/p6/3sPPS/3p3/2L1Z2 b 38
+Continue
+3l3/5s1/7/7/4S1P/P1sL3/7 w 9
+Continue
+7/4l2/pp3P1/6S/3SS2/1pZ1LS1/7 w 21
+Continue
+7/1Pl4/7/7/2L4/1p5/7 w 51
+Continue
+2l4/3p1P1/p2zPS1/7/3LP1p/3P3/2g4 b 23
+Continue
+7/5p1/1PP3P/7/7/7/4L2 b 29
+White wins
+2z4/P3ZgP/3lS2/7/7/1P5/2L4 b 40
+Continue
+7/6P/2lp3/7/2s2P1/4L2/7 w 33
+Continue
+7/4lG1/5P1/7/4P2/1SS4/3L3 b 35
+Continue
+3l3/7/7/7/1P1s3/7/4L2 b 8
+Continue
+2l4/7/p1P4/6s/P1PSL2/4PP1/4z2 b 45
+Continue
+7/P1P1l2/3S3/7/7/7/2L4 w 1
+Continue
+3l3/7/7/5Pp/2gzL2/5p1/7 w 33
+Continue
+4l2/7/7/7/7/4L2/7 w 51
+Continue
+2g4/7/2l4/1z5/2L4/7/5Z1 b 18
+Continue
+7/3l1p1/7/7/7/7/3L3 b 25
+Continue
+2g4/2p1Ps1/2PPlSP/1P5/7/2p4/6G w 19
+Black wins
+4l2/7/7/7/7/s5p/3L3 b 12
+Continue
+7/1s5/p1p1l2/7/3z2s/6g/2L3G b 47
+Continue
+7/7/3l3/2p4/4s2/1p5/3L3 b 6
+Continue
+4g2/1Slpp2/2ss3/2z4/3P3/3ZL2/2S4 b 35
+Continue
+3l3/7/7/4p2/7/3s3/3L3 w 7
+Continue
+4l2/1P3Pg/1s1pz2/4Z1s/7/4G1p/2L4 w 1
+Continue
+4l2/7/2S4/1p5/7/3L3/7 b 5
+Continue
+7/P1P3P/2Sl2P/6p/7/3pLP1/1g5 b 16
+Continue
+7/s1sl3/2s4/7/7/7/3L3 b 28
+Continue
+7/pplsSs1/p5P/5z1/1P1PLPZ/s4p1/7 b 42
+Continue
+7/1PP1l2/7/6p/7/7/4L2 b 43
+Continue
+3Zl2/1PPpP2/s6/1p2P2/P1p4/2P1LS1/7 w 21
+Continue
+3l3/7/7/5p1/7/7/2L4 w 21
+Continue
+7/2lz3/5s1/3P2p/gs2Lp1/G1P1P2/7 b 33
+Continue
+2l4/7/2P4/7/P6/2L4/7 w 30
+Continue
+7/pg3ss/4lp1/1Z5/1p2S2/3pL2/5z1 b 11
+Continue
+3l3/7/5P1/7/3L3/7/7 b 9
+Continue
+7/7/Gpl4/S6/6P/1PpLS2/1z5 w 15
+Continue
+7/2S4/p2l3/7/2L4/7/7 w 31
+Continue
+2l4/2p1P2/2P2Sp/1P5/3p2s/1SLSz2/7 w 36
+Continue
+7/2l4/7/7/3p3/2L2s1/7 w 48
+Continue
+Z6/z6/2l3g/3G3/1p5/3L3/7 w 8
+Continue
+7/2lP2P/7/7/1ppL1sS/7/7 b 46
+Continue
+5z1/6Z/P2l3/7/2L4/4p1G/7 b 22
+Continue
+7/7/3l3/7/3L3/5p1/7 b 28
+Continue
+7/1pg4/p1pl1Z1/p6/1PL3p/3G1pp/7 b 23
+Continue
+4l2/7/s2P3/6P/3L3/7/7 w 6
+Continue
+7/2zl2p/7/5p1/4Ls1/7/7 b 49
+Continue
+7/7/4l2/7/2L3p/6p/7 w 27
+Continue
+7/g2lP2/1P3P1/G6/2s1pPs/3L2p/z1s3Z w 50
+Continue
+2l4/p3p2/7/7/7/1p2L2/7 b 23
+Continue
+4l2/1s1Pp2/2Z1P2/4p2/s1LpP2/2s3s/7 w 23
+Continue
+7/1P4p/2l4/1p5/7/3L3/7 b 35
+Continue
+1z5/SS2S2/1p1l3/s1S4/1p5/3PLpP/7 w 23
+Continue
+7/3l3/1s5/7/3L1p1/7/7 b 40
+Continue
+4l2/1P2s2/2p2p1/4P2/s3L2/p1P1s2/7 w 5
+Continue
+7/2l4/1sP4/7/7/1PL1S2/5s1 w 9
+Continue
+7/3l2P/3S2p/7/7/2L1g2/6Z b 46
+Continue
+7/7/4l2/7/7/2L3s/7 w 8
+Continue
+7/s1l1Ppp/PP1GS1S/2s1P2/7/2L2g1/7 w 24
+Continue
+7/7/2l4/7/7/7/3L3 b 44
+Continue
+2z4/1S3P1/2l4/7/1PG1P2/3L3/2Z4 w 17
+Continue
+7/4P2/3l2p/7/P2p3/2L1p2/7 w 4
+Continue
+7/pPl3z/P4P1/6s/2PS3/3pP1p/2G1L2 w 42
+Continue
+7/7/4l2/p6/1S1Lp2/p6/7 b 25
+Continue
+7/2l4/6S/7/7/6Z/4L2 b 41
+Continue
+2Sl3/5P1/7/7/3L3/2s4/7 b 10
+Continue
+7/1p1lpp1/4s1P/1z5/2pL3/1GP2S1/7 b 3
+Continue
+7/1p5/3pl2/7/2p1P2/2S4/3L3 w 12
+Continue
+7/2p1P2/1Sl3s/6z/5P1/1s1L3/7 b 28
+Continue
+4l2/p6/1P5/2p4/P3p2/3L1P1/7 b 12
+Continue
+7/4l2/4P2/1P5/P2L3/2zP3/7 w 5
+Continue
+7/Sp2l2/1S5/7/5p1/7/2L4 w 21
+Continue
+4S2/1sl1p2/Pp2S1s/7/2Lp3/psSP3/gZ5 b 25
+Continue
+7/5P1/3l3/7/3S3/4L2/7 b 2
+Continue
+7/1S2P1P/3l1S1/6P/4Lsp/pgP1p2/6z w 29
+Continue
+7/7/3sl2/7/6p/7/3L3 w 30
+Continue
+3l3/1pp2s1/s1S2S1/4P2/1g1LS1P/p2P1pP/3Z3 w 42
+Continue
+7/4l2/7/7/7/7/2L4 w 40
+Continue
+7/2P4/2l1GS1/7/1P1L3/7/2g4 b 8
+Continue
+7/7/3l3/7/1P5/5sp/2L4 b 22
+Continue
+7/1ps4/2l3s/3p3/6G/1p1L3/7 b 26
+Continue
+7/3l3/6S/2S4/1S5/7/4L2 w 10
+Continue
+7/p1s4/2l4/6G/p5s/s6/3L3 b 14
+Continue
+2l4/7/7/7/2L4/7/7 b 32
+Continue
+2Gl3/1PS1pP1/3P3/s6/6s/1zL4/7 b 23
+Continue
+7/7/3l3/4S2/2Pp3/S6/4L2 w 47
+Continue
+4l2/P1s4/4S1s/P6/2Z1L2/7/4G2 b 37
+Continue
+7/s6/2l4/5P1/1s2L2/7/7 b 30
+Continue
+2gl3/p3Z1p/2PP1Sp/1P2s2/1p1P2S/1p1LS2/1z5 w 22
+Continue
+2l4/5P1/P6/7/4p2/2L4/5s1 w 13
+Continue
+7/4l2/7/7/7/2L2Z1/7 w 22
+Continue
+7/6S/3lP2/2P4/3L3/7/7 w 11
+Continue
+6G/1S5/3Pl2/2p4/z5P/3L3/7 w 8
+Continue
+2l4/4s2/7/4p2/7/7/2L4 w 23
+Continue
+2l4/s3p2/p4Z1/2z4/4pp1/1P1Lp2/7 w 10
+Continue
+7/4l2/4s2/7/4L2/P3pp1/7 b 27
+Continue
+2l4/6p/7/p6/P3Lg1/Z1p4/7 b 35
+Continue
+4l2/7/7/7/7/3L3/7 b 32
+Continue
+4g2/3lp1s/ZPSP2s/2G4/1P1S3/S1s4/3L3 w 30
+Continue
+3l3/7/p1p4/7/7/2L4/7 w 3
+Continue
+7/2p1lpG/P1s4/1P5/P2p2P/2Lp2p/7 w 19
+Continue
+7/4l2/7/7/3L3/7/7 w 6
+Continue
+7/3l3/7/7/z1S4/2L4/7 b 11
+Continue
+4l2/5P1/7/7/P6/3L3/7 w 45
+Continue
+7/5pp/1s1l3/7/2SpL2/G6/7 w 23
+Continue
+7/2ppl2/7/4p2/4L2/7/7 b 17
+Continue
+3l3/7/s1P1P1s/1g5/1pP1s1S/1pp2sP/1S2L2 b 42
+Continue
+7/2lP3/6p/7/1P5/7/4L2 b 38
+Continue
+7/4lP1/s1P1z1P/4P2/4P2/4P2/3L3 w 4
+Continue
+7/2l4/7/7/5P1/3L3/7 b 8
+Continue
+7/7/2l1S2/3G3/7/7/4L2 w 11
+Continue
+3S3/7/3l3/5p1/2p2s1/7/3L3 b 4
+Continue
+2l4/4Zg1/5G1/7/7/4L2/4z2 w 49
+Continue
+7/7/1plP3/5P1/3p3/5p1/3L3 w 7
+Continue
+7/S2l2P/1Z5/2G4/p1s1L2/PPS4/7 w 36
+Continue
+7/2s4/2l4/7/pP2P2/3L1p1/7 w 38
+Continue
+2l4/7/2P1PS1/7/4P2/S3P2/z3L1Z b 30
+Continue
+7/3l3/7/1P5/2S4/7/2L4 w 16
+Continue
+6z/2g4/2ssl2/1p5/1Z5/1P2S2/2L4 b 31
+Continue
+7/3l3/7/7/3L3/7/7 b 36
+Continue
+2L4/4P1z/7/7/7/7/7 b 18
+White wins
+7/7/2l4/7/4p2/1p5/4L2 b 42
+Continue
+3l3/S1p3S/s2p1P1/s1P4/2L1S2/1Z3G1/7 w 47
+Continue
+7/7/2l2p1/7/1PL1s1p/7/7 w 40
+Continue
+2g4/S6/Z2l3/6S/P6/1s1L3/7 w 10
+Continue
+7/7/3l3/7/2Sp3/3Ps1s/4L2 b 16
+Continue
+7/pGs1l2/2p3P/7/1S1L1ps/s2P3/1g4Z b 3
+Continue
+7/7/2l4/3P3/7/7/4L2 b 31
+Continue
+7/s1pp1P1/2p1lpp/5P1/4S1P/p1g3P/1G1L3 w 19
+Continue
+7/7/2l4/7/7/3L3/7 b 45
+Continue
+2l4/2P3P/1p5/S2p3/5P1/2P2p1/4L2 b 2
+Continue
+7/2l4/5pp/7/2p4/4L2/7 b 50
+Continue
+7/7/2P1l2/5P1/4g2/4LSP/7 w 13
+Continue
+4l2/2s1s2/p6/7/7/2L4/7 b 27
+Continue
+1g5/PPl1S2/2p2G1/1p4P/1PLp1P1/1P5/7 w 3
+Continue
+7/p2lp2/7/7/7/7/3L3 w 43
+Continue
+4l2/2G3p/7/1g5/P2S3/4P2/4L1Z b 44
+Continue
+3l3/4P2/7/7/4L2/7/7 w 22
+Continue
+3l3/7/7/7/2z4/2P1g2/3L3 b 21
+Continue
+7/1P1l3/7/7/5pp/s3L2/7 b 32
+Continue
+4l2/p1z4/sZ2spP/3P3/2S1L2/1s1p1p1/7 w 41
+Continue
+3l3/7/7/7/7/2L3s/7 w 36
+Continue
+4l2/S5P/3s1s1/7/1p1PSg1/3pp1G/2L4 w 46
+Continue
+s2l3/7/3p3/7/4s2/7/2L4 w 43
+Continue
+7/7/3lp2/3p3/4z2/p2L3/7 b 3
+Continue
+7/7/4L2/7/1P4P/7/7 b 47
+White wins
+6S/p1s3p/P3l1S/4s2/3SLs1/4pZp/7 b 44
+Continue
+7/2l4/1P2P2/7/3L3/1P5/7 w 13
+Continue
+4Z2/S6/2l3P/2S4/P6/3L1S1/7 w 51
+Continue
+7/2lp3/1S5/7/7/4L2/7 b 17
+Continue
+7/Z6/3l3/7/7/1p5/3L3 w 17
+Continue
+4l2/7/7/7/3L3/7/7 b 28
+Continue
+7/1p1pP2/1P1Pl2/2P4/2S2s1/1s1sL1s/1G5 w 39
+Continue
+3l3/3p3/7/5P1/7/p2L1P1/7 w 18
+Continue
+3l3/P2S2P/5P1/7/2LP3/1GP2P1/7 b 16
+Continue
+7/1p5/s1l4/2P4/2Ls3/7/7 w 22
+Continue
+7/6p/1sl2S1/4Z2/1s5/2L4/7 w 27
+Continue
+7/7/3lP2/1s5/2p4/7/2L4 b 45
+Continue
+7/ppl3S/Pgpp1s1/3S3/2L4/s3P2/5Z1 w 50
+Continue
+7/3lP2/P3S2/7/7/4L2/7 w 46
+Continue
+7/2P1G2/3l1Pz/7/PSg4/P6/4L2 b 11
+Continue
+7/3l3/1p5/3P3/2P4/2LS3/7 w 46
+Continue
+7/2l1P2/7/5P1/7/4LG1/7 w 30
+Continue
+7/4s2/3l3/7/7/7/3L3 w 8
+Continue
+7/5P1/1Gl2P1/4sS1/1z5/1sgSspP/3L3 b 17
+Continue
+7/3pl2/2Sp3/1p5/4L2/7/7 b 46
+Continue
+2l4/4pP1/2sp3/3p3/2Z3p/3Lp2/7 b 17
+Continue
+7/2p4/2L4/7/7/1P3p1/7 b 46
+White wins
+3z3/S3l1P/7/5s1/1GPP1Pg/P3P2/4L2 b 23
+Continue
+3l3/7/7/1s5/7/4L2/7 w 13
+Continue
+7/3l2p/1p1p2p/7/P1pL1PZ/g6/7 w 9
+Continue
+7/7/2l1P2/7/7/7/2L4 b 48
+Continue
+7/S2l3/2ZsP2/4g2/7/3S2p/1GL4 b 14
+Continue
+7/7/4l2/7/2L4/5s1/7 b 17
+Continue
+4l2/2Pz2S/pSp1p2/4Sg1/2s2PZ/S1pL2P/7 w 39
+Continue
+7/5pP/2l4/7/1P5/2L2p1/7 b 28
+Continue
+7/7/3lP2/s3Z2/7/1zS3g/3L3 w 23
+Continue
+5S1/1S1P3/2l4/4s2/4L2/7/7 b 45
+Continue
+1g5/s3GZs/s1l4/6p/3s1S1/s2pL2/7 b 19
+Continue
+7/3lP2/7/7/7/3PP2/4L2 w 24
+Continue
+7/3l3/1G5/7/1s1PP1g/2L4/7 b 17
+Continue
+3l3/s6/7/2p4/6s/3L3/7 w 40
+Continue
+4l2/7/7/2P4/4L2/1z1GZ2/7 b 41
+Continue
+4l2/7/7/6s/3s3/2p4/2L4 b 2
+Continue
+4g2/P2pl2/2GPs2/7/1P1P2S/2L1pS1/7 b 9
+Continue
+7/4l2/7/7/s6/1s5/2L4 b 48
+Continue
+4g2/3G3/1Zl4/7/5p1/2L4/7 b 27
+Continue
+7/7/4l2/7/P1L4/4pP1/7 b 25
+Continue
+7/2s1l2/p4Gp/5z1/1sLp3/5p1/7 w 31
+Continue
+7/1P2l2/pp5/4P2/7/5p1/4L2 w 2
+Continue
+1g2l2/5zG/7/2Z4/7/2L4/7 w 16
+Continue
+7/4l2/P6/7/2s4/4LP1/7 w 36
+Continue
+2Z4/s1S1P1G/P1l1gp1/6S/5s1/1pLp2s/7 w 38
+Continue
+7/6P/3l3/7/1p2p2/s2PL2/5S1 b 8
+Continue
+7/3pl2/s2p2P/3p3/2L4/4Gs1/7 b 34
+Continue
+7/4lp1/7/4s2/7/7/3L3 w 18
+Continue
+4l2/5G1/3Z3/7/3z3/7/3L3 b 6
+Continue
+4l2/4P2/7/7/2LP3/6S/7 b 22
+Continue
+7/3zs2/4l2/7/2s1L2/Z2p2s/5s1 w 8
+Continue
+2l4/7/3p3/7/7/4L2/7 b 19
+Continue
+7/2G4/s1lZ3/3s3/3L2z/3s3/7 b 46
+Continue
+2l4/3p3/7/7/7/3L3/7 b 36
+Continue
+3l3/P3Zg1/1z1p2p/6S/2Pp1p1/4LS1/7 w 31
+Continue
+7/2l2Pp/7/7/4L1p/2P1S2/7 w 20
+Continue
+7/5S1/1Pl4/5pP/zPLP2p/5pg/7 w 12
+Continue
+7/2Pl3/7/1S5/7/3P3/4L2 w 22
+Continue
+7/3l3/4p2/7/P3L2/6Z/7 b 21
+Continue
+7/2lP3/7/5p1/S6/2L3p/7 b 30
+Continue
+6z/2ppS1p/P3l2/p6/3ppS1/1P4s/4L2 b 3
+Continue
+2l4/4P2/7/7/4p2/3s3/4L2 b 33
+Continue
+7/4l1P/3SpSp/3P3/pp4P/3LS1P/7 b 32
+Continue
+2l4/1P5/4p2/7/7/7/4L2 w 16
+Continue
+4z2/2ppp2/3l3/1P1p3/5sp/P1L1s2/3G3 b 19
+Continue
+7/7/1p1l3/7/p6/s2L3/7 b 31
+Continue
+7/3Sp1S/4l2/7/g3Z2/2L3S/5z1 b 6
+Continue
+4l2/7/7/7/6S/1pP1L2/7 b 37
+Continue
+7/7/3l3/6Z/7/2L1z2/7 w 42
+Continue
+7/4S2/4P2/7/7/7/2l4 w 33
+Black wins
+4l2/7/7/5z1/7/2L1gZ1/7 b 32
+Continue
+7/1S5/2Sl3/7/5p1/s6/4L2 w 29
+Continue
+7/3l3/3PG2/7/4L2/7/7 w 15
+Continue
+7/7/1P1L3/7/5p1/7/7 b 41
+White wins
+7/3l3/1zssp2/p5S/7/4LS1/7 b 49
+Continue
+2l4/6P/5p1/7/1SL4/1p5/7 b 6
+Continue
+7/2l2s1/p6/7/6S/1g4P/2L4 w 38
+Continue
+2l4/3P3/3p3/7/3L3/4P2/7 b 7
+Continue
+4l2/PP2P2/2P4/6g/P1P4/3PL2/7 w 4
+Continue
+2l4/S5P/7/7/1s1Lp2/7/7 b 7
+Continue
+4l2/3p3/p2G2Z/7/p2L1pz/7/7 w 50
+Continue
+7/3l3/2S3p/7/7/7/2L4 b 17
+Continue
+7/5pP/4l1z/7/5pp/1s1L3/7 w 30
+Continue
+7/4l2/7/6p/7/3L3/7 b 49
+Continue
+7/3p2g/2l4/1s5/2s4/7/2L2G1 b 49
+Continue
+7/4l2/7/6s/2L4/7/5S1 b 7
+Continue
+4z2/1s2S1S/P3l1Z/7/1s2P2/1PS4/3L3 w 42
+Continue
+3l3/7/7/7/3P3/S1L4/7 b 18
+Continue
+g6/2p1G2/S2l2p/3P3/2L2P1/2s4/7 w 1
+Continue
+3l3/7/7/1S5/5p1/1pp4/2L4 w 5
+Continue
+4l2/4S1S/2pp3/2Z4/s1s1z1g/2S3p/2L4 w 12
+Continue
+2l4/1S5/7/7/p1LP3/1S5/7 w 15
+Continue
+7/7/P1l3p/1s2P2/3S3/sPP1LpP/7 w 6
+Continue
+7/3s2s/1P5/7/3l3/7/7 w 30
+Black wins
+2Z4/3P3/2l1S2/4s2/7/7/1S1L3 b 5
+Continue
+6s/7/4l2/7/3p3/p6/2L4 w 3
+Continue
+7/2l4/7/7/7/7/Z2L3 b 17
+Continue
+2l4/7/1s3P1/7/PS3p1/7/4L2 b 11
+Continue
+1Z2l2/6p/7/1p5/2p4/3LP2/1g5 w 40
+Continue
+7/3l3/7/1P5/3S3/5S1/4L2 w 40
+Continue
+2z4/1p2l1P/1p1P3/7/P1L4/P2S1S1/6Z b 7
+Continue
+7/4l2/P1P4/7/2P4/2L4/7 b 9
+Continue
+z2l3/Z1pp3/2pp3/7/s6/2L4/3S3 b 44
+Continue
+5S1/3l3/7/2p4/2L2p1/7/7 b 37
+Continue
+4l2/ppP1pzP/2P1P2/6S/2LsPS1/2G4/7 w 29
+Continue
+7/3p3/ppl4/7/7/2L4/7 b 50
+Continue
+7/1Z1PPz1/2lpG2/7/1P1P3/1P2ss1/2L4 b 15
+Continue
+7/P6/p2l3/7/7/5s1/4L1S b 18
+Continue
+7/Pp1l1P1/S1s1P1p/s6/7/3L3/7 b 20
+Continue
+3l3/2p4/4p2/P6/5S1/2L2p1/7 w 11
+Continue
+7/pgGS3/2pl1P1/7/z6/SP1sL2/7 w 36
+Continue
+2l4/7/5p1/7/7/3L3/7 b 32
+Continue
+2l4/6p/3P3/P6/1PgP2S/3SGP1/2L4 w 23
+Continue
+7/3lP2/7/5S1/1P5/3L3/7 w 45
+Continue
+S1l4/7/6p/3s3/7/1S1sL2/7 b 1
+Continue
+4l2/7/2s4/7/6p/3L3/7 b 10
+Continue
+4G2/1P5/1Pl4/2Z4/7/2L1S2/1z5 w 44
+Continue
+2l4/2pS2S/4s2/7/7/2sL3/7 w 48
+Continue
+7/5SP/3l2P/6z/3S3/p1L4/S6 b 47
+Continue
+7/2l4/7/7/7/7/4L2 w 38
+Continue
+7/1p2s2/g2l2p/1P5/5p1/1z3pp/2L1Z2 w 25
+Continue
+7/1pl4/1S3p1/1S5/3L3/2S4/7 w 40
+Continue
+7/p3PSs/P2lS2/7/3pp1P/4L2/6s w 8
+Continue
+7/3P1p1/3l3/2S4/p6/2L2P1/7 b 13
+Continue
+3l3/2P1P2/Sps2P1/p6/1p5/P1Z1PpG/4L2 b 2
+Continue
+2l4/2P4/p1s4/5P1/7/7/2L4 b 47
+Continue
+2z4/1s1l3/3S1pS/1p5/4S2/4L2/7 b 27
+Continue
+4l2/6P/5sP/7/6p/4L2/7 w 39
+Continue
+3l3/p6/7/1zP4/P1L1pS1/3G3/7 b 28
+Continue
+7/7/2l1P2/3s3/3p3/7/4LS1 b 15
+Continue
