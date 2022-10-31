@@ -686,6 +686,7 @@ int performMinMax(struct Gamestate currState, int currDepth){
 
         int eval = -performMinMax(nextState, currDepth-1); //recurse
         tempVal = max(tempVal, eval);
+
     }
     return tempVal;
 }
@@ -849,7 +850,6 @@ void resetBoard(){
     }
     turnCount=0;
     rawScore=0;
-    gameOverCounter=0;
 }
 
 string generateNewFENString(struct Gamestate currState){
@@ -1369,14 +1369,14 @@ void sortSuperPawns(char color){
     if(color==WHITE){
         for(int j=7;j<14;j++){ //sorts pawns by starting position
             Piece Z = WhitePieces[j];
-            if(!Z.alive) break;
+            if(!Z.alive) continue;
             sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
         }
         sorted = sortPiece(sorted);
 
         for(int j=0;j<sorted.size();j++){
             for(int i=7;i<14;i++){
-                if(!WhitePieces[i].alive) break;
+                if(!WhitePieces[i].alive) continue;
                 string pawnPosTemp = convertFile(WhitePieces[i].position[1]) + to_string(WhitePieces[i].position[0]);
                 if(pawnPosTemp==sorted[j]){
                     TempPawns.push_back(WhitePieces[i]);
@@ -1390,14 +1390,14 @@ void sortSuperPawns(char color){
     }else{
         for(int j=7;j<14;j++){ //sorts pawns by starting position
             Piece Z = BlackPieces[j];
-            if(!Z.alive) break;
+            if(!Z.alive) continue;
             sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
         }
         sorted = sortPiece(sorted);
 
         for(int j=0;j<sorted.size();j++){
             for(int i=7;i<14;i++){
-                if(!BlackPieces[i].alive) break;
+                if(!BlackPieces[i].alive) continue;
                 string pawnPosTemp = convertFile(BlackPieces[i].position[1]) + to_string(BlackPieces[i].position[0]);
                 if(pawnPosTemp==sorted[j]){
                     TempPawns.push_back(BlackPieces[i]);
@@ -1419,7 +1419,7 @@ string printPawnMoves(){
         for(int j=0;j<7;j++){
             sorted.clear();
             Piece Z = WhitePieces[j];
-            if(Z.availMoves.size()==0) break; //if pawn is dead or has no avail moves
+            if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
             else if(j!=0 && j!=6)out+= " ";
             for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
                 sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
@@ -1435,7 +1435,7 @@ string printPawnMoves(){
         for(int j=0;j<7;j++){
             sorted.clear();
             Piece z = BlackPieces[j];
-            if(z.availMoves.size()==0) break;
+            if(z.availMoves.size()==0) continue;
             else if(j!=0 && j!=6)out+= " ";
             for(int i=0; i<z.availMoves.size();i++){
                 sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
@@ -1460,7 +1460,7 @@ string printSuperPawnMoves(){
         for(int j=7;j<14;j++){
             sorted.clear();
             Piece Z = WhitePieces[j];
-            if(Z.availMoves.size()==0) break; //if pawn is dead or has no avail moves
+            if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
             else if(j!=7 && j!=13)out+= " ";
             for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
                 sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
@@ -1476,7 +1476,7 @@ string printSuperPawnMoves(){
         for(int j=7;j<14;j++){
             sorted.clear();
             Piece z = BlackPieces[j];
-            if(z.availMoves.size()==0) break;
+            if(z.availMoves.size()==0) continue;
             else if(j!=7 && j!=13)out+= " ";
             for(int i=0; i<z.availMoves.size();i++){
                 sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
