@@ -32,7 +32,7 @@ void printBoard(vector<vector<char>> board);
 char readFENString(string fen);
 void resetBoard();
 string printFENString(char NextMove);
-string generateNewFENString();
+string generateNewFENString(struct Gamestate currState);
 vector<string> getAllMoves(struct Gamestate currState);
 
 char convertFile(int newFile){
@@ -524,8 +524,6 @@ struct Gamestate makeMove(struct Gamestate currState, string myMove){
     int PieceIndex = getPiece(currState, startPiece, startPos, color);
 
     if(color==WHITE){
-        nextState.currColor = BLACK;
-
         if(PieceIndex!=-1){
             currState.WhiteP[PieceIndex].setPosition(endPos); //update Piece pos
             currState.currBoard[rankStart-1][fileStart] = '0';         //update board
@@ -557,9 +555,6 @@ struct Gamestate makeMove(struct Gamestate currState, string myMove){
 
         fen2 += BLACK;
         fen2 += " " + to_string(currState.currTurn);
-        /*if(!currState.BlackP[18].alive){
-            fen2 += "\nWhite wins";
-        }else  fen2 += "\nContinue";*/
     }else{
         nextState.currColor = WHITE;
 
@@ -595,18 +590,17 @@ struct Gamestate makeMove(struct Gamestate currState, string myMove){
 
         fen2 += WHITE;
         fen2 += " " + to_string(currState.currTurn);
-        /*if(!currState.WhiteP[18].alive){
-            fen2 += "\nBlack wins";
-        }else  fen2 += "\nContinue";*/
     }
 
     currState = evolvePawns(currState);
+    nextState.currFEN = generateNewFENString(currState) + fen2;
+    resetBoard();
+    readFENString(nextState.currFEN);
 
-    nextState.BlackP = currState.BlackP;
-    nextState.WhiteP = currState.WhiteP;
+    nextState.BlackP = BlackPieces;
+    nextState.WhiteP = WhitePieces;
     nextState.currBoard = currState.currBoard;
     nextState.currTurn = turnCount;
-    nextState.currFEN = generateNewFENString() + fen2;
 
     return nextState;
 }
@@ -660,33 +654,24 @@ bool isGameOver(struct Gamestate currState){
 
 int performMinMax(struct Gamestate currState, int currDepth){
     if(isGameOver(currState) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
-        cout << calcScore(currState) <<endl;
+        //cout << calcScore(currState) <<endl;
         return calcScore(currState);     //calc score of current state
     }
-    long tempVal = -1000000; //very large negative number
+    int tempVal = -1000000; //very large negative number
     vector<string> allMoves = getAllMoves(currState); //get all moves for all pieces
 
     for(int i=0; i<allMoves.size();i++){ //for every move
         struct Gamestate nextState = makeMove(currState, allMoves[i]); //get next state for each move
-        cout << allMoves[i] << " " << nextState.currFEN << endl;
-        resetBoard();
+        //cout << allMoves[i] << " " << nextState.currFEN << endl;
+        /*resetBoard();
         nextMove = readFENString(nextState.currFEN);
-        printFENString(nextState.currColor);
+        printFENString(nextState.currColor);*/
 
-        /*nextState.WhiteP=WhitePieces;
-        nextState.BlackP=BlackPieces;
-        nextState.currBoard=board;
-        nextState.currFEN=nextState.currFEN;
-        nextState.currColor=nextMove;
-        nextState.currTurn=turnCount;*/
+        //printBoard(nextState.currBoard);
+        //cout << endl;
 
-
-        printBoard(nextState.currBoard);
-        cout << endl;
-
-        long eval = performMinMax(nextState, currDepth-1); //recurse
+        int eval = -performMinMax(nextState, currDepth-1); //recurse
         tempVal = max(tempVal, eval);
-        //cout << tempVal << endl;
     }
     return tempVal;
 }
@@ -852,13 +837,13 @@ void resetBoard(){
     rawScore=0;
 }
 
-string generateNewFENString(){
+string generateNewFENString(struct Gamestate currState){
     string fen="";
     int tempLine = 0;
 
     for(int i=6; i>=0;i--){
         for(int j=0;j<7;j++){
-            char piece = board[i][j];
+            char piece = currState.currBoard[i][j];
             if(piece=='0') tempLine++;
             else{
                 if (tempLine!=0) fen += to_string(tempLine);
@@ -1537,8 +1522,6 @@ int main() {
         //Sub1 stuff
         nextMove = readFENString(fen);
         output1+=printFENString(nextMove);
-        //printBoard();
-        //cout << endl;
 
         //Sub 2&3 stuff
         //output2+=printLionMoves(WhitePieces, BlackPieces);
@@ -1557,6 +1540,9 @@ int main() {
         startState.currFEN=fen;
         startState.currColor=nextMove;
         startState.currTurn=turnCount;
+
+        //printBoard(startState.currBoard);
+        //cout << endl;
 
         rawScore = performMinMax(startState, DEPTH);
         output2 += to_string(rawScore);
