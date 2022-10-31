@@ -434,20 +434,20 @@ struct Gamestate{
     string currFEN;
 };
 
-int getPiece(vector<Piece> WhiteP, vector<Piece> BlackP, char Tag, char color, vector<int> pos){
+int getPiece(struct Gamestate currState, char Tag, vector<int> pos, char color){
     if(color==WHITE){
         auto tagIT = find(allWhitePieces.begin(), allWhitePieces.end(), Tag);
         if(tagIT!=allWhitePieces.end()){
             int index = tagIT - allWhitePieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
-                    if(!WhiteP[i].alive) continue;
-                    if(WhiteP[i].position==pos) return i;
+                    if(!currState.WhiteP[i].alive) continue;
+                    if(currState.WhiteP[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
-                    if(!WhiteP[i].alive) continue;
-                    if(WhiteP[i].position==pos) return i;
+                    if(!currState.WhiteP[i].alive) continue;
+                    if(currState.WhiteP[i].position==pos) return i;
                 }
             }else return index;
         }else return -1;
@@ -457,30 +457,30 @@ int getPiece(vector<Piece> WhiteP, vector<Piece> BlackP, char Tag, char color, v
             int index = tagIT - allBlackPieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
-                    if(!BlackP[i].alive) continue;
-                    if(BlackP[i].position==pos) return i;
+                    if(!currState.BlackP[i].alive) continue;
+                    if(currState.BlackP[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
-                    if(!BlackP[i].alive) continue;
-                    if(BlackP[i].position==pos) return i;
+                    if(!currState.BlackP[i].alive) continue;
+                    if(currState.BlackP[i].position==pos) return i;
                 }
             }else return index;
         }else return -1;
     }
 }
 
-void evolvePawns(vector<Piece> WhiteP, vector<Piece> BlackP, char color){
-    if(color==WHITE){
+struct Gamestate evolvePawns(struct Gamestate currState){
+    if(currState.currColor==WHITE){
         for(int i=0;i<7;i++){
-            if(!WhiteP[i].alive) continue;
-            if(WhiteP[i].position[0]==7){
-                board[6][WhiteP[i].position[1]] = 'S';
-                WhiteP[i].setAlive(false);
+            if(!currState.WhiteP[i].alive) continue;
+            if(currState.WhiteP[i].position[0]==7){
+                currState.currBoard[6][currState.WhiteP[i].position[1]] = 'S';
+                currState.WhiteP[i].setAlive(false);
                 for(int j=7;j<14;j++){
-                    if(!WhiteP[j].alive){
-                        WhiteP[j].setAlive(true);
-                        WhiteP[j].setPosition(WhiteP[i].getPosition());
+                    if(!currState.WhiteP[j].alive){
+                        currState.WhiteP[j].setAlive(true);
+                        currState.WhiteP[j].setPosition(currState.WhiteP[i].getPosition());
                         break;
                     }
                 }
@@ -488,23 +488,26 @@ void evolvePawns(vector<Piece> WhiteP, vector<Piece> BlackP, char color){
         }
     }else{
         for(int i=0;i<7;i++){
-            if(!BlackP[i].alive) continue;
-            if(BlackP[i].position[0]==1){
-                board[0][BlackP[i].position[1]] = 's';
-                BlackP[i].setAlive(false);
+            if(!currState.BlackP[i].alive) continue;
+            if(currState.BlackP[i].position[0]==1){
+                currState.currBoard[0][currState.BlackP[i].position[1]] = 's';
+                currState.BlackP[i].setAlive(false);
                 for(int j=7;j<14;j++){
-                    if(!BlackP[j].alive){
-                        BlackP[j].setAlive(true);
-                        BlackP[j].setPosition(BlackP[i].getPosition());
+                    if(!currState.BlackP[j].alive){
+                        currState.BlackP[j].setAlive(true);
+                        currState.BlackP[j].setPosition(currState.BlackP[i].getPosition());
                         break;
                     }
                 }
             }
         }
     }
+
+    return currState;
 }
 
-string makeMove(struct Gamestate currState, string myMove){
+struct Gamestate makeMove(struct Gamestate currState, string myMove){
+    struct Gamestate nextState;
     int fileStart = convertFileToInt(myMove[0]);
     int rankStart = myMove[1] - '0';
     int fileEnd = convertFileToInt(myMove[2]);
@@ -512,15 +515,17 @@ string makeMove(struct Gamestate currState, string myMove){
     string fen2 = " ";
     char color = currState.currColor;
 
-    if(fileStart==-1 || fileEnd==-1) return "Invalid move";
+    if(fileStart==-1 || fileEnd==-1) cout << "Invalid move" << endl;
 
     char startPiece = currState.currBoard[rankStart-1][fileStart];
     char endPiece = currState.currBoard[rankEnd-1][fileEnd];
     vector<int> startPos = {rankStart, fileStart};
     vector<int> endPos = {rankEnd, fileEnd};
-    int PieceIndex = getPiece(currState.WhiteP, currState.BlackP, startPiece, color, startPos);
+    int PieceIndex = getPiece(currState, startPiece, startPos, color);
 
     if(color==WHITE){
+        nextState.currColor = BLACK;
+
         if(PieceIndex!=-1){
             currState.WhiteP[PieceIndex].setPosition(endPos); //update Piece pos
             currState.currBoard[rankStart-1][fileStart] = '0';         //update board
@@ -528,7 +533,7 @@ string makeMove(struct Gamestate currState, string myMove){
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(currState.WhiteP, currState.BlackP, endPiece, BLACK, endPos);
+            int capturePiece = getPiece(currState, endPiece, endPos, BLACK);
             if(capturePiece!=-1){
                 currState.BlackP[capturePiece].setAlive(false); //capture and set alive false
             }
@@ -537,7 +542,7 @@ string makeMove(struct Gamestate currState, string myMove){
         for(int i=0;i<7;i++){
             if(currState.currBoard[3][i]!='0'){ //if piece in river is a piece
                 vector<int> pawnPos = {4, i};
-                int RiverPiece = getPiece(currState.WhiteP, currState.BlackP, currState.currBoard[3][i], color, pawnPos);
+                int RiverPiece = getPiece(currState, currState.currBoard[3][i], pawnPos, color);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
                         currState.WhiteP[RiverPiece].setAlive(false);
@@ -551,13 +556,14 @@ string makeMove(struct Gamestate currState, string myMove){
         }
 
         fen2 += BLACK;
-        fen2 += " " + to_string(turnCount);
-        if(!currState.BlackP[18].alive){
-            rawScore = 10000;
+        fen2 += " " + to_string(currState.currTurn);
+        /*if(!currState.BlackP[18].alive){
             fen2 += "\nWhite wins";
-        }else  fen2 += "\nContinue";
+        }else  fen2 += "\nContinue";*/
     }else{
-        turnCount++; //after black moves, turnCount increments
+        nextState.currColor = WHITE;
+
+        currState.currTurn++; //after black moves, turnCount increments
         if(PieceIndex!=-1){
             currState.BlackP[PieceIndex].setPosition(endPos); //update Piece pos
             currState.currBoard[rankStart-1][fileStart] = '0';         //update board
@@ -565,7 +571,7 @@ string makeMove(struct Gamestate currState, string myMove){
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(currState.WhiteP, currState.BlackP, endPiece, WHITE, endPos);
+            int capturePiece = getPiece(currState, endPiece, endPos, WHITE);
             if(capturePiece!=-1){
                 currState.WhiteP[capturePiece].setAlive(false); //capture and set alive false
             }
@@ -574,7 +580,7 @@ string makeMove(struct Gamestate currState, string myMove){
         for(int i=0;i<7;i++){
             if(currState.currBoard[3][i]!='0'){ //if piece in river is a piece
                 vector<int> pawnPos = {4, i};
-                int RiverPiece = getPiece(currState.WhiteP, currState.BlackP, currState.currBoard[3][i], color, pawnPos);
+                int RiverPiece = getPiece(currState, currState.currBoard[3][i], pawnPos, color);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
                         currState.BlackP[RiverPiece].setAlive(false);
@@ -588,15 +594,21 @@ string makeMove(struct Gamestate currState, string myMove){
         }
 
         fen2 += WHITE;
-        fen2 += " " + to_string(turnCount);
-        if(!currState.WhiteP[18].alive){
-            rawScore = -10000;
+        fen2 += " " + to_string(currState.currTurn);
+        /*if(!currState.WhiteP[18].alive){
             fen2 += "\nBlack wins";
-        }else  fen2 += "\nContinue";
+        }else  fen2 += "\nContinue";*/
     }
 
-    evolvePawns(currState.WhiteP, currState.BlackP, color);
-    return generateNewFENString() + fen2;
+    currState = evolvePawns(currState);
+
+    nextState.BlackP = currState.BlackP;
+    nextState.WhiteP = currState.WhiteP;
+    nextState.currBoard = currState.currBoard;
+    nextState.currTurn = turnCount;
+    nextState.currFEN = generateNewFENString() + fen2;
+
+    return nextState;
 }
 
 int calcScore(struct Gamestate currState){
@@ -648,36 +660,34 @@ bool isGameOver(struct Gamestate currState){
 
 int performMinMax(struct Gamestate currState, int currDepth){
     if(isGameOver(currState) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
-        //cout << calcScore(currState) <<endl;
+        cout << calcScore(currState) <<endl;
         return calcScore(currState);     //calc score of current state
     }
     long tempVal = -1000000; //very large negative number
     vector<string> allMoves = getAllMoves(currState); //get all moves for all pieces
 
     for(int i=0; i<allMoves.size();i++){ //for every move
-        struct Gamestate nextState;
-        string nextFEN = makeMove(currState, allMoves[i]); //get next state for each move
-        //cout << nextFEN << endl;
+        struct Gamestate nextState = makeMove(currState, allMoves[i]); //get next state for each move
+        cout << allMoves[i] << " " << nextState.currFEN << endl;
         resetBoard();
-        nextMove = readFENString(nextFEN);
-        printFENString(nextMove);
+        nextMove = readFENString(nextState.currFEN);
+        printFENString(nextState.currColor);
 
-        nextState.WhiteP=WhitePieces;
+        /*nextState.WhiteP=WhitePieces;
         nextState.BlackP=BlackPieces;
         nextState.currBoard=board;
-        nextState.currFEN=nextFEN;
+        nextState.currFEN=nextState.currFEN;
         nextState.currColor=nextMove;
-        nextState.currTurn=turnCount;
+        nextState.currTurn=turnCount;*/
 
 
-        //printBoard(nextState.currBoard);
-        //cout << endl;
+        printBoard(nextState.currBoard);
+        cout << endl;
 
         long eval = performMinMax(nextState, currDepth-1); //recurse
         tempVal = max(tempVal, eval);
         //cout << tempVal << endl;
     }
-
     return tempVal;
 }
 
