@@ -8,6 +8,8 @@ using namespace std;
 
 #define BLACK 'b'
 #define WHITE 'w'
+#define DEPTH 2
+class Piece;
 vector<char> WP = {'P', 'S', 'G', 'M', 'E', 'L', 'C', 'Z'};
 //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<char> allWhitePieces = {'P','P','P','P','P','P','P',
@@ -21,6 +23,7 @@ vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 char nextMove;
 int turnCount=0;
 int rawScore=0;
+int depthCounter=0;
 vector<vector<char>> board;
 void checkLionEat(char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
@@ -28,6 +31,7 @@ void sortPawns(char color);
 void sortSuperPawns(char color);
 void printBoard();
 string generateNewFENString();
+string getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP);
 
 char convertFile(int newFile){
         return files[newFile];
@@ -445,6 +449,11 @@ public:
 //-----------------------------------------------------------------------------------------------------
 vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
+struct SearchPieces{
+    vector<vector<Piece>> WhiteP;
+    vector<vector<Piece>> BlackP;
+};
+struct SearchPieces allPieces;
 
 int getPiece(char Tag, char color, vector<int> pos){
     if(color==WHITE){
@@ -611,17 +620,17 @@ string makeMove(string myMove, char color){
     return generateNewFENString() + fen2;
 }
 
-int calcScore(char color){
+int calcScore(vector<Piece> WhiteP, vector<Piece> BlackP, char color){
     int WhiteScore=0;
     int BlackScore=0;
 
     //Winning Conditions
-    if(!WhitePieces[18].alive){
+    if(!WhiteP[18].alive){
         if(color==WHITE) rawScore = -10000;
         else rawScore = 10000;
         return rawScore;
     }
-    if(!BlackPieces[18].alive){
+    if(!BlackP[18].alive){
         if(color==WHITE) rawScore = 10000;
         else rawScore = -10000;
         return rawScore;
@@ -629,27 +638,43 @@ int calcScore(char color){
 
     //White Score
     for(int i=0;i<7;i++){
-        if(WhitePieces[i].alive) WhiteScore +=100;
+        if(WhiteP[i].alive) WhiteScore +=100;
     }
     for(int i=7;i<14;i++){
-        if(WhitePieces[i].alive) WhiteScore +=350;
+        if(WhiteP[i].alive) WhiteScore +=350;
     }
-    if(WhitePieces[14].alive) WhiteScore +=400;
-    if(WhitePieces[20].alive) WhiteScore +=300;
+    if(WhiteP[14].alive) WhiteScore +=400;
+    if(WhiteP[20].alive) WhiteScore +=300;
 
     //Black Score
     for(int i=0;i<7;i++){
-            if(BlackPieces[i].alive) BlackScore +=100;
+            if(BlackP[i].alive) BlackScore +=100;
         }
         for(int i=7;i<14;i++){
-            if(BlackPieces[i].alive) BlackScore +=350;
+            if(BlackP[i].alive) BlackScore +=350;
         }
-        if(BlackPieces[14].alive) BlackScore +=400;
-        if(BlackPieces[20].alive) BlackScore +=300;
+        if(BlackP[14].alive) BlackScore +=400;
+        if(BlackP[20].alive) BlackScore +=300;
 
     if(color==WHITE) rawScore = WhiteScore-BlackScore;
     else rawScore = BlackScore-WhiteScore;
     return rawScore;
+}
+
+bool isGameOver(vector<Piece> WhiteP, vector<Piece> BlackP){
+    if(!WhiteP[18].alive || !BlackP[18].alive) return true;
+    return false;
+}
+
+int performMinMax(vector<Piece> WhiteP, vector<Piece> BlackP, int currDepth, char color){
+    if(isGameOver(WhiteP, BlackP) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
+        return calcScore(WhiteP, BlackP, color);     //calc score of current state
+    }
+
+    int tempVal = -1000000; //very large negative number
+    string allMoves = getAllMoves(WhiteP, BlackP);
+    cout << allMoves << endl;
+    return tempVal;
 }
 
 void checkLionEat(char color){
@@ -812,6 +837,8 @@ void resetBoard(){
     }
     turnCount=0;
     rawScore=0;
+    allPieces.WhiteP.clear();
+    allPieces.BlackP.clear();
 }
 
 string generateNewFENString(){
@@ -1178,11 +1205,11 @@ void printBoard(){
     }
 }
 
-string printLionMoves(){
+string printLionMoves(vector<Piece> WhiteP, vector<Piece> BlackP){
     string out = "";
     vector<string> sorted;
     if(nextMove==WHITE){
-        Piece L = WhitePieces[18];
+        Piece L = WhiteP[18];
         if(L.availMoves.size()==0) return out;
         for(int i=0; i<L.availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
@@ -1194,7 +1221,7 @@ string printLionMoves(){
             if(i!=sorted.size()-1) out+= " ";
         }
     }else{
-        Piece L = BlackPieces[18];
+        Piece L = BlackP[18];
         if(L.availMoves.size()==0) return out;
         for(int i=0; i<L.availMoves.size();i++){
             sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
@@ -1412,7 +1439,7 @@ string printPawnMoves(){
     return out;
 }
 
-string printSsperPawnMoves(){
+string printSuperPawnMoves(){
     string out = "";
     vector<string> sorted;
 
@@ -1452,6 +1479,16 @@ string printSsperPawnMoves(){
     return out;
 }
 
+string getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP){
+    string allMoves="";
+    allMoves+= printLionMoves(WhiteP, BlackP);
+    allMoves+= " " + printZebraMoves();
+    allMoves+= " " + printGiraffeMoves();
+    allMoves+= " " + printPawnMoves();
+    allMoves+= " " + printSuperPawnMoves();
+    return allMoves;
+}
+
 int main() {
     setupPieces();
     string output1="";
@@ -1467,20 +1504,26 @@ int main() {
         //getline(cin, myMove);
 
         //Sub1 stuff
-        char col = readFENString(fen);
-        output1+=printFENString(col);
+        nextMove = readFENString(fen);
+        output1+=printFENString(nextMove);
         //printBoard();
         //cout << endl;
 
-        //Sub2 stuff
-        //output2+=printLionMoves();
+        //Sub 2&3 stuff
+        output2+=printLionMoves(WhitePieces, BlackPieces);
         //output2+=printZebraMoves();
         //output2+=printGiraffeMoves();
         //output2+=printPawnMoves();
-        //output2+=printSsperPawnMoves();
-        //output2+=makeMove(myMove, col);
-        output2+=to_string(calcScore(col));
-        //printBoard();
+        //output2+=printSuperPawnMoves();
+        //output2+=makeMove(myMove, nextMove);
+        //output2+=to_string(calcScore(WhitePieces, BlackPieces, nextMove));
+        printBoard();
+
+        //Sub4 stuff
+        allPieces.WhiteP.push_back(WhitePieces);
+        allPieces.BlackP.push_back(BlackPieces);
+        rawScore = performMinMax(WhitePieces, BlackPieces, DEPTH, nextMove);
+
 
         if(i!=N-1){
             output1+="\n\n";
