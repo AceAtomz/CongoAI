@@ -23,15 +23,17 @@ vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 char nextMove;
 int turnCount=0;
 int rawScore=0;
-int depthCounter=0;
 vector<vector<char>> board;
 vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
 void sortPawns(char color);
 void sortSuperPawns(char color);
-void printBoard();
+void printBoard(vector<vector<char>> board);
+char readFENString(string fen);
+void resetBoard();
+string printFENString(char NextMove);
 string generateNewFENString();
-string getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP);
+vector<string> getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP);
 
 char convertFile(int newFile){
         return files[newFile];
@@ -422,26 +424,30 @@ public:
 //-----------------------------------------------------------------------------------------------------
 vector<Piece> BlackPieces; //Pawn(0-6) Superpawn(7-13) giraffe(14) monkey(15) elephant(16-17) lion(18) crocodile(19) zebra(20)
 vector<Piece> WhitePieces;
-struct SearchPieces{
-    vector<vector<Piece>> WhiteP;
-    vector<vector<Piece>> BlackP;
+struct Gamestate{
+    vector<Piece> WhiteP;
+    vector<Piece> BlackP;
+    char currColor;
+    int currTurn;
+    int currScore;
+    vector<vector<char>> currBoard;
+    string currFEN;
 };
-struct SearchPieces allPieces;
 
-int getPiece(char Tag, char color, vector<int> pos){
+int getPiece(vector<Piece> WhiteP, vector<Piece> BlackP, char Tag, char color, vector<int> pos){
     if(color==WHITE){
         auto tagIT = find(allWhitePieces.begin(), allWhitePieces.end(), Tag);
         if(tagIT!=allWhitePieces.end()){
             int index = tagIT - allWhitePieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
-                    if(!WhitePieces[i].alive) continue;
-                    if(WhitePieces[i].position==pos) return i;
+                    if(!WhiteP[i].alive) continue;
+                    if(WhiteP[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
-                    if(!WhitePieces[i].alive) continue;
-                    if(WhitePieces[i].position==pos) return i;
+                    if(!WhiteP[i].alive) continue;
+                    if(WhiteP[i].position==pos) return i;
                 }
             }else return index;
         }else return -1;
@@ -451,30 +457,30 @@ int getPiece(char Tag, char color, vector<int> pos){
             int index = tagIT - allBlackPieces.begin();
             if(index<7){
                 for(int i=0;i<7;i++){
-                    if(!BlackPieces[i].alive) continue;
-                    if(BlackPieces[i].position==pos) return i;
+                    if(!BlackP[i].alive) continue;
+                    if(BlackP[i].position==pos) return i;
                 }
             }else if(index<14){
                 for(int i=7;i<14;i++){
-                    if(!BlackPieces[i].alive) continue;
-                    if(BlackPieces[i].position==pos) return i;
+                    if(!BlackP[i].alive) continue;
+                    if(BlackP[i].position==pos) return i;
                 }
             }else return index;
         }else return -1;
     }
 }
 
-void evolvePawns(char color){
+void evolvePawns(vector<Piece> WhiteP, vector<Piece> BlackP, char color){
     if(color==WHITE){
         for(int i=0;i<7;i++){
-            if(!WhitePieces[i].alive) continue;
-            if(WhitePieces[i].position[0]==7){
-                board[6][WhitePieces[i].position[1]] = 'S';
-                WhitePieces[i].setAlive(false);
+            if(!WhiteP[i].alive) continue;
+            if(WhiteP[i].position[0]==7){
+                board[6][WhiteP[i].position[1]] = 'S';
+                WhiteP[i].setAlive(false);
                 for(int j=7;j<14;j++){
-                    if(!WhitePieces[j].alive){
-                        WhitePieces[j].setAlive(true);
-                        WhitePieces[j].setPosition(WhitePieces[i].getPosition());
+                    if(!WhiteP[j].alive){
+                        WhiteP[j].setAlive(true);
+                        WhiteP[j].setPosition(WhiteP[i].getPosition());
                         break;
                     }
                 }
@@ -482,14 +488,14 @@ void evolvePawns(char color){
         }
     }else{
         for(int i=0;i<7;i++){
-            if(!BlackPieces[i].alive) continue;
-            if(BlackPieces[i].position[0]==1){
-                board[0][BlackPieces[i].position[1]] = 's';
-                BlackPieces[i].setAlive(false);
+            if(!BlackP[i].alive) continue;
+            if(BlackP[i].position[0]==1){
+                board[0][BlackP[i].position[1]] = 's';
+                BlackP[i].setAlive(false);
                 for(int j=7;j<14;j++){
-                    if(!BlackPieces[j].alive){
-                        BlackPieces[j].setAlive(true);
-                        BlackPieces[j].setPosition(BlackPieces[i].getPosition());
+                    if(!BlackP[j].alive){
+                        BlackP[j].setAlive(true);
+                        BlackP[j].setPosition(BlackP[i].getPosition());
                         break;
                     }
                 }
@@ -498,7 +504,7 @@ void evolvePawns(char color){
     }
 }
 
-string makeMove(string myMove, char color){
+string makeMove(vector<Piece> WhiteP, vector<Piece> BlackP, string myMove, char color){
     int fileStart = convertFileToInt(myMove[0]);
     int rankStart = myMove[1] - '0';
     int fileEnd = convertFileToInt(myMove[2]);
@@ -511,33 +517,33 @@ string makeMove(string myMove, char color){
     char endPiece = board[rankEnd-1][fileEnd];
     vector<int> startPos = {rankStart, fileStart};
     vector<int> endPos = {rankEnd, fileEnd};
-    int PieceIndex = getPiece(startPiece, color, startPos);
+    int PieceIndex = getPiece(WhiteP, BlackP, startPiece, color, startPos);
 
     if(color==WHITE){
 
         if(PieceIndex!=-1){
-            WhitePieces[PieceIndex].setPosition(endPos); //update Piece pos
+            WhiteP[PieceIndex].setPosition(endPos); //update Piece pos
             board[rankStart-1][fileStart] = '0';         //update board
             board[rankEnd-1][fileEnd] = startPiece;
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(endPiece, BLACK, endPos);
+            int capturePiece = getPiece(WhiteP, BlackP, endPiece, BLACK, endPos);
             if(capturePiece!=-1){
-                BlackPieces[capturePiece].setAlive(false); //capture and set alive false
+                BlackP[capturePiece].setAlive(false); //capture and set alive false
             }
         }
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
                 vector<int> pawnPos = {4, i};
-                int RiverPiece = getPiece(board[3][i], color, pawnPos);
+                int RiverPiece = getPiece(WhiteP, BlackP, board[3][i], color, pawnPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
-                        WhitePieces[RiverPiece].setAlive(false);
+                        WhiteP[RiverPiece].setAlive(false);
                         board[3][i] = '0';
                     }else if(rankStart==rankEnd){ //if moved piece started and ended in river, drown
-                        WhitePieces[RiverPiece].setAlive(false);
+                        WhiteP[RiverPiece].setAlive(false);
                         board[3][i] = '0';
                     }
                 }
@@ -546,35 +552,35 @@ string makeMove(string myMove, char color){
 
         fen2 += BLACK;
         fen2 += " " + to_string(turnCount);
-        if(!BlackPieces[18].alive){
+        if(!BlackP[18].alive){
             rawScore = 10000;
             fen2 += "\nWhite wins";
         }else  fen2 += "\nContinue";
     }else{
         turnCount++; //after black moves, turnCount increments
         if(PieceIndex!=-1){
-            BlackPieces[PieceIndex].setPosition(endPos); //update Piece pos
+            BlackP[PieceIndex].setPosition(endPos); //update Piece pos
             board[rankStart-1][fileStart] = '0';         //update board
             board[rankEnd-1][fileEnd] = startPiece;
         }
 
         if(endPiece!='0'){ //if endPos is enemy piece
-            int capturePiece = getPiece(endPiece, WHITE, endPos);
+            int capturePiece = getPiece(WhiteP, BlackP, endPiece, WHITE, endPos);
             if(capturePiece!=-1){
-                WhitePieces[capturePiece].setAlive(false); //capture and set alive false
+                WhiteP[capturePiece].setAlive(false); //capture and set alive false
             }
         }
 
         for(int i=0;i<7;i++){
             if(board[3][i]!='0'){ //if piece in river is a piece
                 vector<int> pawnPos = {4, i};
-                int RiverPiece = getPiece(board[3][i], color, pawnPos);
+                int RiverPiece = getPiece(WhiteP, BlackP, board[3][i], color, pawnPos);
                 if(RiverPiece!=-1){ //if piece in river is not the moved piece drown it
                     if(RiverPiece!=PieceIndex){ // if river piece is not the same as moved piece, drown
-                        BlackPieces[RiverPiece].setAlive(false);
+                        BlackP[RiverPiece].setAlive(false);
                         board[3][i] = '0';
                     }else if(rankStart==rankEnd){ //if moved piece started and ended in river, drown
-                        BlackPieces[RiverPiece].setAlive(false);
+                        BlackP[RiverPiece].setAlive(false);
                         board[3][i] = '0';
                     }
                 }
@@ -583,13 +589,13 @@ string makeMove(string myMove, char color){
 
         fen2 += WHITE;
         fen2 += " " + to_string(turnCount);
-        if(!WhitePieces[18].alive){
+        if(!WhiteP[18].alive){
             rawScore = -10000;
             fen2 += "\nBlack wins";
         }else  fen2 += "\nContinue";
     }
 
-    evolvePawns(color);
+    evolvePawns(WhiteP, BlackP, color);
     return generateNewFENString() + fen2;
 }
 
@@ -639,14 +645,36 @@ bool isGameOver(vector<Piece> WhiteP, vector<Piece> BlackP){
     return false;
 }
 
-int performMinMax(vector<Piece> WhiteP, vector<Piece> BlackP, int currDepth, char color){
-    if(isGameOver(WhiteP, BlackP) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
-        return calcScore(WhiteP, BlackP, color);     //calc score of current state
+int performMinMax(struct Gamestate currState, int currDepth){
+    if(isGameOver(currState.WhiteP, currState.BlackP) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
+        cout << calcScore(currState.WhiteP, currState.BlackP, currState.currColor) <<endl;
+        return calcScore(currState.WhiteP, currState.BlackP, currState.currColor);     //calc score of current state
+    }
+    int tempVal = -1000000; //very large negative number
+    vector<string> allMoves = getAllMoves(currState.WhiteP, currState.BlackP); //get all moves for all pieces
+
+    for(int i=0; i<allMoves.size();i++){ //for every move
+        struct Gamestate nextState;
+        string nextFEN = makeMove(currState.WhiteP, currState.BlackP, allMoves[i], currState.currColor); //get next state for each move
+        cout << nextFEN << endl;
+        resetBoard();
+        nextMove = readFENString(nextFEN);
+
+        nextState.WhiteP=WhitePieces;
+        nextState.BlackP=BlackPieces;
+        nextState.currBoard=board;
+        nextState.currFEN=nextFEN;
+        nextState.currColor=nextMove;
+        nextState.currTurn=turnCount;
+
+
+        printBoard(nextState.currBoard);
+        cout << endl;
+
+        int eval = performMinMax(nextState, currDepth-1); //recurse
+        tempVal = max(tempVal, eval);
     }
 
-    int tempVal = -1000000; //very large negative number
-    string allMoves = getAllMoves(WhiteP, BlackP);
-    cout << allMoves << endl;
     return tempVal;
 }
 
@@ -660,13 +688,13 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
     if(color==WHITE){
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
-                newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[18].position[1], BlackPieces[18].position[0]});
                 return newAvailMoves;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
-                newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[18].position[1], BlackPieces[18].position[0]});
                 return newAvailMoves;
             }
         }
@@ -677,23 +705,23 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
                     break;
                 }
             }
-            if(!blocked)  newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+            if(!blocked)  newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[18].position[1], BlackPieces[18].position[0]});
         }
     }else{
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
-                newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                newAvailMoves.insert(newAvailMoves.begin(), 1, {WhitePieces[18].position[1], WhitePieces[18].position[0]});
                 return newAvailMoves;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
-                newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                newAvailMoves.insert(newAvailMoves.begin(), 1, {WhitePieces[18].position[1], WhitePieces[18].position[0]});
                 return newAvailMoves;
             }
         }
         if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2 && board[3][WhitePieces[18].position[1]]=='0'){
-            newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+            newAvailMoves.insert(newAvailMoves.begin(), 1, {WhitePieces[18].position[1], WhitePieces[18].position[0]});
             return newAvailMoves;
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
@@ -703,7 +731,7 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
                     break;
                 }
             }
-            if(!blocked)  newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+            if(!blocked)  newAvailMoves.insert(newAvailMoves.begin(), 1, {WhitePieces[18].position[1], WhitePieces[18].position[0]});
         }
     }
     return newAvailMoves;
@@ -809,8 +837,6 @@ void resetBoard(){
     }
     turnCount=0;
     rawScore=0;
-    allPieces.WhiteP.clear();
-    allPieces.BlackP.clear();
 }
 
 string generateNewFENString(){
@@ -1169,7 +1195,7 @@ string printFENString(char NextMove){ //Pawn(0-6) Superpawn(7-13) giraffe(14) mo
     return output;
 }
 
-void printBoard(){
+void printBoard(vector<vector<char>> board){
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++){
             cout << board[i][j] << " ";
@@ -1454,14 +1480,31 @@ string printSuperPawnMoves(){
     return out;
 }
 
-string getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP){
+vector<string> getAllMoves(vector<Piece> WhiteP, vector<Piece> BlackP){
     string allMoves="";
-    allMoves+= printLionMoves(WhiteP, BlackP);
-    allMoves+= " " + printZebraMoves();
-    allMoves+= " " + printGiraffeMoves();
-    allMoves+= " " + printPawnMoves();
-    allMoves+= " " + printSuperPawnMoves();
-    return allMoves;
+    string lionMoves = printLionMoves(WhiteP, BlackP); //lion moves
+    allMoves+= lionMoves;
+    if(lionMoves!="") allMoves+= " "; //if not empty add a space
+    string zebraMoves = printZebraMoves();  //zebra moves
+    allMoves+= zebraMoves;
+    if(zebraMoves!="") allMoves+= " ";
+    string giraffeMoves = printGiraffeMoves();  //giraffe moves
+    allMoves+= giraffeMoves;
+    if(giraffeMoves!="") allMoves+= " ";
+    string pawnMoves = printPawnMoves();  //pawn moves
+    allMoves+= pawnMoves;
+    if(pawnMoves!="") allMoves+= " ";
+    string superpawnMoves = printSuperPawnMoves();  //pawn moves
+    allMoves+= superpawnMoves;
+
+    //make vector
+    stringstream ss(allMoves);
+    string tempMove;
+    vector<string> vecMoves;
+    while (ss >> tempMove) {
+        vecMoves.push_back(tempMove);
+    }
+    return vecMoves;
 }
 
 int main() {
@@ -1485,20 +1528,25 @@ int main() {
         //cout << endl;
 
         //Sub 2&3 stuff
-        //output2+=printLionMoves(WhitePieces, BlackPieces);
-        //output2+=printZebraMoves();
+        output2+=printLionMoves(WhitePieces, BlackPieces);
+        output2+= " " + printZebraMoves();
         //output2+=printGiraffeMoves();
         //output2+=printPawnMoves();
         //output2+=printSuperPawnMoves();
         //output2+=makeMove(myMove, nextMove);
         //output2+=to_string(calcScore(WhitePieces, BlackPieces, nextMove));
-        printBoard();
 
         //Sub4 stuff
-        allPieces.WhiteP.push_back(WhitePieces);
-        allPieces.BlackP.push_back(BlackPieces);
-        rawScore = performMinMax(WhitePieces, BlackPieces, DEPTH, nextMove);
+        struct Gamestate startState; //make a state of the game
+        startState.WhiteP=WhitePieces;
+        startState.BlackP=BlackPieces;
+        startState.currBoard=board;
+        startState.currFEN=fen;
+        startState.currColor=nextMove;
+        startState.currTurn=turnCount;
 
+        rawScore = performMinMax(startState, DEPTH);
+        output2 += to_string(rawScore);
 
         if(i!=N-1){
             output1+="\n\n";
