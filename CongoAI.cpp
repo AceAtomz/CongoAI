@@ -20,6 +20,7 @@ vector<char> allBlackPieces = {'p','p','p','p','p','p','p',
 vector<char> files = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 char nextMove;
 int turnCount=0;
+int rawScore=0;
 vector<vector<char>> board;
 void checkLionEat(char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
@@ -564,6 +565,7 @@ string makeMove(string myMove, char color){
         fen2 += BLACK;
         fen2 += " " + to_string(turnCount);
         if(!BlackPieces[18].alive){
+            rawScore = 10000;
             fen2 += "\nWhite wins";
         }else  fen2 += "\nContinue";
     }else{
@@ -600,12 +602,42 @@ string makeMove(string myMove, char color){
         fen2 += WHITE;
         fen2 += " " + to_string(turnCount);
         if(!WhitePieces[18].alive){
+            rawScore = -10000;
             fen2 += "\nBlack wins";
         }else  fen2 += "\nContinue";
     }
 
     evolvePawns(color);
     return generateNewFENString() + fen2;
+}
+
+int calcScore(char color){
+    int WhiteScore=0;
+    int BlackScore=0;
+
+    //White Score
+    for(int i=0;i<7;i++){
+        if(WhitePieces[i].alive) WhiteScore +=100;
+    }
+    for(int i=7;i<14;i++){
+        if(WhitePieces[i].alive) WhiteScore +=350;
+    }
+    if(WhitePieces[14].alive) WhiteScore +=400;
+    if(WhitePieces[20].alive) WhiteScore +=300;
+
+    //Black Score
+    for(int i=0;i<7;i++){
+            if(BlackPieces[i].alive) BlackScore +=100;
+        }
+        for(int i=7;i<14;i++){
+            if(BlackPieces[i].alive) BlackScore +=350;
+        }
+        if(BlackPieces[14].alive) BlackScore +=400;
+        if(BlackPieces[20].alive) BlackScore +=300;
+
+    if(color==WHITE) rawScore = WhiteScore-BlackScore;
+    else rawScore = BlackScore-WhiteScore;
+    return rawScore;
 }
 
 void checkLionEat(char color){
@@ -767,6 +799,7 @@ void resetBoard(){
         }
     }
     turnCount=0;
+    rawScore=0;
 }
 
 string generateNewFENString(){
@@ -1419,7 +1452,7 @@ int main() {
         string fen;
         string myMove;
         getline(cin, fen);
-        getline(cin, myMove);
+        //getline(cin, myMove);
 
         //Sub1 stuff
         char col = readFENString(fen);
@@ -1433,7 +1466,8 @@ int main() {
         //output2+=printGiraffeMoves();
         //output2+=printPawnMoves();
         //output2+=printSsperPawnMoves();
-        output2+=makeMove(myMove, col);
+        //output2+=makeMove(myMove, col);
+        output2+=to_string(calcScore(col));
         //printBoard();
 
         if(i!=N-1){
