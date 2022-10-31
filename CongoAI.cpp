@@ -616,8 +616,16 @@ int calcScore(char color){
     int BlackScore=0;
 
     //Winning Conditions
-    if(!WhitePieces[18].alive) return -10000;
-    if(!BlackPieces[18].alive) return 10000;
+    if(!WhitePieces[18].alive){
+        if(color==WHITE) rawScore = -10000;
+        else rawScore = 10000;
+        return rawScore;
+    }
+    if(!BlackPieces[18].alive){
+        if(color==WHITE) rawScore = 10000;
+        else rawScore = -10000;
+        return rawScore;
+    }
 
     //White Score
     for(int i=0;i<7;i++){
