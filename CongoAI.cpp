@@ -25,7 +25,7 @@ int turnCount=0;
 int rawScore=0;
 int depthCounter=0;
 vector<vector<char>> board;
-void checkLionEat(char color);
+vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
 void sortPawns(char color);
 void sortSuperPawns(char color);
@@ -122,53 +122,37 @@ public:
     //piece specific stuff
     void setAvailLionMoves(){
         if(color==nextMove){
-            if(color==WHITE){
-                if(position[0]>3){ //if not in white castle
-                    availMoves.clear();
-                    return;
-                }
-                if(position[1]<2 || position[1]>4){ //if not in white castle
+
+            if(color==WHITE){ //check out of bounds
+                if(position[0]>3 || position[1]<2 || position[1]>4){ //if not in white castle
                     availMoves.clear();
                     return;
                 }
             }else{
-                if(position[0]<5){ //if not in black castle
-                    availMoves.clear();
-                    return;
-                }
-                if(position[1]<2 || position[1]>4){ //if not in black castle
+                if(position[0]<5 || position[1]<2 || position[1]>4){ //if not in black castle
                     availMoves.clear();
                     return;
                 }
             }
 
-            for(int i=0;i<allMoves.size();i++){
-                if(position[1]==allMoves[i].first){ // if in same column
-                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
-                        availMoves.push_back(allMoves[i]);
-                    }
-                }
-
-                if(position[1]-1==allMoves[i].first){ // if left column in castle
-                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
-                        availMoves.push_back(allMoves[i]);
-                    }
-                }
-
-                if(position[1]+1==allMoves[i].first){ // if right column in castle
-                    if(position[0]-1==allMoves[i].second || position[0]+1==allMoves[i].second){
-                        availMoves.push_back(allMoves[i]);
-                    }
-                }
-
-                if(position[0]==allMoves[i].second){ // if in same row
-                    if(position[1]-1==allMoves[i].first || position[1]+1==allMoves[i].first){
-                        availMoves.push_back(allMoves[i]);
-                    }
-                }
-
+            if(position[0]-1>=1){ //set avail moves
+                allMoves.push_back({position[1],position[0]-1});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
             }
-            checkLionEat(color);
+            if(position[0]+1<=7){
+                allMoves.push_back({position[1],position[0]+1});
+                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+1});
+                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1});
+            }
+            if(position[1]-1>=0){
+                allMoves.push_back({position[1]-1,position[0]});
+            }
+            if(position[1]+1<=6){
+                allMoves.push_back({position[1]+1,position[0]});
+            }
+
+            availMoves = checkLionEat(allMoves, color);
             availMoves = getOwnPieces(availMoves,nextMove);
         }
     }
@@ -372,17 +356,6 @@ public:
         position = newPosition;
         setFile(position[1]);
         color = newColor;
-        setAllMoves();
-    }
-
-    //Setters
-    void setAllMoves(){
-        for(int i=2;i<5;i++){
-            for(int j=1;j<8;j++){
-                if(j==4) continue;
-                allMoves.push_back({i,j});
-            }
-        }
     }
 };
 
@@ -677,26 +650,24 @@ int performMinMax(vector<Piece> WhiteP, vector<Piece> BlackP, int currDepth, cha
     return tempVal;
 }
 
-void checkLionEat(char color){
-    if(!WhitePieces[18].alive || !BlackPieces[18].alive){
-        WhitePieces[18].availMoves.clear();
-        BlackPieces[18].availMoves.clear();
-        return;
-    }
+vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char color){
+    /*if(!WhitePieces[18].alive || !BlackPieces[18].alive){
+        return newAvailMoves;
+    }*/
 
     int l = BlackPieces[18].position[0] - WhitePieces[18].position[0]; //length between 2 lions
     bool blocked = false; //blocked flag variable
     if(color==WHITE){
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
-                WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
-                return;
+                newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                return newAvailMoves;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
-                WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
-                return;
+                newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+                return newAvailMoves;
             }
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
@@ -706,24 +677,24 @@ void checkLionEat(char color){
                     break;
                 }
             }
-            if(!blocked)  WhitePieces[18].availMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
+            if(!blocked)  newAvailMoves.push_back({BlackPieces[18].position[1], BlackPieces[18].position[0]});
         }
     }else{
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==2){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==4 && board[3][3]=='0'){
-                BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
-                return;
+                newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                return newAvailMoves;
             }
         }
         if(WhitePieces[18].position[0]==3 && WhitePieces[18].position[1]==4){
             if(BlackPieces[18].position[0]==5 && BlackPieces[18].position[1]==2 && board[3][3]=='0'){
-                BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
-                return;
+                newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+                return newAvailMoves;
             }
         }
         if(BlackPieces[18].position[1]==WhitePieces[18].position[1] && l==2 && board[3][WhitePieces[18].position[1]]=='0'){
-            BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
-            return;
+            newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+            return newAvailMoves;
         }
         if(WhitePieces[18].position[1]==BlackPieces[18].position[1]){
             for(int i=WhitePieces[18].position[0]; i<l+WhitePieces[18].position[0]-1;i++){
@@ -732,9 +703,10 @@ void checkLionEat(char color){
                     break;
                 }
             }
-            if(!blocked)  BlackPieces[18].availMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
+            if(!blocked)  newAvailMoves.push_back({WhitePieces[18].position[1], WhitePieces[18].position[0]});
         }
     }
+    return newAvailMoves;
 }
 
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color){
@@ -1032,18 +1004,19 @@ char readFENString(string fen){
         }
         curRank--;
     }
-    sortPawns(nextMove);
-    sortSuperPawns(nextMove);
+
     if(WhitePieces[14].alive) WhitePieces[14].setAvailGiraffeMoves();
     if(BlackPieces[14].alive) BlackPieces[14].setAvailGiraffeMoves();
-    WhitePieces[18].setAvailLionMoves();
-    BlackPieces[18].setAvailLionMoves();
+    if(WhitePieces[18].alive) WhitePieces[18].setAvailLionMoves();
+    if(BlackPieces[18].alive) BlackPieces[18].setAvailLionMoves();
     if(WhitePieces[20].alive) WhitePieces[20].setAvailZebraMoves();
     if(BlackPieces[20].alive) BlackPieces[20].setAvailZebraMoves();
+    sortPawns(nextMove);
     for(int a=0;a<7;a++){
         if(WhitePieces[a].alive) WhitePieces[a].setAvailPawnMoves();
         if(BlackPieces[a].alive) BlackPieces[a].setAvailPawnMoves();
     }
+    sortSuperPawns(nextMove);
     for(int a=7;a<14;a++){
         if(WhitePieces[a].alive) WhitePieces[a].setAvailSuperPawnMoves();
         if(BlackPieces[a].alive) BlackPieces[a].setAvailSuperPawnMoves();
@@ -1265,7 +1238,7 @@ string printZebraMoves(){
             if(i!=sorted.size()-1) out+= " ";
         }
     }
-
+    sorted.clear();
     return out;
 }
 
@@ -1297,7 +1270,7 @@ string printGiraffeMoves(){
             if(i!=sorted.size()-1) out+= " ";
         }
     }
-
+    sorted.clear();
     return out;
 }
 
@@ -1436,6 +1409,7 @@ string printPawnMoves(){
             }
         }
     }
+    sorted.clear();
     return out;
 }
 
@@ -1476,6 +1450,7 @@ string printSuperPawnMoves(){
             }
         }
     }
+    sorted.clear();
     return out;
 }
 
@@ -1510,7 +1485,7 @@ int main() {
         //cout << endl;
 
         //Sub 2&3 stuff
-        output2+=printLionMoves(WhitePieces, BlackPieces);
+        //output2+=printLionMoves(WhitePieces, BlackPieces);
         //output2+=printZebraMoves();
         //output2+=printGiraffeMoves();
         //output2+=printPawnMoves();
