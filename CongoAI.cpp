@@ -130,28 +130,45 @@ public:
                     availMoves.clear();
                     return;
                 }
+
+                if(position[0]-1>=1){ //set avail moves
+                    allMoves.push_back({position[1],position[0]-1});
+                    if(position[1]-1>=2) allMoves.push_back({position[1]-1,position[0]-1});
+                    if(position[1]+1<=4) allMoves.push_back({position[1]+1,position[0]-1});
+                }
+                if(position[0]+1<=3){
+                    allMoves.push_back({position[1],position[0]+1});
+                    if(position[1]-1>=2) allMoves.push_back({position[1]-1,position[0]+1});
+                    if(position[1]+1<=4) allMoves.push_back({position[1]+1,position[0]+1});
+                }
+                if(position[1]-1>=2){
+                    allMoves.push_back({position[1]-1,position[0]});
+                }
+                if(position[1]+1<=4){
+                    allMoves.push_back({position[1]+1,position[0]});
+                }
             }else{
                 if(position[0]<5 || position[1]<2 || position[1]>4){ //if not in black castle
                     availMoves.clear();
                     return;
                 }
-            }
 
-            if(position[0]-1>=1){ //set avail moves
-                allMoves.push_back({position[1],position[0]-1});
-                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]-1});
-                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]-1});
-            }
-            if(position[0]+1<=7){
-                allMoves.push_back({position[1],position[0]+1});
-                if(position[1]-1>=0) allMoves.push_back({position[1]-1,position[0]+1});
-                if(position[1]+1<=6) allMoves.push_back({position[1]+1,position[0]+1});
-            }
-            if(position[1]-1>=0){
-                allMoves.push_back({position[1]-1,position[0]});
-            }
-            if(position[1]+1<=6){
-                allMoves.push_back({position[1]+1,position[0]});
+                if(position[0]-1>=5){ //set avail moves
+                    allMoves.push_back({position[1],position[0]-1});
+                    if(position[1]-1>=2) allMoves.push_back({position[1]-1,position[0]-1});
+                    if(position[1]+1<=4) allMoves.push_back({position[1]+1,position[0]-1});
+                }
+                if(position[0]+1<=7){
+                    allMoves.push_back({position[1],position[0]+1});
+                    if(position[1]-1>=2) allMoves.push_back({position[1]-1,position[0]+1});
+                    if(position[1]+1<=4) allMoves.push_back({position[1]+1,position[0]+1});
+                }
+                if(position[1]-1>=2){
+                    allMoves.push_back({position[1]-1,position[0]});
+                }
+                if(position[1]+1<=4){
+                    allMoves.push_back({position[1]+1,position[0]});
+                }
             }
 
             availMoves = checkLionEat(allMoves, color);
@@ -663,9 +680,6 @@ int performMinMax(struct Gamestate currState, int currDepth){
     for(int i=0; i<allMoves.size();i++){ //for every move
         struct Gamestate nextState = makeMove(currState, allMoves[i]); //get next state for each move
         //cout << allMoves[i] << " " << nextState.currFEN << endl;
-        /*resetBoard();
-        nextMove = readFENString(nextState.currFEN);
-        printFENString(nextState.currColor);*/
 
         //printBoard(nextState.currBoard);
         //cout << endl;
@@ -835,6 +849,7 @@ void resetBoard(){
     }
     turnCount=0;
     rawScore=0;
+    gameOverCounter=0;
 }
 
 string generateNewFENString(struct Gamestate currState){
@@ -1541,6 +1556,7 @@ int main() {
         startState.currColor=nextMove;
         startState.currTurn=turnCount;
 
+        //output2+=printLionMoves(startState);
         //printBoard(startState.currBoard);
         //cout << endl;
 
