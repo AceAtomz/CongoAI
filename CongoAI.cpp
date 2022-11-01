@@ -43,6 +43,11 @@ char readFENString(string fen);
 void resetBoard();
 string printFENString(char NextMove);
 string generateNewFENString(struct Gamestate currState);
+string printLionMoves(struct Gamestate currState);
+string printZebraMoves(struct Gamestate currState);
+string printGiraffeMoves(struct Gamestate currState);
+string printPawnMoves(struct Gamestate currState);
+string printSuperPawnMoves(struct Gamestate currState);
 vector<string> getAllMoves(struct Gamestate currState);
 
 char convertFile(int newFile){
@@ -677,8 +682,10 @@ int calcMobilityScore(struct Gamestate currState){
     struct Gamestate tempState;
     if(currState.currColor==WHITE){
         tempState.currFEN = tempMove + " " + BLACK + " " + to_string(currState.currTurn);
+        tempState.currColor = BLACK;
     }else{
         tempState.currFEN = tempMove + " " + WHITE + " " + to_string(currState.currTurn);
+        tempState.currColor = WHITE;
     }
 
     resetBoard();
@@ -731,6 +738,7 @@ int calcRawScore(struct Gamestate currState){
     rawScore = materialScore + mobilityScore + attackScore;
     return rawScore;
 }
+
 bool isGameOver(struct Gamestate currState){
     if(!currState.WhiteP[18].alive || !currState.BlackP[18].alive) return true;
     return false;
@@ -1486,7 +1494,7 @@ string printPawnMoves(struct Gamestate currState){
             sorted.clear();
             Piece Z = currState.WhiteP[j];
             if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
-            else if(j!=0 && j!=6)out+= " ";
+            if(j!=0)out+= " ";
             for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
                 sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
             }
@@ -1502,7 +1510,7 @@ string printPawnMoves(struct Gamestate currState){
             sorted.clear();
             Piece z = currState.BlackP[j];
             if(z.availMoves.size()==0) continue;
-            else if(j!=0 && j!=6)out+= " ";
+            if(j!=0)out+= " ";
             for(int i=0; i<z.availMoves.size();i++){
                 sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
             }
@@ -1527,7 +1535,7 @@ string printSuperPawnMoves(struct Gamestate currState){
             sorted.clear();
             Piece Z = currState.WhiteP[j];
             if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
-            else if(j!=7 && j!=13)out+= " ";
+            if(j!=7)out+= " ";
             for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
                 sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
             }
@@ -1543,7 +1551,7 @@ string printSuperPawnMoves(struct Gamestate currState){
             sorted.clear();
             Piece z = currState.BlackP[j];
             if(z.availMoves.size()==0) continue;
-            else if(j!=7 && j!=13)out+= " ";
+            if(j!=7)out+= " ";
             for(int i=0; i<z.availMoves.size();i++){
                 sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
             }
@@ -1598,20 +1606,10 @@ int main() {
         string fen;
         string myMove;
         getline(cin, fen);
-        //getline(cin, myMove);
 
         //Sub1 stuff
         nextMove = readFENString(fen);
         output1+=printFENString(nextMove);
-
-        //Sub 2&3 stuff
-        //output2+=printLionMoves(WhitePieces, BlackPieces);
-        //output2+= " " + printZebraMoves();
-        //output2+=printGiraffeMoves();
-        //output2+=printPawnMoves(currState);
-        //output2+=printSuperPawnMoves();
-        //output2+=makeMove(myMove, nextMove);
-        //output2+=to_string(calcScore(WhitePieces, BlackPieces, nextMove));
 
         //Sub4 stuff
         startState.WhiteP=WhitePieces;
@@ -1631,8 +1629,10 @@ int main() {
         rawScore = calcAttackScore(startState);
         output2 += "Attack: " + to_string(rawScore) + "\n";
         //rawScore = performMinMax(startState, DEPTH);
+
         rawScore = calcRawScore(startState);
-        output2 += "Total Score: " + to_string(rawScore);
+        output2 += to_string(rawScore);
+
 
         if(i!=N-1){
             output1+="\n\n";
