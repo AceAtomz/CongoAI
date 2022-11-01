@@ -1088,25 +1088,28 @@ vector<string> getAllMoves(struct Gamestate currState){
     //Lion moves
     if(currState.currColor==WHITE) L = currState.WhiteP[15];
     else L = currState.BlackP[15];
-
-    for(int i=0;i<L.availMoves.size();i++){
-        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+    if(L.alive){
+        for(int i=0;i<L.availMoves.size();i++){
+            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
     }
 
     //Zebra moves
     if(currState.currColor==WHITE) L = currState.WhiteP[16];
     else L = currState.BlackP[16];
-
-    for(int i=0;i<L.availMoves.size();i++){
-        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+    if(L.alive){
+        for(int i=0;i<L.availMoves.size();i++){
+            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
     }
 
     //Giraffe moves
     if(currState.currColor==WHITE) L = currState.WhiteP[14];
     else L = currState.BlackP[14];
-
-    for(int i=0;i<L.availMoves.size();i++){
-        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+    if(L.alive){
+        for(int i=0;i<L.availMoves.size();i++){
+            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
     }
 
     //Superpawn moves
@@ -1130,6 +1133,10 @@ vector<string> getAllMoves(struct Gamestate currState){
             allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
     }
+    for(int i=0;i<allMoves.size();i++){
+        cout << allMoves[i] << " ";
+    }
+    cout << endl;
     return sortMoves(currState, allMoves);
 }
 
