@@ -1624,11 +1624,12 @@ vector<string> getAllMoves(struct Gamestate currState){
     string giraffeMoves = printGiraffeMoves(currState);  //giraffe moves
     allMoves+= giraffeMoves;
     if(giraffeMoves!="") allMoves+= " ";
+    string superpawnMoves = printSuperPawnMoves(currState);  //superpawn moves
+    allMoves+= superpawnMoves;
+    if(superpawnMoves!="") allMoves+= " ";
     string pawnMoves = printPawnMoves(currState);  //pawn moves
     allMoves+= pawnMoves;
-    if(pawnMoves!="") allMoves+= " ";
-    string superpawnMoves = printSuperPawnMoves(currState);  //pawn moves
-    allMoves+= superpawnMoves;
+
 
     //make vector
     stringstream ss(allMoves);
@@ -1636,7 +1637,9 @@ vector<string> getAllMoves(struct Gamestate currState){
     vector<string> vecMoves;
     while (ss >> tempMove) {
         vecMoves.push_back(tempMove);
+        cout << tempMove << " ";
     }
+    cout << endl;
     return vecMoves;
 }
 
