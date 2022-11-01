@@ -1613,6 +1613,32 @@ string printSuperPawnMoves(struct Gamestate currState){
     return out;
 }
 
+vector<string> sortMoves(struct Gamestate currState, vector<string> moves){ //TODO: change this to sort by capture first
+    vector<string> temp; //capture moves
+    vector<string> temp2; //non capture moves
+    //get all eat moves
+    for(int i=0;i<moves.size();i++){ //for every move
+        vector<int> startPos = {moves[i][2] -49, convertFileToInt(moves[i][0])};
+        char moveToBlock = currState.currBoard[moves[i][3] -49][convertFileToInt(moves[i][2])];
+        if(moveToBlock!='0'){
+            int index;
+            if(currState.currColor==WHITE) index = getPiece(currState, moveToBlock, startPos, BLACK);
+            else index = getPiece(currState, moveToBlock, startPos, WHITE);
+
+            if(index==15) temp.insert(temp.begin(), 1, moves[i]);
+            else if(index!=-1) temp.push_back(moves[i]);
+            else temp2.push_back(moves[i]);
+        }else temp2.push_back(moves[i]);
+    }
+
+    if(temp.size()==0) return temp2;
+
+    for(int i=0;i<temp2.size();i++){
+        temp.push_back(temp2[i]);
+    }
+    return temp;
+}
+
 vector<string> getAllMoves(struct Gamestate currState){
     string allMoves="";
     string lionMoves = printLionMoves(currState); //lion moves
@@ -1637,10 +1663,8 @@ vector<string> getAllMoves(struct Gamestate currState){
     vector<string> vecMoves;
     while (ss >> tempMove) {
         vecMoves.push_back(tempMove);
-        cout << tempMove << " ";
     }
-    cout << endl;
-    return vecMoves;
+    return sortMoves(currState, vecMoves);
 }
 
 int main() {
