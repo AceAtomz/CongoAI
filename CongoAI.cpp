@@ -3,6 +3,7 @@
 #include <sstream>
 #include<string>
 #include<algorithm>
+#include <limits.h>
 #include<iterator>
 using namespace std;
 
@@ -44,13 +45,7 @@ char readFENString(string fen);
 void resetBoard();
 string printFENString(char NextMove);
 string generateNewFENString(struct Gamestate currState);
-string printLionMoves(struct Gamestate currState);
-string printZebraMoves(struct Gamestate currState);
-string printGiraffeMoves(struct Gamestate currState);
-string printPawnMoves(struct Gamestate currState);
-string printSuperPawnMoves(struct Gamestate currState);
 vector<string> getAllMoves(struct Gamestate currState);
-int performMinMax(struct Gamestate currState, int currDepth, int alpha, int beta);
 
 char convertFile(int newFile){
         return files[newFile];
@@ -358,7 +353,6 @@ protected:
         file = files[newFile];
     }
 };
-
 class Pawn: public Piece{            //Pawn Piece subclass
 public:
     string name = "Pawn";
@@ -370,7 +364,6 @@ public:
         color = newColor;
     }
 };
-
 class SuperPawn: public Piece{            //Pawn Piece subclass
 public:
     string name = "Superpawn";
@@ -382,7 +375,6 @@ public:
         color = newColor;
     }
 };
-
 class Lion: public Piece{            //Lion Piece subclass
 public:
     string name = "Lion";
@@ -394,7 +386,6 @@ public:
         color = newColor;
     }
 };
-
 class Zebra: public Piece{            //Zebra Piece subclass
 public:
     string name = "Zebra";
@@ -406,49 +397,12 @@ public:
         color = newColor;
     }
 };
-
-class Elephant: public Piece{            //Elephant Piece subclass
-public:
-    string name = "Elephant";
-
-    //Constructors
-    Elephant(vector<int> newPosition, char newColor){
-        position = newPosition;
-        setFile(position[1]);
-        color = newColor;
-    }
-};
-
 class Giraffe: public Piece{            //Giraffe Piece subclass
 public:
     string name = "Giraffe";
 
     //Constructors
     Giraffe(vector<int> newPosition, char newColor){
-        position = newPosition;
-        setFile(position[1]);
-        color = newColor;
-    }
-};
-
-class Crocodile: public Piece{            //Crocodile Piece subclass
-public:
-    string name = "Crocodile";
-
-    //Constructors
-    Crocodile(vector<int> newPosition, char newColor){
-        position = newPosition;
-        setFile(position[1]);
-        color = newColor;
-    }
-};
-
-class Monkey: public Piece{            //Monkey Piece subclass
-public:
-    string name = "Monkey";
-
-    //Constructors
-    Monkey(vector<int> newPosition, char newColor){
         position = newPosition;
         setFile(position[1]);
         color = newColor;
