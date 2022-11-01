@@ -766,7 +766,13 @@ int calcAttackScore(struct Gamestate currState){
 //rawScore
 int calcRawScore(struct Gamestate currState){
     int materialScore = calcMaterialScore(currState);
-    if(materialScore==0) return 0;
+    if(materialScore==0){
+        for(int i=0;i<20;i++){
+            if(i!=18 && (currState.WhiteP[i].alive || currState.BlackP[i].alive)) break;
+            return 0;
+        }
+    }
+
     if(materialScore==10000) return 10000;
     if(materialScore==-10000) return -10000;
 
