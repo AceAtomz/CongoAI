@@ -8,7 +8,7 @@ using namespace std;
 
 #define BLACK 'b'
 #define WHITE 'w'
-#define DEPTH 2
+#define DEPTH 4
 class Piece;
 struct Gamestate{
     vector<Piece> WhiteP;
@@ -765,12 +765,16 @@ int calcAttackScore(struct Gamestate currState){
 }
 //rawScore
 int calcRawScore(struct Gamestate currState){
+    bool allDead = true;
     int materialScore = calcMaterialScore(currState);
     if(materialScore==0){
-        for(int i=0;i<20;i++){
-            if(i!=18 && (currState.WhiteP[i].alive || currState.BlackP[i].alive)) break;
-            return 0;
+        for(int i=0;i<21;i++){
+            if(currState.WhiteP[i].alive || currState.WhiteP[i].alive){
+                allDead = false;
+                break;
+            }
         }
+        if(allDead) return 0;
     }
 
     if(materialScore==10000) return 10000;
@@ -787,12 +791,11 @@ bool isGameOver(struct Gamestate currState){
     return false;
 }
 
-int performMinMax(struct Gamestate currState, int currDepth){
+int performMinMax(struct Gamestate currState, int currDepth, int alpha, int beta){
     if(isGameOver(currState) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
         //cout << calcRawScore(currState) <<endl;
         return calcRawScore(currState);     //calc score of current state
     }
-    int tempVal = -1000000; //very large negative number
     vector<string> allMoves = getAllMoves(currState); //get all moves for all pieces
 
     for(int i=0; i<allMoves.size();i++){ //for every move
@@ -802,11 +805,11 @@ int performMinMax(struct Gamestate currState, int currDepth){
         //printBoard(nextState.currBoard);
         //cout << endl;
 
-        int eval = -performMinMax(nextState, currDepth-1); //recurse
-        tempVal = max(tempVal, eval);
-
+        int eval = -performMinMax(nextState, currDepth-1, -beta, -alpha); //recurse
+        if(eval>=beta) return beta;
+        if(eval>alpha) alpha = eval;
     }
-    return tempVal;
+    return alpha;
 }
 
 vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char color){
@@ -1662,7 +1665,8 @@ int main() {
         startState.currColor=nextMove;
         startState.currTurn=turnCount;
 
-        /*printBoard(startState.currBoard);
+        /*
+        printBoard(startState.currBoard);
         cout << endl;
 
         rawScore = calcMaterialScore(startState);
@@ -1671,9 +1675,9 @@ int main() {
         output2 += "Mobility: " + to_string(rawScore) + "\n";
         rawScore = calcAttackScore(startState);
         output2 += "Attack: " + to_string(rawScore) + "\n";
-        //rawScore = performMinMax(startState, DEPTH);
-        */
         rawScore = calcRawScore(startState);
+        */
+        rawScore = performMinMax(startState, DEPTH, -INT_MAX, INT_MAX);
         output2 += to_string(rawScore);
 
 
