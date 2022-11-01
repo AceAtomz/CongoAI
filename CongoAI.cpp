@@ -38,8 +38,6 @@ int rawScore=0;
 vector<vector<char>> board;
 vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char color);
 vector<pair<int, int>> checkGiraffeEat(vector<pair<int, int>> out, char color);
-void sortPawns(char color);
-void sortSuperPawns(char color);
 void printBoard(vector<vector<char>> board);
 char readFENString(string fen);
 void resetBoard();
@@ -68,6 +66,7 @@ public:
     bool alive = false;
     vector<pair<int, int>> availMoves;
     vector<pair<int, int>> allMoves;
+    bool canEnd = false;
 
     //Getters
     char getColor(){
@@ -765,26 +764,32 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
     int l = BlackPieces[15].position[0] - WhitePieces[15].position[0]; //length between 2 lions
     bool blocked = false; //blocked flag variable
     if(color==WHITE){
-        if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==2){
+        if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==2){ //diagonal capture
             if(BlackPieces[15].position[0]==5 && BlackPieces[15].position[1]==4 && board[3][3]=='0'){
                 newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
+                WhitePieces[15].canEnd = true;
                 return newAvailMoves;
             }
         }
-        if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==4){
+        if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==4){ //diagonal capture
             if(BlackPieces[15].position[0]==5 && BlackPieces[15].position[1]==2 && board[3][3]=='0'){
                 newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
+                WhitePieces[15].canEnd = true;
                 return newAvailMoves;
             }
         }
-        if(WhitePieces[15].position[1]==BlackPieces[15].position[1]){
+        if(WhitePieces[15].position[1]==BlackPieces[15].position[1]){ //if in same file
             for(int i=WhitePieces[15].position[0]; i<l+WhitePieces[15].position[0]-1;i++){
                 if(board[i][WhitePieces[15].position[1]]!='0'){
                     blocked=true;
                     break;
                 }
             }
-            if(!blocked)  newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
+            if(!blocked){
+                newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
+                WhitePieces[15].canEnd = true;
+                return newAvailMoves;
+            }
         }
     }else{
         if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==2){
@@ -1040,12 +1045,10 @@ char readFENString(string fen){
     if(BlackPieces[15].alive) BlackPieces[15].setAvailLionMoves();
     if(WhitePieces[16].alive) WhitePieces[16].setAvailZebraMoves();
     if(BlackPieces[16].alive) BlackPieces[16].setAvailZebraMoves();
-    sortPawns(nextMove);
     for(int a=0;a<7;a++){
         if(WhitePieces[a].alive) WhitePieces[a].setAvailPawnMoves();
         if(BlackPieces[a].alive) BlackPieces[a].setAvailPawnMoves();
     }
-    sortSuperPawns(nextMove);
     for(int a=7;a<14;a++){
         if(WhitePieces[a].alive) WhitePieces[a].setAvailSuperPawnMoves();
         if(BlackPieces[a].alive) BlackPieces[a].setAvailSuperPawnMoves();
@@ -1054,7 +1057,9 @@ char readFENString(string fen){
     return nextMove;
 }
 
-vector<string> sortPiece(vector<string> pieces){
+vector<string> sortPiece(vector<string> pieces){ //TODO: change this to sort by capture first
+    return pieces;
+
     vector<pair<char, int>> temp;
     for(int i=0; i<pieces.size();i++){
         temp.push_back(pair<char, int>(pieces[i][0], pieces[i][1]-'0'));
@@ -1068,306 +1073,57 @@ vector<string> sortPiece(vector<string> pieces){
     return out;
 }
 
-string printLionMoves(struct Gamestate currState){
-    string out = "";
-    vector<string> sorted;
-    if(currState.currColor==WHITE){
-        Piece L = currState.WhiteP[15];
-        if(L.availMoves.size()==0) return out;
-        for(int i=0; i<L.availMoves.size();i++){
-            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-        }
-
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }else{
-        Piece L = currState.BlackP[15];
-        if(L.availMoves.size()==0) return out;
-        for(int i=0; i<L.availMoves.size();i++){
-            sorted.push_back(convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-        }
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(L.position[1]) + to_string(L.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }
-    sorted.clear();
-    return out;
-}
-
-string printZebraMoves(struct Gamestate currState){
-    string out = "";
-    vector<string> sorted;
-
-    if(currState.currColor==WHITE){
-        Piece Z = currState.WhiteP[16];
-        if(Z.availMoves.size()==0) return out;
-        for(int i=0; i<Z.availMoves.size();i++){
-            sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
-        }
-
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }else{
-        Piece z = currState.BlackP[16];
-        if(z.availMoves.size()==0) return out;
-        for(int i=0; i<z.availMoves.size();i++){
-            sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
-        }
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }
-    sorted.clear();
-    return out;
-}
-
-string printGiraffeMoves(struct Gamestate currState){
-    string out = "";
-    vector<string> sorted;
-
-    if(currState.currColor==WHITE){
-        Piece Z = currState.WhiteP[14];
-        if(Z.availMoves.size()==0) return out;
-        for(int i=0; i<Z.availMoves.size();i++){
-            sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
-        }
-
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }else{
-        Piece z = currState.BlackP[14];
-        if(z.availMoves.size()==0) return out;
-        for(int i=0; i<z.availMoves.size();i++){
-            sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
-        }
-        sorted = sortPiece(sorted);
-        for(int i=0;i<sorted.size();i++){
-            out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
-            if(i!=sorted.size()-1) out+= " ";
-        }
-    }
-    sorted.clear();
-    return out;
-}
-
-void sortPawns(char color){
-    vector<Piece> TempPawns;
-    vector<string> sorted;
-
-    if(color==WHITE){
-        for(int j=0;j<7;j++){ //sorts pawns by starting position
-            Piece Z = WhitePieces[j];
-            if(!Z.alive) continue;
-            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
-        }
-        sorted = sortPiece(sorted);
-
-        for(int j=0;j<sorted.size();j++){
-            for(int i=0;i<7;i++){
-                if(!WhitePieces[i].alive) continue;
-                string pawnPosTemp = convertFile(WhitePieces[i].position[1]) + to_string(WhitePieces[i].position[0]);
-                if(pawnPosTemp==sorted[j]){
-                    TempPawns.push_back(WhitePieces[i]);
-                }
-            }
-        }
-
-        for(int i=0;i<TempPawns.size();i++){
-            WhitePieces[i] = TempPawns[i];
-        }
-    }else{
-        for(int j=0;j<7;j++){ //sorts pawns by starting position
-            Piece Z = BlackPieces[j];
-            if(!Z.alive) continue;
-            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
-        }
-        sorted = sortPiece(sorted);
-
-        for(int j=0;j<sorted.size();j++){
-            for(int i=0;i<7;i++){
-                if(!BlackPieces[i].alive) continue;
-                string pawnPosTemp = convertFile(BlackPieces[i].position[1]) + to_string(BlackPieces[i].position[0]);
-                if(pawnPosTemp==sorted[j]){
-                    TempPawns.push_back(BlackPieces[i]);
-                }
-            }
-        }
-
-        for(int i=0;i<TempPawns.size();i++){
-            BlackPieces[i] = TempPawns[i];
-        }
-    }
-}
-
-void sortSuperPawns(char color){
-    vector<Piece> TempPawns;
-    vector<string> sorted;
-
-    if(color==WHITE){
-        for(int j=7;j<14;j++){ //sorts pawns by starting position
-            Piece Z = WhitePieces[j];
-            if(!Z.alive) continue;
-            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
-        }
-        sorted = sortPiece(sorted);
-
-        for(int j=0;j<sorted.size();j++){
-            for(int i=7;i<14;i++){
-                if(!WhitePieces[i].alive) continue;
-                string pawnPosTemp = convertFile(WhitePieces[i].position[1]) + to_string(WhitePieces[i].position[0]);
-                if(pawnPosTemp==sorted[j]){
-                    TempPawns.push_back(WhitePieces[i]);
-                }
-            }
-        }
-
-        for(int i=7;i<TempPawns.size()+7;i++){
-            WhitePieces[i] = TempPawns[i-7];
-        }
-    }else{
-        for(int j=7;j<14;j++){ //sorts pawns by starting position
-            Piece Z = BlackPieces[j];
-            if(!Z.alive) continue;
-            sorted.push_back(convertFile(Z.position[1]) + to_string(Z.position[0]));
-        }
-        sorted = sortPiece(sorted);
-
-        for(int j=0;j<sorted.size();j++){
-            for(int i=7;i<14;i++){
-                if(!BlackPieces[i].alive) continue;
-                string pawnPosTemp = convertFile(BlackPieces[i].position[1]) + to_string(BlackPieces[i].position[0]);
-                if(pawnPosTemp==sorted[j]){
-                    TempPawns.push_back(BlackPieces[i]);
-                }
-            }
-        }
-
-        for(int i=7;i<TempPawns.size()+7;i++){
-            BlackPieces[i] = TempPawns[i-7];
-        }
-    }
-}
-
-string printPawnMoves(struct Gamestate currState){
-    string out = "";
-    vector<string> sorted;
-
-    if(currState.currColor==WHITE){
-        for(int j=0;j<7;j++){
-            sorted.clear();
-            Piece Z = currState.WhiteP[j];
-            if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
-            if(j!=0)out+= " ";
-            for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
-                sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
-            }
-            sorted = sortPiece(sorted);
-
-            for(int i=0;i<sorted.size();i++){
-                out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
-            }
-        }
-    }else{
-        for(int j=0;j<7;j++){
-            sorted.clear();
-            Piece z = currState.BlackP[j];
-            if(z.availMoves.size()==0) continue;
-            if(j!=0)out+= " ";
-            for(int i=0; i<z.availMoves.size();i++){
-                sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
-            }
-            sorted = sortPiece(sorted);
-
-            for(int i=0;i<sorted.size();i++){
-                out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
-            }
-        }
-    }
-    sorted.clear();
-    return out;
-}
-
-string printSuperPawnMoves(struct Gamestate currState){
-    string out = "";
-    vector<string> sorted;
-
-    if(currState.currColor==WHITE){
-        for(int j=7;j<14;j++){
-            sorted.clear();
-            Piece Z = currState.WhiteP[j];
-            if(Z.availMoves.size()==0) continue; //if pawn is dead or has no avail moves
-            if(j!=7)out+= " ";
-            for(int i=0; i<Z.availMoves.size();i++){ //sorts moves in alpha-numeric order
-                sorted.push_back(convertFile(Z.availMoves[i].first) + to_string(Z.availMoves[i].second));
-            }
-            sorted = sortPiece(sorted);
-
-            for(int i=0;i<sorted.size();i++){
-                out+= convertFile(Z.position[1]) + to_string(Z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
-            }
-        }
-    }else{
-        for(int j=7;j<14;j++){
-            sorted.clear();
-            Piece z = currState.BlackP[j];
-            if(z.availMoves.size()==0) continue;
-            if(j!=7)out+= " ";
-            for(int i=0; i<z.availMoves.size();i++){
-                sorted.push_back(convertFile(z.availMoves[i].first) + to_string(z.availMoves[i].second));
-            }
-            sorted = sortPiece(sorted);
-
-            for(int i=0;i<sorted.size();i++){
-                out+= convertFile(z.position[1]) + to_string(z.position[0]) + sorted[i];
-                if(i!=sorted.size()-1) out+= " ";
-            }
-        }
-    }
-    sorted.clear();
-    return out;
-}
-
 vector<string> getAllMoves(struct Gamestate currState){
-    string allMoves="";
-    string lionMoves = printLionMoves(currState); //lion moves
-    allMoves+= lionMoves;
-    if(lionMoves!="") allMoves+= " "; //if not empty add a space
-    string zebraMoves = printZebraMoves(currState);  //zebra moves
-    allMoves+= zebraMoves;
-    if(zebraMoves!="") allMoves+= " ";
-    string giraffeMoves = printGiraffeMoves(currState);  //giraffe moves
-    allMoves+= giraffeMoves;
-    if(giraffeMoves!="") allMoves+= " ";
-    string pawnMoves = printPawnMoves(currState);  //pawn moves
-    allMoves+= pawnMoves;
-    if(pawnMoves!="") allMoves+= " ";
-    string superpawnMoves = printSuperPawnMoves(currState);  //pawn moves
-    allMoves+= superpawnMoves;
+    vector<string> allMoves; //Pawn(0-6) Superpawn(7-13) giraffe(14) lion(15) zebra(16)
+    Piece L;
 
-    //make vector
-    stringstream ss(allMoves);
-    string tempMove;
-    vector<string> vecMoves;
-    while (ss >> tempMove) {
-        vecMoves.push_back(tempMove);
+    //Lion moves
+    if(currState.currColor==WHITE) L = currState.WhiteP[15];
+    else L = currState.BlackP[15];
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
     }
-    return vecMoves;
+
+    //Zebra moves
+    if(currState.currColor==WHITE) L = currState.WhiteP[16];
+    else L = currState.BlackP[16];
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+    }
+
+    //Giraffe moves
+    if(currState.currColor==WHITE) L = currState.WhiteP[14];
+    else L = currState.BlackP[14];
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+    }
+
+    //Superpawn moves
+    for(int k=7;k<14;k++){
+        if(currState.currColor==WHITE) L = currState.WhiteP[k];
+        else L = currState.BlackP[k];
+
+        if(!L.alive) continue;
+        for(int i=0;i<L.availMoves.size();i++){
+            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+    }
+
+    //Superpawn moves
+    for(int k=0;k<7;k++){
+        if(currState.currColor==WHITE) L = currState.WhiteP[k];
+        else L = currState.BlackP[k];
+
+        if(!L.alive) continue;
+        for(int i=0;i<L.availMoves.size();i++){
+            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
+        }
+    }
+
+    return allMoves;
 }
 
 int main() {
