@@ -667,6 +667,7 @@ int calcMaterialScore(struct Gamestate currState){
         if(currState.BlackP[14].alive) BlackScore +=400;
         if(currState.BlackP[20].alive) BlackScore +=300;
 
+    //delta score
     if(color==WHITE) rawScore = WhiteScore-BlackScore;
     else rawScore = BlackScore-WhiteScore;
     return rawScore;
@@ -695,35 +696,71 @@ int calcMobilityScore(struct Gamestate currState){
     tempState.currBoard = currState.currBoard;
     int nextMobility = getAllMoves(tempState).size();
 
-    if(currState.currColor==WHITE) Mobility = currMobility-nextMobility;
-    else Mobility = nextMobility-currMobility;
+    //delta score
+    Mobility = currMobility-nextMobility;
     return Mobility;
 }
 //attack
 int calcAttackScore(struct Gamestate currState){
     int attackScore =0;
-    int attackWhite =0;
-    int attackBlack =0;
+    int currAttack =0;
+    int nextAttack =0;
     vector<string> allMoves = getAllMoves(currState);
-
+    //get current attack score
     for(int k=0; k<allMoves.size();k++){ //for every move
         vector<int> startPos = {allMoves[k][2] -49, convertFileToInt(allMoves[k][0])};
         char moveToBlock = currState.currBoard[allMoves[k][3] -49][convertFileToInt(allMoves[k][2])];
         if(moveToBlock!='0'){
             if(currState.currColor==WHITE){
                 int index = getPiece(currState, moveToBlock, startPos, BLACK);
-                if(index==18) attackWhite +=10;
-                if(index!=-1) attackWhite +=1;
+                if(index==18) currAttack +=10;
+                if(index!=-1) currAttack +=1;
             }else{
                 int index = getPiece(currState, moveToBlock, startPos, WHITE);
-                if(index==18) attackBlack +=10;
-                if(index!=-1) attackBlack +=1;
+                if(index==18) currAttack +=10;
+                if(index!=-1) currAttack +=1;
             }
         }
     }
 
-    if(currState.currColor==WHITE) attackScore = attackWhite-attackBlack;
-    else attackScore = attackBlack-attackWhite;
+    //generate next state
+    stringstream ss(currState.currFEN);
+    string tempMove;
+    ss >> tempMove;
+
+    struct Gamestate tempState;
+    if(currState.currColor==WHITE){
+        tempState.currFEN = tempMove + " " + BLACK + " " + to_string(currState.currTurn);
+        tempState.currColor = BLACK;
+    }else{
+        tempState.currFEN = tempMove + " " + WHITE + " " + to_string(currState.currTurn);
+        tempState.currColor = WHITE;
+    }
+    resetBoard();
+    readFENString(tempState.currFEN);
+    tempState.BlackP = BlackPieces;
+    tempState.WhiteP = WhitePieces;
+    tempState.currBoard = currState.currBoard;
+    vector<string> tempMoves = getAllMoves(tempState);
+    //get next state score
+    for(int k=0; k<tempMoves.size();k++){ //for every move
+        vector<int> startPos = {tempMoves[k][2] -49, convertFileToInt(tempMoves[k][0])};
+        char moveToBlock = tempState.currBoard[tempMoves[k][3] -49][convertFileToInt(tempMoves[k][2])];
+        if(moveToBlock!='0'){
+            if(tempState.currColor==WHITE){
+                int index = getPiece(tempState, moveToBlock, startPos, BLACK);
+                if(index==18) nextAttack +=10;
+                if(index!=-1) nextAttack +=1;
+            }else{
+                int index = getPiece(tempState, moveToBlock, startPos, WHITE);
+                if(index==18) nextAttack +=10;
+                if(index!=-1) nextAttack +=1;
+            }
+        }
+    }
+
+    //delta score
+    attackScore = currAttack-nextAttack;
     return attackScore;
 }
 //rawScore
@@ -1619,8 +1656,8 @@ int main() {
         startState.currColor=nextMove;
         startState.currTurn=turnCount;
 
-        //printBoard(startState.currBoard);
-        //cout << endl;
+        /*printBoard(startState.currBoard);
+        cout << endl;
 
         rawScore = calcMaterialScore(startState);
         output2 += "\nMaterial: " + to_string(rawScore) + "\n";
@@ -1629,7 +1666,7 @@ int main() {
         rawScore = calcAttackScore(startState);
         output2 += "Attack: " + to_string(rawScore) + "\n";
         //rawScore = performMinMax(startState, DEPTH);
-
+        */
         rawScore = calcRawScore(startState);
         output2 += to_string(rawScore);
 
