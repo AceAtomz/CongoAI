@@ -66,7 +66,6 @@ public:
     bool alive = false;
     vector<pair<int, int>> availMoves;
     vector<pair<int, int>> allMoves;
-    bool canEnd = false;
 
     //Getters
     char getColor(){
@@ -767,14 +766,12 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
         if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==2){ //diagonal capture
             if(BlackPieces[15].position[0]==5 && BlackPieces[15].position[1]==4 && board[3][3]=='0'){
                 newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
-                WhitePieces[15].canEnd = true;
                 return newAvailMoves;
             }
         }
         if(WhitePieces[15].position[0]==3 && WhitePieces[15].position[1]==4){ //diagonal capture
             if(BlackPieces[15].position[0]==5 && BlackPieces[15].position[1]==2 && board[3][3]=='0'){
                 newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
-                WhitePieces[15].canEnd = true;
                 return newAvailMoves;
             }
         }
@@ -787,7 +784,6 @@ vector<pair<int, int>> checkLionEat(vector<pair<int, int>> newAvailMoves, char c
             }
             if(!blocked){
                 newAvailMoves.insert(newAvailMoves.begin(), 1, {BlackPieces[15].position[1], BlackPieces[15].position[0]});
-                WhitePieces[15].canEnd = true;
                 return newAvailMoves;
             }
         }
@@ -1057,20 +1053,30 @@ char readFENString(string fen){
     return nextMove;
 }
 
-vector<string> sortPiece(vector<string> pieces){ //TODO: change this to sort by capture first
-    return pieces;
+vector<string> sortMoves(struct Gamestate currState, vector<string> moves){ //TODO: change this to sort by capture first
+    vector<string> temp; //capture moves
+    vector<string> temp2; //non capture moves
+    //get all eat moves
+    for(int i=0;i<moves.size();i++){ //for every move
+        vector<int> startPos = {moves[i][2] -49, convertFileToInt(moves[i][0])};
+        char moveToBlock = currState.currBoard[moves[i][3] -49][convertFileToInt(moves[i][2])];
+        if(moveToBlock!='0'){
+            int index;
+            if(currState.currColor==WHITE) index = getPiece(currState, moveToBlock, startPos, BLACK);
+            else index = getPiece(currState, moveToBlock, startPos, WHITE);
 
-    vector<pair<char, int>> temp;
-    for(int i=0; i<pieces.size();i++){
-        temp.push_back(pair<char, int>(pieces[i][0], pieces[i][1]-'0'));
+            if(index==15) temp.insert(temp.begin(), 1, moves[i]);
+            else if(index!=-1) temp.push_back(moves[i]);
+            else temp2.push_back(moves[i]);
+        }else temp2.push_back(moves[i]);
     }
 
-    sort(temp.begin(), temp.end());
-    vector<string> out;
-    for(int i=0; i<pieces.size();i++){
-        out.push_back(temp[i].first + to_string(temp[i].second));
+    if(temp.size()==0) return temp2;
+
+    for(int i=0;i<temp2.size();i++){
+        temp.push_back(temp2[i]);
     }
-    return out;
+    return temp;
 }
 
 vector<string> getAllMoves(struct Gamestate currState){
@@ -1112,7 +1118,7 @@ vector<string> getAllMoves(struct Gamestate currState){
         }
     }
 
-    //Superpawn moves
+    //pawn moves
     for(int k=0;k<7;k++){
         if(currState.currColor==WHITE) L = currState.WhiteP[k];
         else L = currState.BlackP[k];
@@ -1123,7 +1129,7 @@ vector<string> getAllMoves(struct Gamestate currState){
         }
     }
 
-    return allMoves;
+    return sortMoves(currState, allMoves);
 }
 
 int main() {
