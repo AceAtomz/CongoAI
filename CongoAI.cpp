@@ -445,7 +445,6 @@ int getPiece(struct Gamestate currState, char Tag, vector<int> pos, char color){
             }else return index;
         }else return -1;
     }
-    return -1;
 }
 
 struct Gamestate evolvePawns(struct Gamestate currState){
@@ -738,7 +737,6 @@ int calcRawScore(struct Gamestate currState){
     int mobilityScore = calcMobilityScore(currState);
     int attackScore = calcAttackScore(currState);
     rawScore = materialScore + mobilityScore + attackScore;
-    //cout << "Material: " << materialScore << " Mobility: " << mobilityScore << " Attack: " << attackScore << " Raw: " << rawScore << endl;
     return rawScore;
 }
 
@@ -1088,28 +1086,25 @@ vector<string> getAllMoves(struct Gamestate currState){
     //Lion moves
     if(currState.currColor==WHITE) L = currState.WhiteP[15];
     else L = currState.BlackP[15];
-    if(L.alive){
-        for(int i=0;i<L.availMoves.size();i++){
-            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-        }
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
     }
 
     //Zebra moves
     if(currState.currColor==WHITE) L = currState.WhiteP[16];
     else L = currState.BlackP[16];
-    if(L.alive){
-        for(int i=0;i<L.availMoves.size();i++){
-            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-        }
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
     }
 
     //Giraffe moves
     if(currState.currColor==WHITE) L = currState.WhiteP[14];
     else L = currState.BlackP[14];
-    if(L.alive){
-        for(int i=0;i<L.availMoves.size();i++){
-            allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
-        }
+
+    for(int i=0;i<L.availMoves.size();i++){
+        allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
     }
 
     //Superpawn moves
@@ -1117,7 +1112,7 @@ vector<string> getAllMoves(struct Gamestate currState){
         if(currState.currColor==WHITE) L = currState.WhiteP[k];
         else L = currState.BlackP[k];
 
-        if(L.availMoves.size()==0 || !L.alive) continue;
+        if(!L.alive) continue;
         for(int i=0;i<L.availMoves.size();i++){
             allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
@@ -1128,15 +1123,12 @@ vector<string> getAllMoves(struct Gamestate currState){
         if(currState.currColor==WHITE) L = currState.WhiteP[k];
         else L = currState.BlackP[k];
 
-        if(L.availMoves.size()==0 || !L.alive) continue;
+        if(!L.alive) continue;
         for(int i=0;i<L.availMoves.size();i++){
             allMoves.push_back(convertFile(L.position[1]) + to_string(L.position[0]) + convertFile(L.availMoves[i].first) + to_string(L.availMoves[i].second));
         }
     }
-    for(int i=0;i<allMoves.size();i++){
-        cout << allMoves[i] << " ";
-    }
-    cout << endl;
+
     return sortMoves(currState, allMoves);
 }
 
