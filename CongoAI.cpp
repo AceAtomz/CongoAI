@@ -666,7 +666,7 @@ int calcMaterialScore(struct Gamestate currState){
     else rawScore = BlackScore-WhiteScore;
     return rawScore;
 }
-
+//mobility
 int calcMobilityScore(struct Gamestate currState){
     int Mobility=0;
     int currMobility = getAllMoves(currState).size();
@@ -692,21 +692,45 @@ int calcMobilityScore(struct Gamestate currState){
     else Mobility = nextMobility-currMobility;
     return Mobility;
 }
-
+//attack
 int calcAttackScore(struct Gamestate currState){
-    int attackScore = 0;
+    int attackScore =0;
+    int attackWhite =0;
+    int attackBlack =0;
     vector<string> allMoves = getAllMoves(currState);
 
     for(int k=0; k<allMoves.size();k++){ //for every move
-        cout << allMoves[k] << " "  << endl; // << to_string(stoi(allMoves[3])-1)  << " " <<  to_string(convertFileToInt(allMoves[2]))
-        //char moveToBlock = currState.currBoard[stoi(allMoves[3])-1][convertFileToInt(allMoves[2])];
-        //cout << allMoves[k] << " " << moveToBlock << endl;
-        if(currState.currColor==WHITE){
-
+        vector<int> startPos = {allMoves[k][2] -49, convertFileToInt(allMoves[k][0])};
+        char moveToBlock = currState.currBoard[allMoves[k][3] -49][convertFileToInt(allMoves[k][2])];
+        if(moveToBlock!='0'){
+            if(currState.currColor==WHITE){
+                int index = getPiece(currState, moveToBlock, startPos, BLACK);
+                if(index==18) attackWhite +=10;
+                if(index!=-1) attackWhite +=1;
+            }else{
+                int index = getPiece(currState, moveToBlock, startPos, WHITE);
+                if(index==18) attackBlack +=10;
+                if(index!=-1) attackBlack +=1;
+            }
         }
     }
-}
 
+    if(currState.currColor==WHITE) attackScore = attackWhite-attackBlack;
+    else attackScore = attackBlack-attackWhite;
+    return attackScore;
+}
+//rawScore
+int calcRawScore(struct Gamestate currState){
+    int materialScore = calcMaterialScore(currState);
+    if(materialScore==0) return 0;
+    if(materialScore==10000) return 10000;
+    if(materialScore==-10000) return -10000;
+
+    int mobilityScore = calcMobilityScore(currState);
+    int attackScore = calcAttackScore(currState);
+    rawScore = materialScore + mobilityScore + attackScore;
+    return rawScore;
+}
 bool isGameOver(struct Gamestate currState){
     if(!currState.WhiteP[18].alive || !currState.BlackP[18].alive) return true;
     return false;
@@ -714,8 +738,8 @@ bool isGameOver(struct Gamestate currState){
 
 int performMinMax(struct Gamestate currState, int currDepth){
     if(isGameOver(currState) || currDepth <=0){ //if any lions are dead, or if reached end of depth search
-        //cout << calcMaterialScore(currState) <<endl;
-        return calcMaterialScore(currState);     //calc score of current state
+        //cout << calcRawScore(currState) <<endl;
+        return calcRawScore(currState);     //calc score of current state
     }
     int tempVal = -1000000; //very large negative number
     vector<string> allMoves = getAllMoves(currState); //get all moves for all pieces
@@ -1605,8 +1629,9 @@ int main() {
         rawScore = calcMobilityScore(startState);
         output2 += "Mobility: " + to_string(rawScore) + "\n";
         rawScore = calcAttackScore(startState);
-
-        rawScore = performMinMax(startState, DEPTH);
+        output2 += "Attack: " + to_string(rawScore) + "\n";
+        //rawScore = performMinMax(startState, DEPTH);
+        rawScore = calcRawScore(startState);
         output2 += "Total Score: " + to_string(rawScore);
 
         if(i!=N-1){
